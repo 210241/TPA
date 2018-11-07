@@ -17,10 +17,10 @@ namespace TEST
         public void Initialize()
         {
             TestConstants.Context = new NodeItemMapper();
-            TestMethodsInitializes.AssemblyInitialize();
-            TestMethodsInitializes.NamespacesInitialize();
-            TestMethodsInitializes.TypesInitialize();
-            TestMethodsInitializes.PropertiesInitialize();
+            TestStorageInitializers.AssemblyInitialize();
+            TestStorageInitializers.NamespacesInitialize();
+            TestStorageInitializers.TypesInitialize();
+            TestStorageInitializers.PropertiesInitialize();
         }
 
         [TestMethod]

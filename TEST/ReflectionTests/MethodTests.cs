@@ -18,10 +18,10 @@ namespace TEST
         public void Initialize()
         {
             TestConstants.Context = new NodeItemMapper();
-            TestMethodsInitializes.AssemblyInitialize();
-            TestMethodsInitializes.NamespacesInitialize();
-            TestMethodsInitializes.TypesInitialize();
-            TestMethodsInitializes.MethodsInitialize(new List<ParameterData>());
+            TestStorageInitializers.AssemblyInitialize();
+            TestStorageInitializers.NamespacesInitialize();
+            TestStorageInitializers.TypesInitialize();
+            TestStorageInitializers.MethodsInitialize(new List<ParameterData>());
         }
 
         [TestMethod]

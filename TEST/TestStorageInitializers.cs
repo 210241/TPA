@@ -8,7 +8,7 @@ using DataTransfer.Model.Enums;
 
 namespace TEST
 {
-    public class TestMethodsInitializes
+    public class TestStorageInitializers
     {
         public static void AssemblyInitialize()
         {
