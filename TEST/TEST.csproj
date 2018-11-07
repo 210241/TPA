@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandTests\LoadDataCommandTest.cs" />
+    <Compile Include="CommandTests\GetPathCommandTest.cs" />
     <Compile Include="ReflectionTests\AssemblyTests.cs" />
     <Compile Include="ReflectionTests\MethodTests.cs" />
     <Compile Include="ReflectionTests\NamespaceTests.cs" />

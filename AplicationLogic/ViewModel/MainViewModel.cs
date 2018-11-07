@@ -9,7 +9,7 @@ using DataTransfer.Model;
 
 namespace ApplicationLogic.ViewModel
 {
-    public class MainViewModel : BindableBaseWithValidation
+    public class MainViewModel : BindableBase
     {
         private readonly IFilePathProvider _filePathGetter;
         private readonly ILogger _logger;
@@ -23,7 +23,7 @@ namespace ApplicationLogic.ViewModel
             get => _filePath;
             set
             {
-                SetPropertyAndValidate(ref _filePath, value);
+                SetProperty(ref _filePath, value);
                 LoadDataCommand.RaiseCanExecuteChanged();
             }
         }
