@@ -15,12 +15,12 @@ namespace TEST
         public static AssemblyData AssemblyData;
         public static AssemblyDataStorage Storage;
 
-        public static string AssemblyName = "TestAssembly";
-        public static string NamespaceName = "TestNamespace";
-        public static string TypeName = "TestType";
-        public static string SecondTypeName = "2TestType";
-        public static string PropertyName = "TestProperty";
-        public static string MethodName = "TestMethod";
+        public static string AssemblyName = "BestAssembly";
+        public static string NamespaceName = "NewNamespace";
+        public static string TypeName = "SuperType";
+        public static string SecondTypeName = "NotSoSuperType(2)";
+        public static string PropertyName = "MegaPropertyTest";
+        public static string MethodName = "BestMethodInTheWorld";
         public static AccessLevel TypeAccessLevel = AccessLevel.IsPublic;
         public static AccessLevel MethodAccessLevel = AccessLevel.IsPublic;
     }
