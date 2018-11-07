@@ -146,12 +146,6 @@ namespace AplicationLogic.Mapper
                 yield return new Connection(value.Id, item.Id);
             }
 
-            // foreach (var item in value.Attributes)
-            // {
-            //    yield return new connection(value.Id, );
-            // }
-            // TODO check attributes
-
             foreach (var item in value.GenericArguments)
             {
                 yield return new Connection(value.Id, item.Id);
@@ -167,8 +161,7 @@ namespace AplicationLogic.Mapper
                 yield return new Connection(value.Id, item.Id);
             }
         }
-
-        // TODO: handle attributes impact on visibility
+       
         private NodeItem MapItem(TypeData objectToMap)
         {
             return new NodeItem(
