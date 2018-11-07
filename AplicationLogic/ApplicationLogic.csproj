@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="Base\BaseAsynchronousCommand.cs" />
     <Compile Include="Base\BindableBase.cs" />
-    <Compile Include="Base\BindableBaseWithValidation.cs" />
     <Compile Include="Base\IAsynchronousCommand.cs" />
     <Compile Include="Base\IErrorHandler.cs" />
     <Compile Include="Base\RelayCommand.cs" />
