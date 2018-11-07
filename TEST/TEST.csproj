@@ -67,7 +67,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AplicationLogic\AplicationLogic.csproj">
+    <ProjectReference Include="..\AplicationLogic\ApplicationLogic.csproj">
       <Project>{BB0C453E-FDAE-4158-BE4F-4919DE69F4F0}</Project>
       <Name>AplicationLogic</Name>
     </ProjectReference>

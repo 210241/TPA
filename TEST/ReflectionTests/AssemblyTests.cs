@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using AplicationLogic.Mapper;
-using AplicationLogic.Model;
-using DataTransfer.Model;
-using DataTransfer.Model.Enums;
+﻿using ApplicationLogic.Mapper;
+using ApplicationLogic.Model;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
