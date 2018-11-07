@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AplicationLogic.Model
+namespace ApplicationLogic.Model
 {
     public class NodeItem
     {

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace AplicationLogic.Base
+namespace ApplicationLogic.Base
 {
     public class BindableBaseWithValidation : BindableBase, INotifyDataErrorInfo
     {

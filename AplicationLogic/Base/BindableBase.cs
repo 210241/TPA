@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace AplicationLogic.Base
+namespace ApplicationLogic.Base
 {
     public class BindableBase : INotifyPropertyChanged
     {

@@ -1,6 +1,6 @@
 ﻿using System;
-using AplicationLogic.Base;
-using AplicationLogic.ViewModel;
+using ApplicationLogic.Base;
+using ApplicationLogic.ViewModel;
 using Console_UI.CommandLineFramework;
 
 namespace Console_UI

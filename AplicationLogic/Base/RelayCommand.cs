@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
-using AplicationLogic.Interfaces;
+using ApplicationLogic.Interfaces;
 
-namespace AplicationLogic.Base
+namespace ApplicationLogic.Base
 {
     public class RelayCommand : IMyCommand
     {

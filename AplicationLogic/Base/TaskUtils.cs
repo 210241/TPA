@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace AplicationLogic.Base
+namespace ApplicationLogic.Base
 {
     public static class TaskUtils
     {

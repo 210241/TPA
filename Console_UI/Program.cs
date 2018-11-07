@@ -1,5 +1,5 @@
-﻿using AplicationLogic.Mapper;
-using AplicationLogic.ViewModel;
+﻿using ApplicationLogic.Mapper;
+using ApplicationLogic.ViewModel;
 using Logging;
 
 namespace Console_UI

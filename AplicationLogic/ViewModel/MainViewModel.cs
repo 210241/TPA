@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AplicationLogic.Base;
-using AplicationLogic.Interfaces;
-using AplicationLogic.Model;
+using ApplicationLogic.Base;
+using ApplicationLogic.Interfaces;
+using ApplicationLogic.Model;
 using DataTransfer.Interfaces;
 using DataTransfer.Model;
 
 
-namespace AplicationLogic.ViewModel
+namespace ApplicationLogic.ViewModel
 {
     public class MainViewModel : BindableBaseWithValidation
     {
@@ -65,7 +65,7 @@ namespace AplicationLogic.ViewModel
             Task toDo = new Task(() =>
             {
                 AssemblyDataStorage storage = _dataProvider.GetDataStorage(FilePath);
-                NodeItems = new List<NodeItem>() { _mapper.Map(storage) };
+                NodeItems = new List<NodeItem>() {_mapper.Map(storage)};
             });
             toDo.Start();
             await toDo.ConfigureAwait(false);

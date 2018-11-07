@@ -1,4 +1,4 @@
-﻿namespace AplicationLogic.Interfaces
+﻿namespace ApplicationLogic.Interfaces
 {
     public interface IFilePathProvider
     {

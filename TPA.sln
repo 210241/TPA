@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{849CE3AF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewModel", "ViewModel", "{AF149A76-FAFF-442E-947E-5DBE2D9AA398}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplicationLogic", "AplicationLogic\AplicationLogic.csproj", "{BB0C453E-FDAE-4158-BE4F-4919DE69F4F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationLogic", "AplicationLogic\ApplicationLogic.csproj", "{BB0C453E-FDAE-4158-BE4F-4919DE69F4F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
