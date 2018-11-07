@@ -54,9 +54,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AplicationLogic\AplicationLogic.csproj">
+    <ProjectReference Include="..\AplicationLogic\ApplicationLogic.csproj">
       <Project>{bb0c453e-fdae-4158-be4f-4919de69f4f0}</Project>
-      <Name>AplicationLogic</Name>
+      <Name>ApplicationLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataTransfer\DataTransfer.csproj">
       <Project>{914a9d84-1de8-4c03-8806-f055e8b53f71}</Project>

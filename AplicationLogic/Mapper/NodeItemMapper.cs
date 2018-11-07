@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AplicationLogic.Model;
+using ApplicationLogic.Model;
 using DataTransfer.Interfaces;
 using DataTransfer.Model;
 
-namespace AplicationLogic.Mapper
+namespace ApplicationLogic.Mapper
 {
     public class NodeItemMapper : IMapper<AssemblyDataStorage, NodeItem>
     {

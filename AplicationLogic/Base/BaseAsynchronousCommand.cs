@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 
-namespace AplicationLogic.Base
+namespace ApplicationLogic.Base
 {
     public class BaseAsynchronousCommand : IAsynchronousCommand
     {

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
-using AplicationLogic.Interfaces;
+using ApplicationLogic.Interfaces;
 using DataTransfer.Interfaces;
 using Microsoft.Win32;
 

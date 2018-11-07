@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace AplicationLogic.Interfaces
+namespace ApplicationLogic.Interfaces
 {
     public interface IMyCommand : ICommand
     {

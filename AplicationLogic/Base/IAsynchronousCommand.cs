@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using AplicationLogic.Interfaces;
+using ApplicationLogic.Interfaces;
 
-namespace AplicationLogic.Base
+namespace ApplicationLogic.Base
 {
     public interface IAsynchronousCommand : IMyCommand
     {

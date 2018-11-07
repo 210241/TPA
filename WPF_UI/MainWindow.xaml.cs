@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using AplicationLogic.Mapper;
-using AplicationLogic.ViewModel;
+using ApplicationLogic.Mapper;
+using ApplicationLogic.ViewModel;
 using Logging;
 
 namespace WPF_UI

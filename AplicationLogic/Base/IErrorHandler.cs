@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AplicationLogic.Base
+namespace ApplicationLogic.Base
 {
     public interface IErrorHandler
     {

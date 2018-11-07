@@ -1,4 +1,4 @@
-﻿namespace AplicationLogic.Model
+﻿namespace ApplicationLogic.Model
 {
     public class Connection
     {
