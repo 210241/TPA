@@ -5,6 +5,7 @@
         IsPublic,
         IsProtected,
         IsProtectedInternal,
-        IsPrivate
+        IsPrivate,
+        Internal
     }
 }

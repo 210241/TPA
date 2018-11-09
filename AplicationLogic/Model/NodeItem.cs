@@ -1,20 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 
 namespace ApplicationLogic.Model
 {
-    public class NodeItem
+    public abstract class NodeItem
     {
+        private bool _wasBuilt;
+        private bool _isExpanded;
+
         public string Name { get; set; }
 
-        public List<NodeItem> Children { get; }
+        public ItemTypeEnum ItemType { get; set; }
 
-        public bool IsExpendable { get; set; }
+        public ObservableCollection<NodeItem> Children { get; }
 
-        public NodeItem(string name, bool hasChildren)
+        protected NodeItem(string name, ItemTypeEnum itemType)
         {
+            Children = new ObservableCollection<NodeItem>() { null };
+            _wasBuilt = false;
             Name = name;
-            Children = new List<NodeItem>();
-            IsExpendable = hasChildren;
+            ItemType = itemType;
         }
+
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+
+            set
+            {
+                _isExpanded = value;
+                if (_wasBuilt)
+                    return;
+                Children.Clear();
+                BuildTreeView(Children);
+                _wasBuilt = true;
+            }
+        }
+
+        protected abstract void BuildTreeView(ObservableCollection<NodeItem> children);
     }
 }

@@ -40,23 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IDataStorageProvider.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
-    <Compile Include="Interfaces\IMapper.cs" />
-    <Compile Include="Model\AssemblyData.cs" />
-    <Compile Include="Model\AssemblyDataStorage.cs" />
-    <Compile Include="Model\BaseData.cs" />
     <Compile Include="Model\Enums\AbstractENum.cs" />
     <Compile Include="Model\Enums\AccessLevel.cs" />
     <Compile Include="Model\Enums\SealedEnum.cs" />
     <Compile Include="Model\Enums\StaticEnum.cs" />
     <Compile Include="Model\Enums\TypeKind.cs" />
     <Compile Include="Model\Enums\VirtualEnum.cs" />
-    <Compile Include="Model\MethodData.cs" />
-    <Compile Include="Model\NamespaceData.cs" />
-    <Compile Include="Model\ParameterData.cs" />
-    <Compile Include="Model\PropertyData.cs" />
-    <Compile Include="Model\TypeData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

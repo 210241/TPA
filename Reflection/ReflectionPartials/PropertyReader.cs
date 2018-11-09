@@ -1,42 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using DataTransfer.Model;
-using Reflection.ExtensionMethods;
 
-namespace Reflection
+namespace Reflection.ReflectionPartials
 {
-    public partial class Reflection
+    public class PropertyReader
     {
-        private IEnumerable<PropertyData> EmitProperties(IEnumerable<PropertyInfo> props, AssemblyDataStorage dataStore)
+        public string Name { get; set; }
+
+        public TypeReader Type { get; set; }
+
+        public PropertyReader(string name, TypeReader propertyType)
         {
-            List<PropertyData> properties = new List<PropertyData>();
-            foreach (PropertyInfo property in props)
-            {
-                if (property.GetGetMethod().IsVisible() || property.GetSetMethod().IsVisible())
-                {
-                    string id = $"{property.DeclaringType.FullName}.{property.Name}";
-                    if (dataStore.PropertiesDictionary.ContainsKey(id))
-                    {
-                        _logger.Trace("Using property already added to dictionary: Id =" + id);
-                        properties.Add(dataStore.PropertiesDictionary[id]);
-                    }
-                    else
-                    {
-                        PropertyData newProperty = new PropertyData()
-                        {
-                            Id = id,
-                            Name = property.Name
-                        };
-                        _logger.Trace("Adding new property to dictionary: " + newProperty.Id +" ;Name = " + newProperty.Name);
-                        dataStore.PropertiesDictionary.Add(newProperty.Id, newProperty);
-                        properties.Add(newProperty);
+            Name = name;
+            Type = propertyType;
+        }
 
-                        newProperty.TypeMetadata = LoadTypeData(property.PropertyType, dataStore);
-                    }
-                }
-            }
+        public static List<PropertyReader> EmitProperties(Type type)
+        {
+            List<PropertyInfo> props = type
+                .GetProperties(BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Public |
+                               BindingFlags.Static | BindingFlags.Instance).ToList();
 
-            return properties;
+            return props.Where(t => t.GetGetMethod().GetVisible() || t.GetSetMethod().GetVisible())
+                .Select(t => new PropertyReader(t.Name, TypeReader.EmitReference(t.PropertyType))).ToList();
         }
     }
 }

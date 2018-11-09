@@ -1,86 +1,57 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Reflection;
+using System.Windows.Input;
 using ApplicationLogic.Base;
 using ApplicationLogic.Interfaces;
 using ApplicationLogic.Model;
 using DataTransfer.Interfaces;
-using DataTransfer.Model;
-
+using Reflection.ReflectionPartials;
 
 namespace ApplicationLogic.ViewModel
 {
     public class MainViewModel : BindableBase
     {
-        private readonly IFilePathProvider _filePathGetter;
-        private readonly ILogger _logger;
-        private readonly IDataStorageProvider _dataProvider;
-        private readonly IMapper<AssemblyDataStorage, NodeItem> _mapper;
+        public ICommand LoadDataCommand { get; }
 
-        private string _filePath;
+        public IFilePathProvider PathLoader { get; set; }
 
-        public string FilePath
+        public ILogger Logger { get; set; }
+
+        private Reflection.Reflection _reflector;
+
+        private string _pathVariable;
+
+        public ObservableCollection<NodeItem> HierarchicalAreas { get; set; }
+
+        public string PathVariable
         {
-            get => _filePath;
-            set
+            get => _pathVariable;
+            set => SetProperty(ref _pathVariable, value);
+        }
+
+        public MainViewModel()
+        {
+            HierarchicalAreas = new ObservableCollection<NodeItem>();
+            LoadDataCommand = new RelayCommand(Open);
+        }
+
+        private void Open()
+        {
+            string path = PathLoader.GetFilePath();
+            if (path == null || !path.Contains(".dll")) return;
+            PathVariable = path;
+            try
             {
-                SetProperty(ref _filePath, value);
-                LoadDataCommand.RaiseCanExecuteChanged();
+                _reflector = new Reflection.Reflection(Assembly.LoadFrom(PathVariable));
             }
-        }
-
-        public IMyCommand GetFilePathCommand { get; }
-
-        public IMyCommand LoadDataCommand { get; }
-
-        private List<NodeItem> _nodeItems;
-
-        public List<NodeItem> NodeItems
-        {
-            get => _nodeItems;
-            set => SetProperty(ref _nodeItems, value);
-        }
-
-        public MainViewModel(
-            IFilePathProvider filePathGetter,
-            ILogger logger,
-            IDataStorageProvider dataProvider,
-            IMapper<AssemblyDataStorage, NodeItem> mapper)
-        {
-            _filePathGetter = filePathGetter;
-            _logger = logger;
-            _dataProvider = dataProvider;
-            _mapper = mapper;
-            GetFilePathCommand = new RelayCommand(GetFilePath);
-            LoadDataCommand = new BaseAsynchronousCommand(LoadData, CanLoadData);
-            NodeItems = new List<NodeItem>();
-        }
-
-        private void GetFilePath()
-        {
-            FilePath = _filePathGetter.GetFilePath();
-        }
-
-        private async Task LoadData()
-        {
-            Task toDo = new Task(() =>
+            catch (Exception)
             {
-                AssemblyDataStorage storage = _dataProvider.GetDataStorage(FilePath);
-                NodeItems = new List<NodeItem>() {_mapper.Map(storage)};
-            });
-            toDo.Start();
-            await toDo.ConfigureAwait(false);
-        }
-
-        public bool CanLoadData()
-        {
-            if (FilePath != null)
-            {
-                return true;
+                // ignored
             }
-            else
-            {
-                return false;
-            }
+
+            // TODO clear?
+            HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyReader));
         }
     }
 }

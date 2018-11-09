@@ -2,239 +2,178 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DataTransfer.Model;
 using DataTransfer.Model.Enums;
-using Reflection.ExtensionMethods;
 
-namespace Reflection
+namespace Reflection.ReflectionPartials
 {
-    public partial class Reflection
+
+    public class TypeReader
     {
-        private TypeData LoadTypeData(Type type, AssemblyDataStorage dataStore)
+
+        public static Dictionary<string, TypeReader> TypeDictionary = new Dictionary<string, TypeReader>();
+
+        public string Name { get; set; }
+
+        public string NamespaceName { get; set; }
+
+        public TypeReader BaseType { get; set; }
+
+        public List<TypeReader> GenericArguments { get; set; }
+
+        public Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> Modifiers { get; set; }
+
+        public TypeKind Type { get; set; }
+
+        public List<TypeReader> ImplementedInterfaces { get; set; }
+
+        public List<TypeReader> NestedTypes { get; set; }
+
+        public List<PropertyReader> Properties { get; set; }
+
+        public TypeReader DeclaringType { get; set; }
+
+        public List<MethodReader> Methods { get; set; }
+
+        public List<MethodReader> Constructors { get; set; }
+
+        public List<ParameterReader> Fields { get; set; }
+
+
+        public TypeReader(Type type)
         {
-            if (type == null)
+            Name = type.Name;
+            if (!TypeDictionary.ContainsKey(Name))
             {
-                throw new ArgumentNullException($"{nameof(type)} argument is null.");
+                TypeDictionary.Add(Name, this);
             }
 
-            if (type.IsGenericParameter)
-            {
-                return LoadGenericParameterTypeObject(type, dataStore);
+            Type = GetTypeEnum(type);
+            BaseType = EmitExtends(type.BaseType);
+            Modifiers = EmitModifiers(type);
 
+            DeclaringType = EmitDeclaringType(type.DeclaringType);
+            Constructors = MethodReader.EmitConstructors(type);
+            Methods = MethodReader.EmitMethods(type);
+            NestedTypes = EmitNestedTypes(type);
+            ImplementedInterfaces = EmitImplements(type.GetInterfaces()).ToList();
+            GenericArguments = !type.IsGenericTypeDefinition ? null : EmitGenericArguments(type);
+            Properties = PropertyReader.EmitProperties(type);
+            Fields = EmitFields(type);
+        }
+
+        private TypeReader(string typeName, string namespaceName)
+        {
+            Name = typeName;
+            this.NamespaceName = namespaceName;
+        }
+
+        private TypeReader(string typeName, string namespaceName, IEnumerable<TypeReader> genericArguments) : this(typeName, namespaceName)
+        {
+            this.GenericArguments = genericArguments.ToList();
+        }
+
+
+        public static TypeReader EmitReference(Type type)
+        {
+            if (!type.IsGenericType)
+                return new TypeReader(type.Name, type.GetNamespace());
+
+            return new TypeReader(type.Name, type.GetNamespace(), EmitGenericArguments(type));
+        }
+        public static List<TypeReader> EmitGenericArguments(Type type)
+        {
+            List<Type> arguments = type.GetGenericArguments().ToList();
+            foreach (Type typ in arguments)
+            {
+                StoreType(typ);
             }
-            else
+
+            return arguments.Select(EmitReference).ToList();
+        }
+
+        public static void StoreType(Type type)
+        {
+            if (!TypeDictionary.ContainsKey(type.Name))
             {
-                if (!dataStore.TypesDictionary.ContainsKey(type.FullName))
-                {
-                    TypeData dataType;
-
-                    // if type is not declared in assembly being inspected
-                    if (type.Assembly.ManifestModule.FullyQualifiedName != dataStore.AssemblyData.Id) // load basic info
-                    {
-                        dataType = LoadSimpleTypeObject(type, dataStore);
-                    }
-                    else // load full type information
-                    {
-                        dataType = LoadFullTypeObject(type, dataStore);
-                    }
-
-                    return dataType;
-                }
-                else
-                {
-                    _logger.Trace("Using type already added to dictionary with key: " + type.FullName);
-                    return dataStore.TypesDictionary[type.FullName];
-
-                }
+                new TypeReader(type);
             }
         }
 
-        private TypeData LoadGenericParameterTypeObject(Type type, AssemblyDataStorage dataStore)
+        private static List<ParameterReader> EmitFields(Type type)
         {
-            TypeData dataType;
-            string id = $"{type.DeclaringType.FullName}<{type.Name}>";
+            List<FieldInfo> fieldInfo = type.GetFields(BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Public |
+                                           BindingFlags.Static | BindingFlags.Instance).ToList();
 
-            _logger.Trace("Adding generic argument type with Id =" + id);
-
-            if (!dataStore.TypesDictionary.ContainsKey(id))
+            List<ParameterReader> parameters = new List<ParameterReader>();
+            foreach (FieldInfo field in fieldInfo)
             {
-                dataType = new TypeData()
-                {
-                    Id = id,
-                    Name = type.Name,
-                    NamespaceName = type.Namespace,
-                    Modifiers = null,
-                    TypeKind = GetTypeKind(type),
-                    Attributes = new List<Attribute>(),
-                    Properties = new List<PropertyData>(),
-                    Constructors = new List<MethodData>(),
-                    ImplementedInterfaces = new List<TypeData>(),
-                    Methods = new List<MethodData>(),
-                    NestedTypes = new List<TypeData>(),
-                    GenericArguments = new List<TypeData>()
-                };
-                dataStore.TypesDictionary.Add(dataType.Id, dataType);
-                return dataType;
+                StoreType(field.FieldType);
+                parameters.Add(new ParameterReader(field.Name, EmitReference(field.FieldType)));
             }
-            else
-            {
-                return dataStore.TypesDictionary[id];
-            }
+            return parameters;
         }
 
-        private TypeData LoadSimpleTypeObject(Type type, AssemblyDataStorage dataStore)
-        {
-            TypeData dataType;
-            dataType = new TypeData // add only basic information
-            {
-                Id = type.FullName,
-                Name = type.Name,
-                NamespaceName = type.Namespace,
-                Modifiers = EmitModifiers(type),
-                TypeKind = GetTypeKind(type),
-                Attributes = type.GetCustomAttributes(false).Cast<Attribute>(),
-                Properties = new List<PropertyData>(),
-                Constructors = new List<MethodData>(),
-                ImplementedInterfaces = new List<TypeData>(),
-                Methods = new List<MethodData>(),
-                NestedTypes = new List<TypeData>()
-            };
-
-            dataStore.TypesDictionary.Add(type.FullName, dataType);
-
-            if (type.IsGenericTypeDefinition)
-            {
-                dataType.GenericArguments = EmitGenericArguments(type.GetGenericArguments(), dataStore);
-                dataType.Name =
-                    $"{type.Name}<{dataType.GenericArguments.Select(a => a.Name).Aggregate((p, n) => $"{p}, {n}")}>";
-            }
-            else
-            {
-                dataType.GenericArguments = new List<TypeData>();
-            }
-
-            _logger.Trace("Adding type not declared in assembly being inspected: Id =" + dataType.Id + " ; Name = " + dataType.Name);
-            return dataType;
-        }
-
-        private TypeData LoadFullTypeObject(Type type, AssemblyDataStorage dataStore)
-        {
-            TypeData dataType = new TypeData()
-            {
-                Id = type.FullName,
-                Name = type.Name,
-                NamespaceName = type.Namespace,
-                Modifiers = EmitModifiers(type),
-                TypeKind = GetTypeKind(type),
-                Attributes = type.GetCustomAttributes(false).Cast<Attribute>()
-            };
-            _logger.Trace("Adding type: Id =" + dataType.Id + " ; Name = " + dataType.Name);
-            dataStore.TypesDictionary.Add(type.FullName, dataType);
-
-            dataType.DeclaringType = EmitDeclaringType(type.DeclaringType, dataStore);
-            dataType.ImplementedInterfaces = EmitImplements(type.GetInterfaces(), dataStore);
-            dataType.BaseType = EmitExtends(type.BaseType, dataStore);
-            dataType.NestedTypes = EmitNestedTypes(type.GetNestedTypes(), dataStore);
-
-            if (type.IsGenericTypeDefinition)
-            {
-                dataType.GenericArguments = EmitGenericArguments(type.GetGenericArguments(), dataStore);
-                dataType.Name =
-                    $"{type.Name}<{dataType.GenericArguments.Select(a => a.Name).Aggregate((p, n) => $"{p}, {n}")}>";
-            }
-            else
-            {
-                dataType.GenericArguments = new List<TypeData>();
-            }
-
-            dataType.Constructors = EmitMethods(type.GetConstructors(), dataStore);
-            dataType.Methods = EmitMethods(type.GetMethods(BindingFlags.DeclaredOnly), dataStore);
-
-            dataType.Properties = EmitProperties(type.GetProperties(), dataStore);
-            return dataType;
-        }
-
-        internal IEnumerable<TypeData> EmitGenericArguments(IEnumerable<Type> arguments, AssemblyDataStorage dataStore)
-        {
-            return (from Type argument in arguments select LoadTypeData(argument, dataStore)).ToList();
-        }
-
-        private TypeData EmitExtends(Type baseType, AssemblyDataStorage dataStore)
-        {
-            if (baseType == null || baseType == typeof(Object) || baseType == typeof(ValueType) ||
-                baseType == typeof(Enum))
-            {
-                return null;
-            }
-
-            return LoadTypeData(baseType, dataStore);
-        }
-
-        private TypeData EmitDeclaringType(Type declaringType, AssemblyDataStorage dataStore)
+        private TypeReader EmitDeclaringType(Type declaringType)
         {
             if (declaringType == null)
-            {
                 return null;
+            StoreType(declaringType);
+            return EmitReference(declaringType);
+        }
+        private List<TypeReader> EmitNestedTypes(Type type)
+        {
+            List<Type> nestedTypes = type.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic).ToList();
+            foreach (Type typ in nestedTypes)
+            {
+                StoreType(typ);
             }
 
-            return LoadTypeData(declaringType, dataStore);
+            return nestedTypes.Select(t => new TypeReader(t)).ToList();
         }
-
-        private IEnumerable<TypeData> EmitNestedTypes(IEnumerable<Type> nestedTypes, AssemblyDataStorage dataStore)
+        private IEnumerable<TypeReader> EmitImplements(IEnumerable<Type> interfaces)
         {
-            return (from type in nestedTypes
-                    where type.IsVisible()
-                    select LoadTypeData(type, dataStore)).ToList();
-        }
+            foreach (Type @interface in interfaces)
+            {
+                StoreType(@interface);
+            }
 
-        private IEnumerable<TypeData> EmitImplements(IEnumerable<Type> interfaces, AssemblyDataStorage dataStore)
-        {
-            return (from currentInterface in interfaces
-                    select LoadTypeData(currentInterface, dataStore)).ToList();
+            return from currentInterface in interfaces
+                   select EmitReference(currentInterface);
         }
-
-        private TypeKind GetTypeKind(Type type) // #80 TPA: Reflection - Invalid return value of GetTypeKind()
+        private static TypeKind GetTypeEnum(Type type)
         {
             return type.IsEnum ? TypeKind.EnumType :
-                type.IsValueType ? TypeKind.StructType :
-                type.IsInterface ? TypeKind.InterfaceType :
-                TypeKind.ClassType;
+                   type.IsValueType ? TypeKind.StructType :
+                   type.IsInterface ? TypeKind.InterfaceType :
+                   TypeKind.ClassType;
         }
 
-        private Tuple<AccessLevel, SealedEnum, AbstractEnum> EmitModifiers(Type type)
+        static Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> EmitModifiers(Type type)
         {
-            AccessLevel accessLevel = AccessLevel.IsPrivate;
-            // check if not default
-            if (type.IsPublic)
+            AccessLevel _access = type.IsPublic || type.IsNestedPublic ? AccessLevel.IsPublic :
+                type.IsNestedFamily ? AccessLevel.IsProtected :
+                type.IsNestedFamANDAssem ? AccessLevel.Internal :
+                AccessLevel.IsPrivate;
+            StaticEnum _static = type.IsSealed && type.IsAbstract ? StaticEnum.Static : StaticEnum.NotStatic;
+            SealedEnum _sealed = SealedEnum.NotSealed;
+            AbstractEnum _abstract = AbstractEnum.NotAbstract;
+            if (_static == StaticEnum.NotStatic)
             {
-                accessLevel = AccessLevel.IsPublic;
-            }
-            else if (type.IsNestedPublic)
-            {
-                accessLevel = AccessLevel.IsPublic;
-            }
-            else if (type.IsNestedFamily)
-            {
-                accessLevel = AccessLevel.IsProtected;
-            }
-            else if (type.IsNestedFamANDAssem)
-            {
-                accessLevel = AccessLevel.IsProtectedInternal;
+                _sealed = type.IsSealed ? SealedEnum.Sealed : SealedEnum.NotSealed;
+                _abstract = type.IsAbstract ? AbstractEnum.Abstract : AbstractEnum.NotAbstract;
             }
 
-            SealedEnum sealedEnum = SealedEnum.NotSealed;
-            if (type.IsSealed)
-            {
-                sealedEnum = SealedEnum.Sealed;
-            }
 
-            AbstractEnum abstractEnum = AbstractEnum.NotAbstract;
-            if (type.IsAbstract)
-            {
-                abstractEnum = AbstractEnum.Abstract;
-            }
 
-            return new Tuple<AccessLevel, SealedEnum, AbstractEnum>(accessLevel, sealedEnum, abstractEnum);
+            return new Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum>(_access, _sealed, _abstract, _static);
+        }
+
+        private static TypeReader EmitExtends(Type baseType)
+        {
+            if (baseType == null || baseType == typeof(object) || baseType == typeof(ValueType) || baseType == typeof(Enum))
+                return null;
+            StoreType(baseType);
+            return EmitReference(baseType);
         }
     }
 }

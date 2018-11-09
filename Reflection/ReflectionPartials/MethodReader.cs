@@ -3,134 +3,84 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using DataTransfer.Model;
 using DataTransfer.Model.Enums;
-using Reflection.ExtensionMethods;
 
-namespace Reflection
+namespace Reflection.ReflectionPartials
 {
-    public partial class Reflection
+
+    public class MethodReader
     {
-        private MethodData LoadMethodData(MethodBase method, AssemblyDataStorage dataStore)
+        public string Name { get; set; }
+
+        public List<TypeReader> GenericArguments { get; set; }
+
+        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get; set; }
+
+
+        public TypeReader ReturnType { get; set; }
+
+        public bool Extension { get; set; }
+
+        public List<ParameterReader> Parameters { get; set; }
+
+        public MethodReader(MethodBase method)
         {
-            if (method == null)
-            {
-                throw new ArgumentNullException($"{nameof(method)} argument is null.");
-            }
-
-            MethodData methodData = new MethodData()
-            {
-                Name = method.Name,
-                Modifiers = EmitModifiers(method),
-                Extension = IsExtension(method)
-            };
-
-            methodData.GenericArguments = !method.IsGenericMethodDefinition ? new List<TypeData>() : EmitGenericArguments(method.GetGenericArguments(), dataStore);
-            methodData.ReturnType = EmitReturnType(method, dataStore);
-            methodData.Parameters = EmitParameters(method.GetParameters(), dataStore).ToList();
-
-            string parameters = methodData.Parameters.Any()
-                ? methodData.Parameters.Select(methodInstance => methodInstance.Name)
-                    .Aggregate((current, next) => current + ", " + next)
-                : "none";
-
-            string generics = methodData.GenericArguments.Any()
-                ? methodData.GenericArguments.Select(typeInstance => typeInstance.Id)
-                    .Aggregate((c, n) => $"{c}, {n}")
-                : "none";
-
-            methodData.Id = $"{method.DeclaringType.FullName}{method.Name} args {parameters} generics {generics} declaredBy {method.DeclaringType.FullName}";
-
-            if (!dataStore.MethodsDictionary.ContainsKey(methodData.Id))
-            {
-                _logger.Trace("Adding method to dictionary: Id =" + methodData.Id);
-                dataStore.MethodsDictionary.Add(methodData.Id, methodData);
-                return methodData;
-            }
-            else
-            {
-                _logger.Trace("Using method already added to dictionary: Id =" + methodData.Id);
-                return dataStore.MethodsDictionary[methodData.Id];
-            }
+            Name = method.Name;
+            GenericArguments = !method.IsGenericMethodDefinition ? null : EmitGenericArguments(method);
+            ReturnType = EmitReturnType(method);
+            Parameters = EmitParameters(method);
+            Modifiers = EmitModifiers(method);
+            Extension = EmitExtension(method);
         }
 
-        internal IEnumerable<MethodData> EmitMethods(IEnumerable<MethodBase> methods, AssemblyDataStorage dataStore)
+        private List<TypeReader> EmitGenericArguments(MethodBase method)
         {
-            return (from MethodBase currentMethod in methods
-                    where currentMethod.IsVisible()
-                    select LoadMethodData(currentMethod, dataStore)).ToList();
+            return method.GetGenericArguments().Select(t => new TypeReader(t)).ToList();
         }
 
-        private IEnumerable<ParameterData> EmitParameters(IEnumerable<ParameterInfo> parameters, AssemblyDataStorage dataStore)
+        public static List<MethodReader> EmitMethods(Type type)
         {
-            List<ParameterData> parametersData = new List<ParameterData>();
-            foreach (var parameter in parameters)
-            {
-                string id = $"{parameter.ParameterType.FullName}.{parameter.Name}";
-                if (dataStore.ParametersDictionary.ContainsKey(id))
-                {
-                    _logger.Trace("Using parameter already added to dictionary: Id =" + id);
-                    parametersData.Add(dataStore.ParametersDictionary[id]);
-                }
-                else
-                {
-                    ParameterData newParameter = new ParameterData(parameter.Name, LoadTypeData(parameter.ParameterType, dataStore));
-                    newParameter.Id = id;
-                    dataStore.ParametersDictionary.Add(id, newParameter);
-                    _logger.Trace("Adding parameter to dictionary: Id =" + id);
-                    parametersData.Add(newParameter);
-                }
-            }
-
-            return parametersData;
+            return type.GetMethods(BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Public |
+                                   BindingFlags.Static | BindingFlags.Instance).Select(t => new MethodReader(t)).ToList();
         }
 
-        private TypeData EmitReturnType(MethodBase method, AssemblyDataStorage dataStore)
+        private static List<ParameterReader> EmitParameters(MethodBase method)
+        {
+            return method.GetParameters().Select(t => new ParameterReader(t.Name, TypeReader.EmitReference(t.ParameterType))).ToList();
+        }
+
+        private static TypeReader EmitReturnType(MethodBase method)
         {
             MethodInfo methodInfo = method as MethodInfo;
-            return methodInfo == null ? null : LoadTypeData(methodInfo.ReturnType, dataStore);
+            if (methodInfo == null)
+                return null;
+            TypeReader.StoreType(methodInfo.ReturnType);
+            return TypeReader.EmitReference(methodInfo.ReturnType);
         }
 
-        private static bool IsExtension(MethodBase method)
+        private static bool EmitExtension(MethodBase method)
         {
             return method.IsDefined(typeof(ExtensionAttribute), true);
         }
 
-        private Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> EmitModifiers(MethodBase method)
+        private static Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> EmitModifiers(MethodBase method)
         {
-            AccessLevel access = AccessLevel.IsPrivate;
-            if (method.IsPublic)
-            {
-                access = AccessLevel.IsPublic;
-            }
-            else if (method.IsFamily)
-            {
-                access = AccessLevel.IsProtected;
-            }
-            else if (method.IsFamilyAndAssembly)
-            {
-                access = AccessLevel.IsProtectedInternal;
-            }
+            AccessLevel access = method.IsPublic ? AccessLevel.IsPublic :
+                method.IsFamily ? AccessLevel.IsProtected :
+                method.IsAssembly ? AccessLevel.Internal : AccessLevel.IsPrivate;
 
-            AbstractEnum isAbstract = AbstractEnum.NotAbstract;
-            if (method.IsAbstract)
-            {
-                isAbstract = AbstractEnum.Abstract;
-            }
+            AbstractEnum _abstract = method.IsAbstract ? AbstractEnum.Abstract : AbstractEnum.NotAbstract;
 
-            StaticEnum isStatic = StaticEnum.NotStatic;
-            if (method.IsStatic)
-            {
-                isStatic = StaticEnum.Static;
-            }
+            StaticEnum _static = method.IsStatic ? StaticEnum.Static : StaticEnum.NotStatic;
 
-            VirtualEnum isVirtual = VirtualEnum.NotVirtual;
-            if (method.IsVirtual)
-            {
-                isVirtual = VirtualEnum.Virtual;
-            }
+            VirtualEnum _virtual = method.IsVirtual ? VirtualEnum.Virtual : VirtualEnum.NotVirtual;
 
-            return new Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum>(access, isAbstract, isStatic, isVirtual);
+            return new Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum>(access, _abstract, _static, _virtual);
+        }
+
+        public static List<MethodReader> EmitConstructors(Type type)
+        {
+            return type.GetConstructors().Select(t => new MethodReader(t)).ToList();
         }
     }
 }

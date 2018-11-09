@@ -1,31 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DataTransfer.Model;
 
-namespace Reflection
+namespace Reflection.ReflectionPartials
 {
-    public partial class Reflection
+
+    public class NamespaceReader
     {
-        private NamespaceData LoadNamespaceData(string name, IEnumerable<Type> types, AssemblyDataStorage dataStore)
+
+        public string Name { get; set; }
+
+        public List<TypeReader> Types { get; set; }
+
+        public NamespaceReader(string name, List<Type> types)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException($"{nameof(name)} is null/empty/whitespace");
-            }
-
-            NamespaceData namespaceData = new NamespaceData()
-            {
-                Id = name,
-                Name = name
-            };
-
-            _logger.Trace("Adding Namespace to dictionary: " + namespaceData.Name);
-            dataStore.NamespacesDictionary.Add(namespaceData.Name, namespaceData);
-
-            namespaceData.Types = (from type in types orderby type.Name select LoadTypeData(type, dataStore)).ToList();
-
-            return namespaceData;
+            Name = name;
+            Types = types.OrderBy(t => t.Name).Select(t => new TypeReader(t)).ToList();
         }
+
     }
 }

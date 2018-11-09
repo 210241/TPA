@@ -40,13 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtensionMethods\MethodBaseExtensions.cs" />
-    <Compile Include="ExtensionMethods\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection.cs" />
     <Compile Include="ReflectionPartials\AssemblyReader.cs" />
+    <Compile Include="ReflectionPartials\ExtensionMethods.cs" />
     <Compile Include="ReflectionPartials\MethodReader.cs" />
     <Compile Include="ReflectionPartials\NamespaceReader.cs" />
+    <Compile Include="ReflectionPartials\ParameterReader.cs" />
     <Compile Include="ReflectionPartials\PropertyReader.cs" />
     <Compile Include="ReflectionPartials\TypeReader.cs" />
   </ItemGroup>

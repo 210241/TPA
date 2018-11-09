@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using ApplicationLogic.Mapper;
 using ApplicationLogic.ViewModel;
 using Logging;
 
@@ -16,12 +15,11 @@ namespace WPF_UI
 
             Logger logger = new Logger();
 
-            DataContext = new MainViewModel(
-                new FileDialog(logger),
-                logger,
-                new Reflection.Reflection(logger),
-                new NodeItemMapper()
-            );
+            DataContext = new MainViewModel()
+            {
+                Logger = logger,
+                PathLoader = new FileDialog(logger)
+            };
         }
     }
 }

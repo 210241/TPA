@@ -1,30 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DataTransfer.Model;
-using Reflection.ExtensionMethods;
 
-namespace Reflection
+namespace Reflection.ReflectionPartials
 {
-    public partial class Reflection
+    public class AssemblyReader
     {
-        private AssemblyDataStorage LoadAssemblyData(Assembly assembly)
+        public List<NamespaceReader> NamespaceReader { get; set; }
+
+        public string Name { get; set; }
+
+        public AssemblyReader(Assembly assembly)
         {
-            AssemblyData assemblyData = new AssemblyData()
-            {
-                Id = assembly.ManifestModule.FullyQualifiedName,
-                Name = assembly.ManifestModule.Name,               
-            };
-
-            AssemblyDataStorage dataStore = new AssemblyDataStorage(assemblyData);
-
-            assemblyData.Namespaces = (from Type type in assembly.GetTypes()
-                where type.IsVisible()
-                group type by type.GetNamespace() into namespaceGroup
-                orderby namespaceGroup.Key
-                select LoadNamespaceData(namespaceGroup.Key, namespaceGroup, dataStore)).ToList();
-
-            return dataStore;
+            Name = assembly.ManifestModule.Name;
+            Type[] types = assembly.GetTypes();
+            NamespaceReader = types.Where(t => t.IsVisible).GroupBy(t => t.Namespace).OrderBy(t => t.Key)
+                .Select(t => new NamespaceReader(t.Key, t.ToList())).ToList();
         }
     }
 }

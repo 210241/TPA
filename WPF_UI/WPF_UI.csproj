@@ -66,6 +66,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\ItemTypeEnumToString.cs" />
+    <Compile Include="Converters\ItemTypeToBrushConverter.cs" />
     <Compile Include="FileDialog.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

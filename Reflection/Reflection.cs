@@ -1,30 +1,26 @@
 ﻿using System.Reflection;
-using DataTransfer.Interfaces;
-using DataTransfer.Model;
-
+using Reflection.ReflectionPartials;
 
 namespace Reflection
 {
-    public partial class Reflection : IDataStorageProvider
+    public class Reflection
     {
-        private readonly ILogger _logger;
-
-        public Reflection(ILogger logger)
+        public AssemblyReader AssemblyReader { get; private set; }
+        public Reflection(Assembly assembly)
         {
-            _logger = logger;
+            AssemblyReader = new AssemblyReader(assembly);
+        }
+        public Reflection(AssemblyReader assemblyReader)
+        {
+            AssemblyReader = assemblyReader;
         }
 
-        public AssemblyDataStorage GetDataStorage(string assemblyFilePath)
+        public Reflection(string assemblyPath)
         {
-            if (string.IsNullOrEmpty(assemblyFilePath))
-            {
-                throw new System.ArgumentNullException("Cannot find assembly file with path: " + assemblyFilePath);
-            }
-
-            Assembly assembly = Assembly.LoadFrom(assemblyFilePath);
-            _logger.Trace("Opening assembly: " + assembly.FullName);
-
-            return LoadAssemblyData(assembly);
+            if (string.IsNullOrEmpty(assemblyPath))
+                throw new System.ArgumentNullException();
+            Assembly assembly = Assembly.LoadFrom(assemblyPath);
+            AssemblyReader = new AssemblyReader(assembly);
         }
     }
 }

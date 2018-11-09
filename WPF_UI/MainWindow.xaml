@@ -11,6 +11,7 @@
         Background="{DynamicResource MaterialDesignDarkBackground}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         xmlns:local="clr-namespace:WPF_UI"
+        xmlns:converters1="clr-namespace:WPF_UI.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="1000">
     <Grid>
@@ -26,15 +27,23 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Padding="7" Foreground="#FF9800" Text="Assembly file path:" VerticalAlignment="Center" HorizontalAlignment="Center"  Grid.Row="0" Grid.Column="0"/>
-        <TextBlock Padding="7" Foreground="#FF9800" Text="{Binding FilePath}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3" Grid.Row="0" Grid.Column="1"/>
-        <Button MinWidth="60" Margin="5" MinHeight="30" Content="Search files" Command="{Binding GetFilePathCommand}" Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="2"/>
-        <Button MinWidth="60" Margin="5" MinHeight="30" Content="Load metadata" Command="{Binding LoadDataCommand}" Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="0" />
-        <TreeView Padding="20" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" ItemsSource="{Binding NodeItems}">
+        <TextBlock Padding="7" Foreground="#FF9800" Text="{Binding PathVariable}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3" Grid.Row="0" Grid.Column="1"/>
+        <Button MinWidth="60" Margin="5" MinHeight="30" Content="Load metadata" Command="{Binding LoadDataCommand}" Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="2" />
+        <TreeView Padding="20" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" ItemsSource="{Binding HierarchicalAreas}">
             <TreeView.ItemTemplate>
                  <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                    <TextBlock Foreground="#FF9800" Text="{Binding Name}"></TextBlock>
+                     <StackPanel Orientation="Horizontal">
+                        <TextBlock Padding="0 0 10 0" FontWeight="ExtraBold" Text="{Binding Path=ItemType, Converter={x:Static converters1:ItemTypeEnumToStringConverter.Instance}}"/>
+                         <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Foreground="{Binding Path=ItemType, Converter={x:Static converters1:ItemTypeToBrushConverter.Instance}}" Margin="0 0 4 0"/>
+                    </StackPanel>
+                     <!--<TextBlock Foreground="#FF9800" Text="{Binding Name}"></TextBlock>-->
                 </HierarchicalDataTemplate>
              </TreeView.ItemTemplate>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
          </TreeView> 
     </Grid>
 </Window>
