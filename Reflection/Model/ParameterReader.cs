@@ -1,4 +1,4 @@
-﻿namespace Reflection.ReflectionPartials
+﻿namespace Reflection.Model
 {
    
     public class ParameterReader

@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Model\Enums\AbstractENum.cs" />
     <Compile Include="Model\Enums\AccessLevel.cs" />
     <Compile Include="Model\Enums\SealedEnum.cs" />
@@ -48,6 +47,9 @@
     <Compile Include="Model\Enums\TypeKind.cs" />
     <Compile Include="Model\Enums\VirtualEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

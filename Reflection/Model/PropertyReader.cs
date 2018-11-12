@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Reflection.ReflectionPartials
+namespace Reflection.Model
 {
     public class PropertyReader
     {

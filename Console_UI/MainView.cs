@@ -20,7 +20,7 @@ namespace Console_UI
             Menu.Add(new MenuItem() { Command = _viewModel.LoadDataCommand, Header = "2. Load data of the chosen .dll assembly" });
             Menu.Add(new MenuItem() { Command = new RelayCommand(() =>
             {
-                ConsoleTreeView.NodeItems = _viewModel.NodeItems;
+                ConsoleTreeView.NodeItems = _viewModel.HierarchicalAreas;
                 ConsoleTreeView.Display();
             }),
                 Header = "3. Show assembly data"

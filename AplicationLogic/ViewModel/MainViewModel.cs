@@ -5,45 +5,53 @@ using System.Windows.Input;
 using ApplicationLogic.Base;
 using ApplicationLogic.Interfaces;
 using ApplicationLogic.Model;
-using DataTransfer.Interfaces;
+using ApplicationLogic.Interfaces;
 using Reflection.ReflectionPartials;
 
 namespace ApplicationLogic.ViewModel
 {
     public class MainViewModel : BindableBase
     {
-        public ICommand LoadDataCommand { get; }
+        public IMyCommand LoadDataCommand { get; }
 
-        public IFilePathProvider PathLoader { get; set; }
+        public IMyCommand GetFilePathCommand { get; }
 
-        public ILogger Logger { get; set; }
+        private IFilePathProvider filePathGetter { get; set; }
+
+        private ILogger logger { get; set; }
 
         private Reflection.Reflection _reflector;
 
-        private string _pathVariable;
+        private string _filePath;
 
         public ObservableCollection<NodeItem> HierarchicalAreas { get; set; }
 
-        public string PathVariable
+        public string FilePath
         {
-            get => _pathVariable;
-            set => SetProperty(ref _pathVariable, value);
+            get => _filePath;
+            set => SetProperty(ref _filePath, value);
         }
 
-        public MainViewModel()
+        public MainViewModel(ILogger logger, IFilePathProvider pathLoader)
         {
+            this.logger = logger;
+            this.filePathGetter = pathLoader;
             HierarchicalAreas = new ObservableCollection<NodeItem>();
             LoadDataCommand = new RelayCommand(Open);
+            GetFilePathCommand = new RelayCommand(GetFilePath);
         }
+
+        public void GetFilePath()
+        {
+            FilePath = filePathGetter.GetFilePath();
+        }
+
 
         private void Open()
         {
-            string path = PathLoader.GetFilePath();
-            if (path == null || !path.Contains(".dll")) return;
-            PathVariable = path;
             try
             {
-                _reflector = new Reflection.Reflection(Assembly.LoadFrom(PathVariable));
+                _reflector = new Reflection.Reflection(Assembly.LoadFrom(FilePath));
             }
             catch (Exception)
             {

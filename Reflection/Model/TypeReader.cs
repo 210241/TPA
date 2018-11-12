@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using DataTransfer.Model.Enums;
 
-namespace Reflection.ReflectionPartials
+namespace Reflection.Model
 {
 
     public class TypeReader

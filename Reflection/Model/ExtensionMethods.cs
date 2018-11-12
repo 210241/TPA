@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Reflection.ReflectionPartials
+namespace Reflection.Model
 {
     public static class ExtensionMethods
     {

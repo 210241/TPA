@@ -66,8 +66,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\ItemTypeEnumToString.cs" />
-    <Compile Include="Converters\ItemTypeToBrushConverter.cs" />
+    <Compile Include="Converters\ItemTypeToString.cs" />
     <Compile Include="FileDialog.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -108,10 +107,6 @@
     <ProjectReference Include="..\AplicationLogic\ApplicationLogic.csproj">
       <Project>{BB0C453E-FDAE-4158-BE4F-4919DE69F4F0}</Project>
       <Name>ApplicationLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataTransfer\DataTransfer.csproj">
-      <Project>{914A9D84-1DE8-4C03-8806-F055E8B53F71}</Project>
-      <Name>DataTransfer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{C675079B-C0CB-49B8-B431-453B3CF2047A}</Project>

@@ -58,10 +58,6 @@
       <Project>{bb0c453e-fdae-4158-be4f-4919de69f4f0}</Project>
       <Name>ApplicationLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataTransfer\DataTransfer.csproj">
-      <Project>{914a9d84-1de8-4c03-8806-f055e8b53f71}</Project>
-      <Name>DataTransfer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{c675079b-c0cb-49b8-b431-453b3cf2047a}</Project>
       <Name>Logging</Name>

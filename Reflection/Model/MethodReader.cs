@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using DataTransfer.Model.Enums;
 
-namespace Reflection.ReflectionPartials
+namespace Reflection.Model
 {
 
     public class MethodReader

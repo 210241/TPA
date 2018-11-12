@@ -1,4 +1,4 @@
-﻿namespace DataTransfer.Interfaces
+﻿namespace ApplicationLogic.Interfaces
 {
     public interface ILogger
     {

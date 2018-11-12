@@ -15,11 +15,9 @@ namespace WPF_UI
 
             Logger logger = new Logger();
 
-            DataContext = new MainViewModel()
-            {
-                Logger = logger,
-                PathLoader = new FileDialog(logger)
-            };
+            DataContext = new MainViewModel(logger, new FileDialog(logger));
+
+
         }
     }
 }

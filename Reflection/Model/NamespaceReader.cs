@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Reflection.ReflectionPartials
+namespace Reflection.Model
 {
 
     public class NamespaceReader

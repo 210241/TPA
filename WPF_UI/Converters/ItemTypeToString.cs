@@ -2,19 +2,17 @@
 using System.Globalization;
 using System.Windows.Data;
 using ApplicationLogic.Model;
+using ApplicationLogic.TypeConverter;
 
 namespace WPF_UI.Converters
 {
-    [ValueConversion(typeof(ItemTypeEnum), typeof(string))]
-    public class ItemTypeEnumToStringConverter : IValueConverter
+    [ValueConversion(typeof(object), typeof(string))]
+    public class ItemTypeToString : IValueConverter
     {
-#pragma warning disable SA1401 // Fields must be private
-        public static ItemTypeEnumToStringConverter Instance = new ItemTypeEnumToStringConverter();
-#pragma warning restore SA1401 // Fields must be private
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return "[" + (ItemTypeEnum)value + "]";
+            return TypeToStringConverter.GetStringFromType(value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

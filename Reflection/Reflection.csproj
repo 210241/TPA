@@ -40,21 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\AbstractEnum.cs" />
+    <Compile Include="Enums\AccessLevel.cs" />
+    <Compile Include="Enums\SealedEnum.cs" />
+    <Compile Include="Enums\StaticEnum.cs" />
+    <Compile Include="Enums\TypeKind.cs" />
+    <Compile Include="Enums\VirtualEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection.cs" />
-    <Compile Include="ReflectionPartials\AssemblyReader.cs" />
-    <Compile Include="ReflectionPartials\ExtensionMethods.cs" />
-    <Compile Include="ReflectionPartials\MethodReader.cs" />
-    <Compile Include="ReflectionPartials\NamespaceReader.cs" />
-    <Compile Include="ReflectionPartials\ParameterReader.cs" />
-    <Compile Include="ReflectionPartials\PropertyReader.cs" />
-    <Compile Include="ReflectionPartials\TypeReader.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DataTransfer\DataTransfer.csproj">
-      <Project>{914A9D84-1DE8-4C03-8806-F055E8B53F71}</Project>
-      <Name>DataTransfer</Name>
-    </ProjectReference>
+    <Compile Include="Model\AssemblyReader.cs" />
+    <Compile Include="Model\ExtensionMethods.cs" />
+    <Compile Include="Model\MethodReader.cs" />
+    <Compile Include="Model\NamespaceReader.cs" />
+    <Compile Include="Model\ParameterReader.cs" />
+    <Compile Include="Model\PropertyReader.cs" />
+    <Compile Include="Model\TypeReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

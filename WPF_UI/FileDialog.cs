@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Windows;
 using ApplicationLogic.Interfaces;
-using DataTransfer.Interfaces;
+using ApplicationLogic.Interfaces;
 using Microsoft.Win32;
 
 namespace WPF_UI

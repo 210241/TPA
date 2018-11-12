@@ -1,5 +1,4 @@
-﻿using ApplicationLogic.Mapper;
-using ApplicationLogic.ViewModel;
+﻿using ApplicationLogic.ViewModel;
 using Logging;
 
 namespace Console_UI
@@ -11,10 +10,9 @@ namespace Console_UI
             Logger logger = new Logger();
 
             MainViewModel vm = new MainViewModel(
-                new ConsoleFilePathProvider(),
                 logger,
-                new Reflection.Reflection(logger), 
-                new NodeItemMapper()
+                new ConsoleFilePathProvider()
+
             );
 
             MainView main = new MainView(vm);

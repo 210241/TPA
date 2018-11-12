@@ -1,5 +1,6 @@
 ﻿using System;
-using DataTransfer.Interfaces;
+using ApplicationLogic.Interfaces;
+
 
 namespace Logging
 {
