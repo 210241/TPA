@@ -6,7 +6,7 @@ using ApplicationLogic.Base;
 using ApplicationLogic.Interfaces;
 using ApplicationLogic.Model;
 using ApplicationLogic.Interfaces;
-using Reflection.ReflectionPartials;
+using Reflection.Model;
 
 namespace ApplicationLogic.ViewModel
 {

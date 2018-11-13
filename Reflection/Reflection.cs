@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Reflection.ReflectionPartials;
+using Reflection.Model;
 
 namespace Reflection
 {

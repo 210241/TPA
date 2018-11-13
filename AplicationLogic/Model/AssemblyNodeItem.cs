@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Reflection.ReflectionPartials;
+using Reflection.Model;
 
 namespace ApplicationLogic.Model
 {

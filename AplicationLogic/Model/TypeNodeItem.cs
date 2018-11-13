@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using DataTransfer.Model.Enums;
-using Reflection.ReflectionPartials;
+using Reflection.Model;
 
 namespace ApplicationLogic.Model
 {

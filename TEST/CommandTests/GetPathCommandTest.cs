@@ -2,7 +2,6 @@
 using ApplicationLogic.Interfaces;
 using ApplicationLogic.Model;
 using ApplicationLogic.ViewModel;
-using DataTransfer.Interfaces;
 using DataTransfer.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -13,10 +12,6 @@ namespace TEST.CommandTests
     public class GetPathCommandTest
     {
         protected MainViewModel context;
-        protected Mock<IFilePathProvider> filePathProviderMock;
-        protected Mock<ILogger> loggerMock;
-        protected Mock<IDataStorageProvider> dataStoreProviderMock;
-        protected Mock<IMapper<AssemblyDataStorage, NodeItem>> mapperMock;
 
         protected const string filePath = "This is test path";
 
@@ -24,18 +19,7 @@ namespace TEST.CommandTests
         [TestInitialize]
         public void Initialize()
         {
-            filePathProviderMock = new Mock<IFilePathProvider>(MockBehavior.Strict);
-            loggerMock = new Mock<ILogger>(MockBehavior.Strict);
-            dataStoreProviderMock = new Mock<IDataStorageProvider>(MockBehavior.Strict);
-            mapperMock = new Mock<IMapper<AssemblyDataStorage, NodeItem>>(MockBehavior.Strict);
 
-            filePathProviderMock.Setup(x => x.GetFilePath()).Returns(filePath);
-
-            context = new MainViewModel(
-                filePathProviderMock.Object,
-                loggerMock.Object,
-                dataStoreProviderMock.Object,
-                mapperMock.Object);
         }
         
 
