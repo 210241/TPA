@@ -6,6 +6,7 @@ using ApplicationLogic.Base;
 using ApplicationLogic.Interfaces;
 using ApplicationLogic.Model;
 using ApplicationLogic.Interfaces;
+using Reflection;
 using Reflection.Model;
 
 namespace ApplicationLogic.ViewModel
@@ -20,7 +21,7 @@ namespace ApplicationLogic.ViewModel
 
         private ILogger logger { get; set; }
 
-        private Reflection.Reflection _reflector;
+        private Reflection.Reflector _reflector;
 
         private string _filePath;
 
@@ -51,7 +52,7 @@ namespace ApplicationLogic.ViewModel
         {
             try
             {
-                _reflector = new Reflection.Reflection(Assembly.LoadFrom(FilePath));
+                _reflector = new Reflector(FilePath);
             }
             catch (Exception)
             {

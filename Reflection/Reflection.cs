@@ -3,19 +3,19 @@ using Reflection.Model;
 
 namespace Reflection
 {
-    public class Reflection
+    public class Reflector
     {
         public AssemblyReader AssemblyReader { get; private set; }
-        public Reflection(Assembly assembly)
+        public Reflector(Assembly assembly)
         {
             AssemblyReader = new AssemblyReader(assembly);
         }
-        public Reflection(AssemblyReader assemblyReader)
+        public Reflector(AssemblyReader assemblyReader)
         {
             AssemblyReader = assemblyReader;
         }
 
-        public Reflection(string assemblyPath)
+        public Reflector(string assemblyPath)
         {
             if (string.IsNullOrEmpty(assemblyPath))
                 throw new System.ArgumentNullException();

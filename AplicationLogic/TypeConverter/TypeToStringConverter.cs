@@ -18,7 +18,7 @@ namespace ApplicationLogic.TypeConverter
 
         public static string GetStringFromType(object value)
         {
-            var test = value.GetType();
+            Type test = value.GetType();
             if (value != null && TypeToStringConverter.Map.TryGetValue(value.GetType(), out string converted))
             {
                 return $"{converted}: ";
