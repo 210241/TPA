@@ -8,7 +8,7 @@ namespace WPF_UI
 {
     internal class FileDialog : IFilePathProvider
     {
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         public FileDialog(ILogger logger)
         {

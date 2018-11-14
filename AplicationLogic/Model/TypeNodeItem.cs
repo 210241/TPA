@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using DataTransfer.Model.Enums;
+using ApplicationLogic.Interfaces;
+using Reflection.Enums;
 using Reflection.Model;
 
 namespace ApplicationLogic.Model
@@ -7,11 +8,13 @@ namespace ApplicationLogic.Model
     public class TypeNodeItem : NodeItem
     {
         private readonly TypeReader _typeReader;
+        private readonly ILogger _logger;
 
-        public TypeNodeItem(TypeReader typeReader, ItemTypeEnum type)
+        public TypeNodeItem(TypeReader typeReader, ItemTypeEnum type, ILogger logger)
             : base(GetModifiers(typeReader) + typeReader.Name, type)
         {
             _typeReader = typeReader;
+            _logger = logger;
         }
 
         public static string GetModifiers(TypeReader model)
@@ -33,27 +36,31 @@ namespace ApplicationLogic.Model
         {
             if (_typeReader.BaseType != null)
             {
-                children.Add(new TypeNodeItem(TypeReader.TypeDictionary[_typeReader.BaseType.Name], ItemTypeEnum.BaseType));
+                _logger.Trace($"Adding BaseType: [{ItemTypeEnum.BaseType.ToString()}] {_typeReader.BaseType.Name} implemented in Type: {_typeReader.Name}");
+                children.Add(new TypeNodeItem(TypeReader.TypeDictionary[_typeReader.BaseType.Name], ItemTypeEnum.BaseType, _logger));
             }
 
             if (_typeReader.DeclaringType != null)
             {
-                children.Add(new TypeNodeItem(TypeReader.TypeDictionary[_typeReader.DeclaringType.Name], ItemTypeEnum.Type));
+                _logger.Trace($"Adding DeclaringType: [{ItemTypeEnum.Type.ToString()}] {_typeReader.DeclaringType.Name} implemented in Type: {_typeReader.Name}");
+                children.Add(new TypeNodeItem(TypeReader.TypeDictionary[_typeReader.DeclaringType.Name], ItemTypeEnum.Type, _logger));
             }
 
             if (_typeReader.Properties != null)
             {
                 foreach (PropertyReader propertyReader in _typeReader.Properties)
                 {
-                    children.Add(new PropertyNodeItem(propertyReader, GetModifiers(propertyReader.Type) + propertyReader.Type.Name + " " + propertyReader.Name));
+                    _logger.Trace($"Adding Property: [{GetModifiers(propertyReader.Type) + propertyReader.Type.Name}] {propertyReader.Name} implemented in Type: {_typeReader.Name}");
+                    children.Add(new PropertyNodeItem(propertyReader, GetModifiers(propertyReader.Type) + propertyReader.Type.Name + " " + propertyReader.Name, _logger));
                 }
             }
 
             if (_typeReader.Fields != null)
             {
-                foreach (ParameterReader parameterModel in _typeReader.Fields)
+                foreach (ParameterReader parameterReader in _typeReader.Fields)
                 {
-                    children.Add(new ParameterNodeItem(parameterModel, ItemTypeEnum.Field));
+                    _logger.Trace($"Adding Parameter: [{ItemTypeEnum.Field.ToString()}] {parameterReader.Name} implemented in Type: {_typeReader.Name}");
+                    children.Add(new ParameterNodeItem(parameterReader, ItemTypeEnum.Field, _logger));
                 }
             }
 
@@ -61,7 +68,8 @@ namespace ApplicationLogic.Model
             {
                 foreach (TypeReader typeReader in _typeReader.GenericArguments)
                 {
-                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], ItemTypeEnum.GenericArgument));
+                    _logger.Trace($"Adding Type: [{ItemTypeEnum.GenericArgument.ToString()}] {typeReader.Name} implemented in Type: {_typeReader.Name}");
+                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], ItemTypeEnum.GenericArgument, _logger));
                 }
             }
 
@@ -69,7 +77,8 @@ namespace ApplicationLogic.Model
             {
                 foreach (TypeReader typeReader in _typeReader.ImplementedInterfaces)
                 {
-                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], ItemTypeEnum.ImplementedInterface));
+                    _logger.Trace($"Adding Type: [{ItemTypeEnum.ImplementedInterface.ToString()}] {typeReader.Name} implemented in Type: {_typeReader.Name}");
+                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], ItemTypeEnum.ImplementedInterface, _logger));
                 }
             }
 
@@ -80,7 +89,9 @@ namespace ApplicationLogic.Model
                     ItemTypeEnum type = typeReader.Type == TypeKind.ClassType ? ItemTypeEnum.NestedClass :
                         typeReader.Type == TypeKind.StructType ? ItemTypeEnum.NestedStructure :
                         typeReader.Type == TypeKind.EnumType ? ItemTypeEnum.NestedEnum : ItemTypeEnum.NestedType;
-                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], type));
+
+                    _logger.Trace($"Adding Type: [{type.ToString()}] {typeReader.Name} implemented in Type: {_typeReader.Name}");
+                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], type, _logger));
                 }
             }
 
@@ -88,7 +99,9 @@ namespace ApplicationLogic.Model
             {
                 foreach (MethodReader methodReader in _typeReader.Methods)
                 {
-                    children.Add(new MethodNodeItem(methodReader, methodReader.Extension ? ItemTypeEnum.ExtensionMethod : ItemTypeEnum.Method));
+                    ItemTypeEnum type = methodReader.Extension ? ItemTypeEnum.ExtensionMethod : ItemTypeEnum.Method;
+                    _logger.Trace($"Adding Method: [{type.ToString()}] {methodReader.Name} implemented in Type: {_typeReader.Name}");
+                    children.Add(new MethodNodeItem(methodReader, type, _logger));
                 }
             }
 
@@ -96,7 +109,8 @@ namespace ApplicationLogic.Model
             {
                 foreach (MethodReader methodReader in _typeReader.Constructors)
                 {
-                    children.Add(new MethodNodeItem(methodReader, ItemTypeEnum.Constructor));
+                    _logger.Trace($"Adding Method: [{ItemTypeEnum.Constructor.ToString()}] {methodReader.Name} implemented in Type: {_typeReader.Name}");
+                    children.Add(new MethodNodeItem(methodReader, ItemTypeEnum.Constructor, _logger));
                 }
             }
         }

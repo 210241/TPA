@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using DataTransfer.Model.Enums;
+using ApplicationLogic.Interfaces;
+using Reflection.Enums;
 using Reflection.Model;
 
 namespace ApplicationLogic.Model
@@ -7,25 +8,28 @@ namespace ApplicationLogic.Model
     public class NamespaceNodeItem : NodeItem
     {
         private readonly NamespaceReader _namespaceReader;
+        private readonly ILogger _logger;
 
-        public NamespaceNodeItem(NamespaceReader namespaceReader)
+        public NamespaceNodeItem(NamespaceReader namespaceReader, ILogger logger)
             : base(namespaceReader.Name, ItemTypeEnum.Namespace)
         {
             _namespaceReader = namespaceReader;
+            _logger = logger;
         }
 
         protected override void BuildTreeView(ObservableCollection<NodeItem> children)
         {
             if (_namespaceReader?.Types != null)
             {
-                foreach (TypeReader typeModel in _namespaceReader?.Types)
+                foreach (TypeReader typeReader in _namespaceReader?.Types)
                 {
-                    ItemTypeEnum typeEnum = typeModel.Type == TypeKind.ClassType ?
-                        ItemTypeEnum.Class : typeModel.Type == TypeKind.EnumType ?
-                            ItemTypeEnum.Enum : typeModel.Type == TypeKind.InterfaceType ?
+                    ItemTypeEnum typeEnum = typeReader.Type == TypeKind.ClassType ?
+                        ItemTypeEnum.Class : typeReader.Type == TypeKind.EnumType ?
+                            ItemTypeEnum.Enum : typeReader.Type == TypeKind.InterfaceType ?
                                 ItemTypeEnum.Interface : ItemTypeEnum.Struct;
 
-                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeModel.Name], typeEnum));
+                    _logger.Trace($"Adding Type: [{typeEnum.ToString()}] {typeReader.Name} implemented in Namespace: {_namespaceReader.Name}");
+                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], typeEnum, _logger));
                 }
             }
         }

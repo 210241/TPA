@@ -1,4 +1,4 @@
-﻿namespace DataTransfer.Model.Enums
+﻿namespace Reflection.Enums
 {
     public enum AbstractEnum
     {

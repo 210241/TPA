@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace Console_UI.CommandLineFramework
 {
     public class Menu

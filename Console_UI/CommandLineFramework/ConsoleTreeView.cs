@@ -1,11 +1,9 @@
-﻿using System;
+﻿using ApplicationLogic.Model;
+using ApplicationLogic.TypeConverter;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
-using ApplicationLogic.Model;
-using ApplicationLogic.TypeConverter;
-
 
 namespace Console_UI.CommandLineFramework
 {
@@ -39,7 +37,6 @@ namespace Console_UI.CommandLineFramework
                 DisplayElements();
                 while (!correctOption)
                 {
-
                     Console.WriteLine("Choose node to expand: ");
                     string choice = Console.ReadLine();
 
@@ -66,7 +63,6 @@ namespace Console_UI.CommandLineFramework
 
         public void UpdateCurrentItems(NodeItem currentParent, bool isBack)
         {
-
             int firstNumber = 1; // (char) 65;
             if (!isBack) _history.Add(currentParent);
             _currentItems = currentParent.Children.ToDictionary(x => (firstNumber++).ToString(), x => x);
@@ -77,7 +73,6 @@ namespace Console_UI.CommandLineFramework
                 Console.WriteLine("This item is not expandable. Choose another or type \"back\" ");
                 Console.ResetColor();
             }
-
         }
 
         public void DisplayElements()
@@ -110,6 +105,5 @@ namespace Console_UI.CommandLineFramework
                 _currentItems.Add("A", _items[0]);
             }
         }
-
     }
 }

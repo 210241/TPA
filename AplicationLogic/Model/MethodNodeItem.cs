@@ -1,17 +1,20 @@
 ﻿using System.Collections.ObjectModel;
-using DataTransfer.Model.Enums;
+using ApplicationLogic.Interfaces;
+using Reflection.Enums;
 using Reflection.Model;
 
 namespace ApplicationLogic.Model
 {
     public class MethodNodeItem : NodeItem
     {
-        public MethodReader MethodReader { get; set; }
+        private readonly MethodReader _methodReader;
+        private readonly ILogger _logger;
 
-        public MethodNodeItem(MethodReader methodReader, ItemTypeEnum type)
+        public MethodNodeItem(MethodReader methodReader, ItemTypeEnum type, ILogger logger)
             : base(GetModifiers(methodReader) + methodReader.Name, type)
         {
-            MethodReader = methodReader;
+            _logger = logger;
+            _methodReader = methodReader;
         }
 
         public static string GetModifiers(MethodReader methodReader)
@@ -26,25 +29,28 @@ namespace ApplicationLogic.Model
 
         protected override void BuildTreeView(ObservableCollection<NodeItem> children)
         {
-            if (MethodReader.GenericArguments != null)
+            if (_methodReader.GenericArguments != null)
             {
-                foreach (TypeReader genericArgument in MethodReader.GenericArguments)
+                foreach (TypeReader genericArgument in _methodReader.GenericArguments)
                 {
-                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[genericArgument.Name], ItemTypeEnum.GenericArgument));
+                    _logger.Trace($"Adding Type: [{ItemTypeEnum.GenericArgument.ToString()}] {genericArgument.Name} implemented in Method: {_methodReader.Name}");
+                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[genericArgument.Name], ItemTypeEnum.GenericArgument, _logger));
                 }
             }
 
-            if (MethodReader.Parameters != null)
+            if (_methodReader.Parameters != null)
             {
-                foreach (ParameterReader parameter in MethodReader.Parameters)
+                foreach (ParameterReader parameter in _methodReader.Parameters)
                 {
-                    children.Add(new ParameterNodeItem(parameter, ItemTypeEnum.Parameter));
+                    _logger.Trace($"Adding Parameter: [{ItemTypeEnum.Parameter.ToString()}] {parameter.Name} implemented in Method: {_methodReader.Name}");
+                    children.Add(new ParameterNodeItem(parameter, ItemTypeEnum.Parameter, _logger));
                 }
             }
 
-            if (MethodReader.ReturnType != null)
+            if (_methodReader.ReturnType != null)
             {
-                children.Add(new TypeNodeItem(TypeReader.TypeDictionary[MethodReader.ReturnType.Name], ItemTypeEnum.ReturnType));
+                _logger.Trace($"Adding Type: [{ItemTypeEnum.ReturnType.ToString()}] {_methodReader.ReturnType.Name} implemented in Method: {_methodReader.Name}");
+                children.Add(new TypeNodeItem(TypeReader.TypeDictionary[_methodReader.ReturnType.Name], ItemTypeEnum.ReturnType, _logger));
             }
         }
     }

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 using ApplicationLogic.Base;
 using ApplicationLogic.Interfaces;
 using ApplicationLogic.Model;
@@ -17,9 +20,9 @@ namespace ApplicationLogic.ViewModel
 
         public IMyCommand GetFilePathCommand { get; }
 
-        private IFilePathProvider filePathGetter { get; set; }
+        private IFilePathProvider FilePathGetter { get; }
 
-        private ILogger logger { get; set; }
+        private ILogger logger { get; }
 
         private Reflection.Reflector _reflector;
 
@@ -30,37 +33,44 @@ namespace ApplicationLogic.ViewModel
         public string FilePath
         {
             get => _filePath;
-            set => SetProperty(ref _filePath, value);
+            set
+            {
+                SetProperty(ref _filePath, value);
+                LoadDataCommand.RaiseCanExecuteChanged();
+            }
         }
 
         public MainViewModel(ILogger logger, IFilePathProvider pathLoader)
         {
             this.logger = logger;
-            this.filePathGetter = pathLoader;
+            this.FilePathGetter = pathLoader;
             HierarchicalAreas = new ObservableCollection<NodeItem>();
-            LoadDataCommand = new RelayCommand(Open);
+            LoadDataCommand = new BaseAsynchronousCommand(LoadData, CanLoadData);
             GetFilePathCommand = new RelayCommand(GetFilePath);
         }
 
         public void GetFilePath()
         {
-            FilePath = filePathGetter.GetFilePath();
+            FilePath = FilePathGetter.GetFilePath();
         }
 
-
-        private void Open()
+        private async Task LoadData()
         {
-            try
+            await Task.Run(() =>
             {
                 _reflector = new Reflector(FilePath);
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
+            });
 
-            // TODO clear?
-            HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyReader));
+            HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyReader, logger));
+        }
+
+        public bool CanLoadData()
+        {
+            if (FilePath != null)
+            {
+                return true;
+            }
+                return false;
         }
     }
 }

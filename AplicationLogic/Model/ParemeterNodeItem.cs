@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using ApplicationLogic.Interfaces;
 using Reflection.Model;
 
 namespace ApplicationLogic.Model
@@ -6,10 +7,12 @@ namespace ApplicationLogic.Model
     public class ParameterNodeItem : NodeItem
     {
         public ParameterReader ParameterReader { get; set; }
+        private readonly ILogger _logger;
 
-        public ParameterNodeItem(ParameterReader parameterReader, ItemTypeEnum type)
+        public ParameterNodeItem(ParameterReader parameterReader, ItemTypeEnum type, ILogger logger)
             : base(parameterReader.Name, type)
         {
+            _logger = logger;
             ParameterReader = parameterReader;
         }
 
@@ -17,7 +20,7 @@ namespace ApplicationLogic.Model
         {
             if (ParameterReader.Type != null)
             {
-                children.Add(new TypeNodeItem(TypeReader.TypeDictionary[ParameterReader.Type.Name], ItemTypeEnum.Type));
+                children.Add(new TypeNodeItem(TypeReader.TypeDictionary[ParameterReader.Type.Name], ItemTypeEnum.Type, _logger));
             }
         }
     }

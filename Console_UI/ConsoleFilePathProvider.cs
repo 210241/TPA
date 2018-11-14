@@ -8,12 +8,10 @@ namespace Console_UI
     {
         public string GetFilePath()
         {
-            string result;
-
             while (true)
             {
                 Console.Write("Provide file path: ");
-                result = Console.ReadLine();
+                string result = Console.ReadLine();
 
                 if (File.Exists(result))
                 {
