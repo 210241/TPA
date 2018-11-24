@@ -14,7 +14,7 @@ namespace Console_UI
         public MainView(MainViewModel vm)
         {
             MainViewModel viewModel = vm;
-            Menu.Add(new MenuItem() { Command = viewModel.GetFilePathCommand, Header = "1. Enter file path for .dll assembly" });
+            Menu.Add(new MenuItem() { Command = viewModel.GetAssemblyFilePathCommand, Header = "1. Enter file path for .dll assembly" });
             Menu.Add(new MenuItem() { Command = viewModel.LoadDataCommand, Header = "2. Load data of the chosen .dll assembly" });
             Menu.Add(new MenuItem() { Command = new RelayCommand(() =>
             {

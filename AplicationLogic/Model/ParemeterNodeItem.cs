@@ -20,6 +20,7 @@ namespace ApplicationLogic.Model
         {
             if (ParameterReader.Type != null)
             {
+                ModelHelperMethods.CheckOrAdd(ParameterReader.Type);
                 children.Add(new TypeNodeItem(TypeReader.TypeDictionary[ParameterReader.Type.Name], ItemTypeEnum.Type, _logger));
             }
         }

@@ -19,17 +19,12 @@ namespace ApplicationLogic.Model
 
         public static string GetModifiers(TypeReader model)
         {
-            if (model.Modifiers != null)
-            {
                 string type = null;
-                type += model.Modifiers.Item1.ToString().ToLower() + " ";
-                type += model.Modifiers.Item2 == SealedEnum.Sealed ? SealedEnum.Sealed.ToString().ToLower() + " " : string.Empty;
-                type += model.Modifiers.Item3 == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : string.Empty;
-                type += model.Modifiers.Item4 == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : string.Empty;
+                type += model.AccessLevel == AccessLevel.Default ? string.Empty : model.AccessLevel.ToString().ToLower() + " ";
+                type += model.SealedEnum == SealedEnum.Sealed ? SealedEnum.Sealed.ToString().ToLower() + " " : string.Empty;
+                type += model.AbstractEnum == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : string.Empty;
+                type += model.StaticEnum == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : string.Empty;
                 return type;
-            }
-
-            return null;
         }
 
         protected override void BuildTreeView(ObservableCollection<NodeItem> children)
@@ -37,12 +32,14 @@ namespace ApplicationLogic.Model
             if (_typeReader.BaseType != null)
             {
                 _logger.Trace($"Adding BaseType: [{ItemTypeEnum.BaseType.ToString()}] {_typeReader.BaseType.Name} implemented in Type: {_typeReader.Name}");
+                ModelHelperMethods.CheckOrAdd(_typeReader.BaseType);
                 children.Add(new TypeNodeItem(TypeReader.TypeDictionary[_typeReader.BaseType.Name], ItemTypeEnum.BaseType, _logger));
             }
 
             if (_typeReader.DeclaringType != null)
             {
                 _logger.Trace($"Adding DeclaringType: [{ItemTypeEnum.Type.ToString()}] {_typeReader.DeclaringType.Name} implemented in Type: {_typeReader.Name}");
+                ModelHelperMethods.CheckOrAdd(_typeReader.DeclaringType);
                 children.Add(new TypeNodeItem(TypeReader.TypeDictionary[_typeReader.DeclaringType.Name], ItemTypeEnum.Type, _logger));
             }
 
@@ -69,6 +66,7 @@ namespace ApplicationLogic.Model
                 foreach (TypeReader typeReader in _typeReader.GenericArguments)
                 {
                     _logger.Trace($"Adding Type: [{ItemTypeEnum.GenericArgument.ToString()}] {typeReader.Name} implemented in Type: {_typeReader.Name}");
+                    ModelHelperMethods.CheckOrAdd(typeReader);
                     children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], ItemTypeEnum.GenericArgument, _logger));
                 }
             }
@@ -78,6 +76,7 @@ namespace ApplicationLogic.Model
                 foreach (TypeReader typeReader in _typeReader.ImplementedInterfaces)
                 {
                     _logger.Trace($"Adding Type: [{ItemTypeEnum.ImplementedInterface.ToString()}] {typeReader.Name} implemented in Type: {_typeReader.Name}");
+                    ModelHelperMethods.CheckOrAdd(typeReader);
                     children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], ItemTypeEnum.ImplementedInterface, _logger));
                 }
             }
@@ -91,6 +90,7 @@ namespace ApplicationLogic.Model
                         typeReader.Type == TypeKind.EnumType ? ItemTypeEnum.NestedEnum : ItemTypeEnum.NestedType;
 
                     _logger.Trace($"Adding Type: [{type.ToString()}] {typeReader.Name} implemented in Type: {_typeReader.Name}");
+                    ModelHelperMethods.CheckOrAdd(typeReader);
                     children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], type, _logger));
                 }
             }

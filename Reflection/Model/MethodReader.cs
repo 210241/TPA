@@ -14,8 +14,13 @@ namespace Reflection.Model
 
         public List<TypeReader> GenericArguments { get; set; }
 
-        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get; set; }
+        public AccessLevel AccessLevel { get; set; }
 
+        public AbstractEnum AbstractEnum { get; set; }
+
+        public StaticEnum StaticEnum { get; set; }
+
+        public VirtualEnum VirtualEnum { get; set; }
 
         public TypeReader ReturnType { get; set; }
 
@@ -23,13 +28,18 @@ namespace Reflection.Model
 
         public List<ParameterReader> Parameters { get; set; }
 
+        private MethodReader()
+        {
+
+        }
+
         public MethodReader(MethodBase method)
         {
             Name = method.Name;
             GenericArguments = !method.IsGenericMethodDefinition ? null : EmitGenericArguments(method);
             ReturnType = EmitReturnType(method);
             Parameters = EmitParameters(method);
-            Modifiers = EmitModifiers(method);
+            EmitModifiers(method);
             Extension = EmitExtension(method);
         }
 
@@ -63,19 +73,19 @@ namespace Reflection.Model
             return method.IsDefined(typeof(ExtensionAttribute), true);
         }
 
-        private static Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> EmitModifiers(MethodBase method)
+        private void EmitModifiers(MethodBase method)
         {
-            AccessLevel access = method.IsPublic ? AccessLevel.IsPublic :
+            AccessLevel  = method.IsPublic ? AccessLevel.IsPublic :
                 method.IsFamily ? AccessLevel.IsProtected :
                 method.IsAssembly ? AccessLevel.Internal : AccessLevel.IsPrivate;
 
-            AbstractEnum _abstract = method.IsAbstract ? AbstractEnum.Abstract : AbstractEnum.NotAbstract;
+            AbstractEnum  = method.IsAbstract ? AbstractEnum.Abstract : AbstractEnum.NotAbstract;
 
-            StaticEnum _static = method.IsStatic ? StaticEnum.Static : StaticEnum.NotStatic;
+            StaticEnum  = method.IsStatic ? StaticEnum.Static : StaticEnum.NotStatic;
 
-            VirtualEnum _virtual = method.IsVirtual ? VirtualEnum.Virtual : VirtualEnum.NotVirtual;
+            VirtualEnum  = method.IsVirtual ? VirtualEnum.Virtual : VirtualEnum.NotVirtual;
 
-            return new Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum>(access, _abstract, _static, _virtual);
+            //return new Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum>(access, _abstract, _static, _virtual);
         }
 
         public static List<MethodReader> EmitConstructors(Type type)

@@ -20,10 +20,10 @@ namespace ApplicationLogic.Model
         public static string GetModifiers(MethodReader methodReader)
         {
             string type = null;
-            type += methodReader.Modifiers.Item1.ToString().ToLower() + " ";
-            type += methodReader.Modifiers.Item2 == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : string.Empty;
-            type += methodReader.Modifiers.Item3 == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : string.Empty;
-            type += methodReader.Modifiers.Item4 == VirtualEnum.Virtual ? VirtualEnum.Virtual.ToString().ToLower() + " " : string.Empty;
+            type += methodReader.AccessLevel.ToString().ToLower() + " ";
+            type += methodReader.AbstractEnum == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : string.Empty;
+            type += methodReader.StaticEnum == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : string.Empty;
+            type += methodReader.VirtualEnum == VirtualEnum.Virtual ? VirtualEnum.Virtual.ToString().ToLower() + " " : string.Empty;
             return type;
         }
 
@@ -34,6 +34,7 @@ namespace ApplicationLogic.Model
                 foreach (TypeReader genericArgument in _methodReader.GenericArguments)
                 {
                     _logger.Trace($"Adding Type: [{ItemTypeEnum.GenericArgument.ToString()}] {genericArgument.Name} implemented in Method: {_methodReader.Name}");
+                    ModelHelperMethods.CheckOrAdd(genericArgument);
                     children.Add(new TypeNodeItem(TypeReader.TypeDictionary[genericArgument.Name], ItemTypeEnum.GenericArgument, _logger));
                 }
             }
@@ -50,6 +51,7 @@ namespace ApplicationLogic.Model
             if (_methodReader.ReturnType != null)
             {
                 _logger.Trace($"Adding Type: [{ItemTypeEnum.ReturnType.ToString()}] {_methodReader.ReturnType.Name} implemented in Method: {_methodReader.Name}");
+                ModelHelperMethods.CheckOrAdd(_methodReader.ReturnType);
                 children.Add(new TypeNodeItem(TypeReader.TypeDictionary[_methodReader.ReturnType.Name], ItemTypeEnum.ReturnType, _logger));
             }
         }

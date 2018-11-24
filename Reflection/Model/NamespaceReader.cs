@@ -12,6 +12,11 @@ namespace Reflection.Model
 
         public List<TypeReader> Types { get; set; }
 
+        private NamespaceReader()
+        {
+
+        }
+
         public NamespaceReader(string name, List<Type> types)
         {
             Name = name;

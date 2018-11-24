@@ -12,6 +12,11 @@ namespace Reflection.Model
 
         public string Name { get; set; }
 
+        private AssemblyReader()
+        {
+
+        }
+
         public AssemblyReader(Assembly assembly)
         {
             Name = assembly.ManifestModule.Name;

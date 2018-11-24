@@ -20,7 +20,13 @@ namespace Reflection.Model
 
         public List<TypeReader> GenericArguments { get; set; }
 
-        public Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> Modifiers { get; set; }
+        public AccessLevel AccessLevel { get; set; }
+
+        public AbstractEnum AbstractEnum { get; set; }
+
+        public StaticEnum StaticEnum { get; set; }
+
+        public SealedEnum SealedEnum { get; set; }
 
         public TypeKind Type { get; set; }
 
@@ -38,6 +44,10 @@ namespace Reflection.Model
 
         public List<ParameterReader> Fields { get; set; }
 
+        private TypeReader()
+        {
+
+        }
 
         public TypeReader(Type type)
         {
@@ -49,7 +59,7 @@ namespace Reflection.Model
 
             Type = GetTypeEnum(type);
             BaseType = EmitExtends(type.BaseType);
-            Modifiers = EmitModifiers(type);
+            EmitModifiers(type);
 
             DeclaringType = EmitDeclaringType(type.DeclaringType);
             Constructors = MethodReader.EmitConstructors(type);
@@ -148,24 +158,20 @@ namespace Reflection.Model
                    TypeKind.ClassType;
         }
 
-        static Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> EmitModifiers(Type type)
+        private void EmitModifiers(Type type)
         {
-            AccessLevel _access = type.IsPublic || type.IsNestedPublic ? AccessLevel.IsPublic :
+            AccessLevel  = type.IsPublic || type.IsNestedPublic ? AccessLevel.IsPublic :
                 type.IsNestedFamily ? AccessLevel.IsProtected :
                 type.IsNestedFamANDAssem ? AccessLevel.Internal :
                 AccessLevel.IsPrivate;
-            StaticEnum _static = type.IsSealed && type.IsAbstract ? StaticEnum.Static : StaticEnum.NotStatic;
-            SealedEnum _sealed = SealedEnum.NotSealed;
-            AbstractEnum _abstract = AbstractEnum.NotAbstract;
-            if (_static == StaticEnum.NotStatic)
+            StaticEnum  = type.IsSealed && type.IsAbstract ? StaticEnum.Static : StaticEnum.NotStatic;
+            SealedEnum  = SealedEnum.NotSealed;
+            AbstractEnum  = AbstractEnum.NotAbstract;
+            if (StaticEnum == StaticEnum.NotStatic)
             {
-                _sealed = type.IsSealed ? SealedEnum.Sealed : SealedEnum.NotSealed;
-                _abstract = type.IsAbstract ? AbstractEnum.Abstract : AbstractEnum.NotAbstract;
+                SealedEnum = type.IsSealed ? SealedEnum.Sealed : SealedEnum.NotSealed;
+                AbstractEnum = type.IsAbstract ? AbstractEnum.Abstract : AbstractEnum.NotAbstract;
             }
-
-
-
-            return new Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum>(_access, _sealed, _abstract, _static);
         }
 
         private static TypeReader EmitExtends(Type baseType)

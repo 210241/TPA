@@ -11,6 +11,11 @@ namespace Reflection.Model
 
         public TypeReader Type { get; set; }
 
+        private PropertyReader()
+        {
+
+        }
+
         public PropertyReader(string name, TypeReader propertyType)
         {
             Name = name;

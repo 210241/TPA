@@ -20,6 +20,7 @@ namespace ApplicationLogic.Model
         {
             if (PropertyReader.Type != null)
             {
+                ModelHelperMethods.CheckOrAdd(PropertyReader.Type);
                 children.Add(new TypeNodeItem(TypeReader.TypeDictionary[PropertyReader.Type.Name], ItemTypeEnum.Type, _logger));
             }
         }

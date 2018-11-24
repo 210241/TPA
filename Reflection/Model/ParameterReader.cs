@@ -8,6 +8,11 @@
         
         public TypeReader Type { get; set; }
 
+        private ParameterReader()
+        {
+
+        }
+
         public ParameterReader(string name, TypeReader typeReader)
         {
             Name = name;

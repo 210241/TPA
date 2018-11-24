@@ -6,7 +6,7 @@ namespace Console_UI
 {
     public class ConsoleFilePathProvider : IFilePathProvider
     {
-        public string GetFilePath()
+        public string GetFilePath(string extension)
         {
             while (true)
             {
@@ -15,13 +15,13 @@ namespace Console_UI
 
                 if (File.Exists(result))
                 {
-                    if (Path.GetExtension(result) == ".dll")
+                    if (Path.GetExtension(result) == extension)
                     {
                         return result;
                     }
                     else
                     {
-                        Console.WriteLine("File is not a .dll assembly");
+                        Console.WriteLine($"File is not a {extension} file");
                     }
                 }
                 else

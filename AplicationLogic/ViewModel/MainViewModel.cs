@@ -11,6 +11,7 @@ using ApplicationLogic.Model;
 using ApplicationLogic.Interfaces;
 using Reflection;
 using Reflection.Model;
+using SerializationXml;
 
 namespace ApplicationLogic.ViewModel
 {
@@ -18,24 +19,32 @@ namespace ApplicationLogic.ViewModel
     {
         public IMyCommand LoadDataCommand { get; }
 
-        public IMyCommand GetFilePathCommand { get; }
+        public IMyCommand GetAssemblyFilePathCommand { get; }
+
+        public IMyCommand SerializeToXmlCommand { get; }
+        public IMyCommand DeserializeFromXmlCommand { get; }
 
         private IFilePathProvider FilePathGetter { get; }
 
         private ILogger logger { get; }
 
-        private Reflection.Reflector _reflector;
+        private Reflector _reflector;
 
-        private string _filePath;
+        private XmlSerializator xmlSerializer;
+
+        private string _assemblyFilePath;
+
+        private bool isDataFromSerialization = false;
 
         public ObservableCollection<NodeItem> HierarchicalAreas { get; set; }
 
-        public string FilePath
+        public string AssemblyFilePath
         {
-            get => _filePath;
+            get => _assemblyFilePath;
             set
             {
-                SetProperty(ref _filePath, value);
+                isDataFromSerialization = false;
+                SetProperty(ref _assemblyFilePath, value);
                 LoadDataCommand.RaiseCanExecuteChanged();
             }
         }
@@ -46,30 +55,64 @@ namespace ApplicationLogic.ViewModel
             this.FilePathGetter = pathLoader;
             HierarchicalAreas = new ObservableCollection<NodeItem>();
             LoadDataCommand = new BaseAsynchronousCommand(LoadData, CanLoadData);
-            GetFilePathCommand = new RelayCommand(GetFilePath);
+            GetAssemblyFilePathCommand = new RelayCommand(GetAssemblyFilePath);
+            SerializeToXmlCommand = new RelayCommand(SerializeToXml, CanSerialize);
+            DeserializeFromXmlCommand = new RelayCommand(DeserializeFromXml);
+            xmlSerializer = new XmlSerializator();
         }
 
-        public void GetFilePath()
+        public void GetAssemblyFilePath()
         {
-            FilePath = FilePathGetter.GetFilePath();
+            AssemblyFilePath = FilePathGetter.GetFilePath(".dll");
+        }
+
+        public void SerializeToXml()
+        {
+            string pathToSaveSerializedFile = FilePathGetter.GetFilePath(".xml");
+
+            xmlSerializer.Serialize(_reflector.AssemblyReader, pathToSaveSerializedFile);
+        }
+
+        public void DeserializeFromXml()
+        {
+
+            string pathToSerializedFile = FilePathGetter.GetFilePath(".xml");
+
+            if(pathToSerializedFile != null)
+            {
+                AssemblyReader deserializedAssemblyReader = xmlSerializer.Deserialize(pathToSerializedFile);
+                _reflector = new Reflector(deserializedAssemblyReader);
+
+                HierarchicalAreas.Clear();
+                HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyReader, logger));
+            }
         }
 
         private async Task LoadData()
         {
             await Task.Run(() =>
             {
-                _reflector = new Reflector(FilePath);
+                _reflector = new Reflector(AssemblyFilePath);
             });
 
             HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyReader, logger));
+            SerializeToXmlCommand.RaiseCanExecuteChanged();
         }
 
         public bool CanLoadData()
         {
-            if (FilePath != null)
+            if (AssemblyFilePath != null)
             {
                 return true;
             }
+                return false;
+        }
+
+        public bool CanSerialize()
+        {
+            if (_reflector != null)
+                return true;
+            else
                 return false;
         }
     }

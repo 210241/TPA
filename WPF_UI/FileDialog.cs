@@ -15,7 +15,7 @@ namespace WPF_UI
             _logger = logger;
         }
 
-        public string GetFilePath()
+        public string GetFilePath(string extension)
         {
             _logger.Trace("Searching for file");
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -32,9 +32,9 @@ namespace WPF_UI
                 _logger.Trace("No file has been chosen");
             }
 
-            if (Path.GetExtension(result) != ".dll")
+            if (Path.GetExtension(result) != extension)
             {
-                string info = "File is not a .dll assembly";
+                string info = $"File is not a {extension} file";
                 _logger.Trace(info);
                 MessageBox.Show(info);
                 result = null;

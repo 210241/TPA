@@ -29,6 +29,7 @@ namespace ApplicationLogic.Model
                                 ItemTypeEnum.Interface : ItemTypeEnum.Struct;
 
                     _logger.Trace($"Adding Type: [{typeEnum.ToString()}] {typeReader.Name} implemented in Namespace: {_namespaceReader.Name}");
+                    ModelHelperMethods.CheckOrAdd(typeReader);
                     children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], typeEnum, _logger));
                 }
             }

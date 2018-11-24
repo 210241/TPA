@@ -2,6 +2,6 @@
 {
     public interface IFilePathProvider
     {
-        string GetFilePath();
+        string GetFilePath(string extension);
     }
 }

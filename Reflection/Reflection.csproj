@@ -46,6 +46,7 @@
     <Compile Include="Enums\StaticEnum.cs" />
     <Compile Include="Enums\TypeKind.cs" />
     <Compile Include="Enums\VirtualEnum.cs" />
+    <Compile Include="Model\Modifiers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection.cs" />
     <Compile Include="Model\AssemblyReader.cs" />
