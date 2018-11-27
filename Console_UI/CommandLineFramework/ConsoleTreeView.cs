@@ -1,5 +1,5 @@
 ﻿using ApplicationLogic.Model;
-using ApplicationLogic.TypeConverter;
+using Console_UI.TypeConverter;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

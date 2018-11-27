@@ -3,29 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using Reflection.Enums;
 
 namespace Reflection.Model
 {
-
+    [DataContract(Name = "MethodReader")]
     public class MethodReader
     {
+        [DataMember]
         public string Name { get; set; }
 
+        [DataMember]
         public List<TypeReader> GenericArguments { get; set; }
 
+        [DataMember]
         public AccessLevel AccessLevel { get; set; }
 
+        [DataMember]
         public AbstractEnum AbstractEnum { get; set; }
 
+        [DataMember]
         public StaticEnum StaticEnum { get; set; }
 
+        [DataMember]
         public VirtualEnum VirtualEnum { get; set; }
 
+        [DataMember]
         public TypeReader ReturnType { get; set; }
 
+        [DataMember]
         public bool Extension { get; set; }
 
+        [DataMember]
         public List<ParameterReader> Parameters { get; set; }
 
         private MethodReader()

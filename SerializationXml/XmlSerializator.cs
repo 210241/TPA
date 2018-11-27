@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,21 +14,21 @@ namespace SerializationXml
 {
     public class XmlSerializator
     {
-        private XmlSerializer xmlSerializer = new XmlSerializer(typeof(AssemblyReader));
+        
+        DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(AssemblyReader));
 
         public void Serialize(AssemblyReader assembly, string path)
         {
-            StreamWriter streamWriter = new StreamWriter(path);
-            xmlSerializer.Serialize(streamWriter, assembly);
-            streamWriter.Close();
+            FileStream writer = new FileStream(path, FileMode.Create);
+            xmlSerializer.WriteObject(writer, assembly);
+            writer.Close();
         }
 
         public AssemblyReader Deserialize(string path)
         {
-            AssemblyReader assembly;
-            FileStream fileStream = new FileStream(path, FileMode.Open);
-            assembly = (AssemblyReader)xmlSerializer.Deserialize(fileStream);
-            fileStream.Close();
+            FileStream fs = new FileStream(path, FileMode.Open);
+            AssemblyReader assembly = (AssemblyReader)xmlSerializer.ReadObject(fs);
+            fs.Close();
 
             return assembly;
         }

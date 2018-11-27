@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 
 namespace Reflection.Model
 {
+    [DataContract(Name = "AssemblyReader")]
     public class AssemblyReader
     {
+        [DataMember]
         public List<NamespaceReader> NamespaceReader { get; set; }
 
+        [DataMember]
         public string Name { get; set; }
 
         private AssemblyReader()

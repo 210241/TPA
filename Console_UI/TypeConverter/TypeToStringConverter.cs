@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ApplicationLogic.Model;
 
-namespace ApplicationLogic.TypeConverter
+namespace Console_UI.TypeConverter
 {
     public class TypeToStringConverter
     {

@@ -62,7 +62,6 @@
     <Compile Include="Model\PropertyNodeItem.cs" />
     <Compile Include="Model\TypeNodeItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeConverter\TypeToStringConverter.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,46 +2,63 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using Reflection.Enums;
 
 namespace Reflection.Model
 {
-
+    [DataContract(Name = "TypeReader")]
     public class TypeReader
     {
-
+        [DataMember]
         public static Dictionary<string, TypeReader> TypeDictionary = new Dictionary<string, TypeReader>();
 
+        [DataMember]
         public string Name { get; set; }
 
+        [DataMember]
         public string NamespaceName { get; set; }
 
+        [DataMember]
         public TypeReader BaseType { get; set; }
 
+        [DataMember]
         public List<TypeReader> GenericArguments { get; set; }
 
+        [DataMember]
         public AccessLevel AccessLevel { get; set; }
 
+        [DataMember]
         public AbstractEnum AbstractEnum { get; set; }
 
+        [DataMember]
         public StaticEnum StaticEnum { get; set; }
 
+        [DataMember]
         public SealedEnum SealedEnum { get; set; }
 
+        [DataMember]
         public TypeKind Type { get; set; }
 
+        [DataMember]
         public List<TypeReader> ImplementedInterfaces { get; set; }
 
+        [DataMember]
         public List<TypeReader> NestedTypes { get; set; }
 
+        [DataMember]
         public List<PropertyReader> Properties { get; set; }
 
+        [DataMember]
         public TypeReader DeclaringType { get; set; }
 
+        [DataMember]
         public List<MethodReader> Methods { get; set; }
 
+        [DataMember]
         public List<MethodReader> Constructors { get; set; }
 
+        [DataMember]
         public List<ParameterReader> Fields { get; set; }
 
         private TypeReader()

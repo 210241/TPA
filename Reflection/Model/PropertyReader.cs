@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Reflection.Model
 {
+    [DataContract(Name = "PropertyReader")]
     public class PropertyReader
     {
+        [DataMember]
         public string Name { get; set; }
 
+        [DataMember]
         public TypeReader Type { get; set; }
 
         private PropertyReader()
