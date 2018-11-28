@@ -11,11 +11,53 @@
         Background="{DynamicResource MaterialDesignDarkBackground}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         xmlns:local="clr-namespace:WPF_UI"
-        xmlns:converters="clr-namespace:WPF_UI.Converters"
+        xmlns:c="clr-namespace:ApplicationLogic.Model;assembly=ApplicationLogic"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="1000">
     <Window.Resources>
-        <converters:ItemTypeToString x:Key="TypeConverter" />
+        <!--<converters:ItemTypeToString x:Key="TypeConverter" />-->
+        <HierarchicalDataTemplate DataType="{x:Type c:AssemblyNodeItem}" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="YellowGreen" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
+                           Text="Assembly"/>
+                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0"/>
+            </StackPanel>
+        </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate DataType="{x:Type c:NamespaceNodeItem}" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="BurlyWood" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
+                           Text="Namespace"/>
+                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate DataType="{x:Type c:MethodNodeItem}" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="Coral" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
+                           Text="Method"/>
+                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate DataType="{x:Type c:ParameterNodeItem}" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="LightYellow" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
+                           Text="Parameter"/>
+                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate DataType="{x:Type c:PropertyNodeItem}" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="LightSkyBlue" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
+                           Text="Property"/>
+                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate DataType="{x:Type c:TypeNodeItem}" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="Violet" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
+                           Text="Type"/>
+                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -39,16 +81,7 @@
         <Button MinWidth="60" Margin="5" MinHeight="30" Content="Load from File" Command="{Binding DeserializeFromXmlCommand}" Grid.ColumnSpan="1" Grid.Row="2" Grid.Column="1"/>
         <Button MinWidth="60" Margin="5" MinHeight="30" Content="Serialize" Command="{Binding SerializeToXmlCommand}" Grid.ColumnSpan="1" Grid.Row="2" Grid.Column="2"/>
 
-<TreeView Padding="20" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" ItemsSource="{Binding HierarchicalAreas}">
-            <TreeView.ItemTemplate>
-                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Foreground="#FF9800" Padding="0 0 10 0" Text="{Binding Converter ={ StaticResource TypeConverter}}" />
-                        <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Foreground="#FF9800" Margin="0 0 4 0" />
-                    </StackPanel>
-                    <!--<TextBlock Foreground="#FF9800" Text="{Binding Name}"></TextBlock>-->
-                </HierarchicalDataTemplate>
-             </TreeView.ItemTemplate>
+        <TreeView Padding="20" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" ItemsSource="{Binding HierarchicalAreas}">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}" />

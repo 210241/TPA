@@ -30,8 +30,17 @@ namespace Console_UI.CommandLineFramework
                 Console.Clear();
                 foreach (MenuItem menuItem in _menuItems.Where(item => item.Command != null && item.Header.Substring(0, 1) == key.KeyChar.ToString()))
                 {
-                    menuItem.Command.Execute(null);
-                    notDone = false;
+                    if (menuItem.Command.CanExecute(null))
+                    {
+                        menuItem.Command.Execute(null);
+                        notDone = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Program cannot execute this command now. Press any key...");
+                        Console.ReadKey();
+                        return;
+                    }
                 }
             }
         }
