@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Reflection.Enums;
+﻿using Reflection.Enums;
 
-namespace Reflection.Model
+namespace Reflection.LogicModel
 {
     public class Modifiers
     {

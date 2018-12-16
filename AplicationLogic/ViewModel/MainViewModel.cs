@@ -9,7 +9,9 @@ using ApplicationLogic.Base;
 using ApplicationLogic.Interfaces;
 using ApplicationLogic.Model;
 using ApplicationLogic.Interfaces;
+using Base.Interfaces;
 using Reflection;
+using Reflection.LogicModel;
 using Reflection.Model;
 using SerializationXml;
 
@@ -27,6 +29,8 @@ namespace ApplicationLogic.ViewModel
         private IFilePathProvider FilePathGetter { get; }
 
         private ILogger logger { get; }
+
+        public PersistanceManager PersistanceManager;
 
         private Reflector _reflector;
 
@@ -58,7 +62,7 @@ namespace ApplicationLogic.ViewModel
             GetAssemblyFilePathCommand = new RelayCommand(GetAssemblyFilePath);
             SerializeToXmlCommand = new RelayCommand(SerializeToXml, CanSerialize);
             DeserializeFromXmlCommand = new RelayCommand(DeserializeFromXml);
-            xmlSerializer = new XmlSerializator();
+            PersistanceManager = new PersistanceManager();
         }
 
         public void GetAssemblyFilePath()
@@ -70,7 +74,8 @@ namespace ApplicationLogic.ViewModel
         {
             string pathToSaveSerializedFile = FilePathGetter.GetFilePath(".xml");
 
-            xmlSerializer.Serialize(_reflector.AssemblyReader, pathToSaveSerializedFile);
+            PersistanceManager.SerializeToXml(_reflector.AssemblyLogicReader, pathToSaveSerializedFile);
+
         }
 
         public void DeserializeFromXml()
@@ -79,12 +84,11 @@ namespace ApplicationLogic.ViewModel
             string pathToSerializedFile = FilePathGetter.GetFilePath(".xml");
 
             if(pathToSerializedFile != null)
-            {
-                AssemblyReader deserializedAssemblyReader = xmlSerializer.Deserialize(pathToSerializedFile);
-                _reflector = new Reflector(deserializedAssemblyReader);
+            { 
+                _reflector = new Reflector(PersistanceManager.DeserializeFromXml(pathToSerializedFile));
 
                 HierarchicalAreas.Clear();
-                HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyReader, logger));
+                HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyLogicReader, logger));
             }
         }
 
@@ -95,7 +99,8 @@ namespace ApplicationLogic.ViewModel
                 _reflector = new Reflector(AssemblyFilePath);
             });
 
-            HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyReader, logger));
+            HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyLogicReader, logger));
+            Console.WriteLine(TypeLogicReader.TypeDictionary);
             SerializeToXmlCommand.RaiseCanExecuteChanged();
         }
 

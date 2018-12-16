@@ -1,25 +1,21 @@
 ﻿using System.Runtime.Serialization;
+using Base.Model;
+using Reflection.LogicModel;
 
 namespace Reflection.Model
 {
-    [DataContract(Name = "ParameterReader")]
-    public class ParameterReader
+    public class ParameterReader : ParameterBase
     {
-        [DataMember]
-        public string Name { get; set; }
 
-        [DataMember]
-        public TypeReader Type { get; set; }
-
-        private ParameterReader()
+        public ParameterReader(ParameterBase baseElement)
         {
-
+            Name = baseElement.Name;
+            Type = baseElement.Type;
         }
-
-        public ParameterReader(string name, TypeReader typeReader)
+        public ParameterReader(ParameterLogicReader baseElement)
         {
-            Name = name;
-            Type = typeReader;
+            Name = baseElement.Name;
+            Type = TypeReader.GetOrAdd(baseElement.Type);
         }
     }
 }

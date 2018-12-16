@@ -8,7 +8,7 @@ using Base.Model;
 
 namespace SerializationXml.Model
 {
-    [DataContract(Name = "PropertyReader")]
+    [DataContract(Name = "PropertySerializationModel", IsReference = true)]
     public class PropertySerializationModel : PropertyBase
     {
         private PropertySerializationModel()
@@ -23,9 +23,9 @@ namespace SerializationXml.Model
         }
 
         [DataMember]
-        public string Name { get; set; }
+        public new string Name { get; set; }
 
         [DataMember]
-        public TypeSerializationModel Type { get; set; }
+        public new TypeSerializationModel Type { get; set; }
     }
 }

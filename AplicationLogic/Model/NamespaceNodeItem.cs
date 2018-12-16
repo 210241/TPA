@@ -1,36 +1,36 @@
 ﻿using System.Collections.ObjectModel;
 using ApplicationLogic.Interfaces;
-using Reflection.Enums;
-using Reflection.Model;
+using Base.Enums;
+using Reflection.LogicModel;
 
 namespace ApplicationLogic.Model
 {
     public class NamespaceNodeItem : NodeItem
     {
-        private readonly NamespaceReader _namespaceReader;
+        private readonly NamespaceLogicReader _namespaceLogicReader;
         private readonly ILogger _logger;
 
-        public NamespaceNodeItem(NamespaceReader namespaceReader, ILogger logger)
-            : base(namespaceReader.Name, ItemTypeEnum.Namespace)
+        public NamespaceNodeItem(NamespaceLogicReader namespaceLogicReader, ILogger logger)
+            : base(namespaceLogicReader.Name, ItemTypeEnum.Namespace)
         {
-            _namespaceReader = namespaceReader;
+            _namespaceLogicReader = namespaceLogicReader;
             _logger = logger;
         }
 
         protected override void BuildTreeView(ObservableCollection<NodeItem> children)
         {
-            if (_namespaceReader?.Types != null)
+            if (_namespaceLogicReader?.Types != null)
             {
-                foreach (TypeReader typeReader in _namespaceReader?.Types)
+                foreach (TypeLogicReader typeLogicReader in _namespaceLogicReader?.Types)
                 {
-                    ItemTypeEnum typeEnum = typeReader.Type == TypeKind.ClassType ?
-                        ItemTypeEnum.Class : typeReader.Type == TypeKind.EnumType ?
-                            ItemTypeEnum.Enum : typeReader.Type == TypeKind.InterfaceType ?
+                    ItemTypeEnum typeEnum = typeLogicReader.Type == TypeKind.ClassType ?
+                        ItemTypeEnum.Class : typeLogicReader.Type == TypeKind.EnumType ?
+                            ItemTypeEnum.Enum : typeLogicReader.Type == TypeKind.InterfaceType ?
                                 ItemTypeEnum.Interface : ItemTypeEnum.Struct;
 
-                    _logger.Trace($"Adding Type: [{typeEnum.ToString()}] {typeReader.Name} implemented in Namespace: {_namespaceReader.Name}");
-                    ModelHelperMethods.CheckOrAdd(typeReader);
-                    children.Add(new TypeNodeItem(TypeReader.TypeDictionary[typeReader.Name], typeEnum, _logger));
+                    _logger.Trace($"Adding Type: [{typeEnum.ToString()}] {typeLogicReader.Name} implemented in Namespace: {_namespaceLogicReader.Name}");
+                    ModelHelperMethods.CheckOrAdd(typeLogicReader);
+                    children.Add(new TypeNodeItem(TypeLogicReader.TypeDictionary[typeLogicReader.Name], typeEnum, _logger));
                 }
             }
         }

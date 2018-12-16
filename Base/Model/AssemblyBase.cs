@@ -9,7 +9,6 @@ namespace Base.Model
     public abstract class  AssemblyBase
     {   
         public List<NamespaceBase> Namespaces { get; set; }
-
         public string Name { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using Base.Model;
 
 namespace SerializationXml.Model
 {
-    [DataContract(Name = "NamespaceReader")]
+    [DataContract(Name = "NamespaceSerializationModel", IsReference = true)]
     public class NamespaceSerializationModel : NamespaceBase
     {
         private NamespaceSerializationModel()

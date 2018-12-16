@@ -10,7 +10,7 @@ using Base.Enums;
 
 namespace SerializationXml.Model
 {
-    [DataContract(Name = "MethodReader")]
+    [DataContract(Name = "MethodSerializationModel", IsReference = true)]
     public class MethodSerializationModel : MethodBase
     {
         private MethodSerializationModel()
@@ -26,15 +26,19 @@ namespace SerializationXml.Model
             this.ReturnType = TypeSerializationModel.GetOrAdd(baseMethod.ReturnType);
             this.StaticEnum = baseMethod.StaticEnum;
             this.VirtualEnum = baseMethod.VirtualEnum;
-            foreach (var baseGenericArgument in baseMethod.GenericArguments)
-            {
-                this.GenericArguments.Add(TypeSerializationModel.GetOrAdd(baseGenericArgument));
-            }
+            //foreach (var baseGenericArgument in baseMethod.GenericArguments)
+            //{
+            //    this.GenericArguments.Add(TypeSerializationModel.GetOrAdd(baseGenericArgument));
+            //}
 
-            foreach (var baseParameter in baseMethod.Parameters)
-            {
-                this.Parameters.Add(new ParameterSerializationModel(baseParameter));
-            }
+            //foreach (var baseParameter in baseMethod.Parameters)
+            //{
+            //    this.Parameters.Add(new ParameterSerializationModel(baseParameter));
+            //}
+
+            GenericArguments = baseMethod.GenericArguments.Select(TypeSerializationModel.GetOrAdd).ToList();
+
+            Parameters = baseMethod.Parameters.Select(t => new ParameterSerializationModel(t)).ToList();
         }
 
         [DataMember]

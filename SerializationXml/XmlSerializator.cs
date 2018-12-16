@@ -8,25 +8,35 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Reflection.Model;
+using Base.Interfaces;
+using Base.Model;
+using SerializationXml.Model;
 
 namespace SerializationXml
 {
-    public class XmlSerializator
+    public class XmlSerializator : ISerializator
     {
-        DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(AssemblyReader));
+        DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(AssemblySerializationModel));
+        //XmlSerializer xmlSerializer = new XmlSerializer(typeof(AssemblySerializationModel));
 
-        public void Serialize(AssemblyReader assembly, string path)
+        public void Serialize(AssemblyBase assembly, string path)
         {
+            AssemblySerializationModel assemblySerializationModel = new AssemblySerializationModel(assembly);
+
             FileStream writer = new FileStream(path, FileMode.Create);
-            xmlSerializer.WriteObject(writer, assembly);
+            xmlSerializer.WriteObject(writer, assemblySerializationModel);
+            //xmlSerializer.Serialize(writer, assemblySerializationModel);
+
             writer.Close();
         }
 
-        public AssemblyReader Deserialize(string path)
+        public AssemblyBase Deserialize(string path)
         {
             FileStream fs = new FileStream(path, FileMode.Open);
-            AssemblyReader assembly = (AssemblyReader)xmlSerializer.ReadObject(fs);
+
+            AssemblyBase assembly = (AssemblyBase)xmlSerializer.ReadObject(fs);
+            //AssemblyBase assembly = (AssemblyBase)xmlSerializer.Deserialize(fs);
+
             fs.Close();
 
             return assembly;

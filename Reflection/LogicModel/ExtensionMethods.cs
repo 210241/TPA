@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Reflection.Model
+namespace Reflection.LogicModel
 {
     public static class ExtensionMethods
     {

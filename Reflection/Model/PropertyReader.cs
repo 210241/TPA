@@ -3,37 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using Base.Model;
+using Reflection.LogicModel;
 
 namespace Reflection.Model
 {
-    [DataContract(Name = "PropertyReader")]
-    public class PropertyReader
+    public class PropertyReader : PropertyBase
     {
-        [DataMember]
-        public string Name { get; set; }
 
-        [DataMember]
-        public TypeReader Type { get; set; }
-
-        private PropertyReader()
+        public PropertyReader(PropertyBase baseProperty)
         {
-
+            Name = baseProperty.Name;
+            Type = baseProperty.Type;
         }
 
-        public PropertyReader(string name, TypeReader propertyType)
+        public PropertyReader(PropertyLogicReader baseProperty)
         {
-            Name = name;
-            Type = propertyType;
+            Name = baseProperty.Name;
+            Type = TypeReader.GetOrAdd(baseProperty.Type);
         }
 
-        public static List<PropertyReader> EmitProperties(Type type)
-        {
-            List<PropertyInfo> props = type
-                .GetProperties(BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Public |
-                               BindingFlags.Static | BindingFlags.Instance).ToList();
-
-            return props.Where(t => t.GetGetMethod().GetVisible() || t.GetSetMethod().GetVisible())
-                .Select(t => new PropertyReader(t.Name, TypeReader.EmitReference(t.PropertyType))).ToList();
-        }
     }
 }

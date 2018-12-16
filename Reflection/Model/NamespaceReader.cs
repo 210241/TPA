@@ -2,27 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Base.Model;
+using Reflection.LogicModel;
 
 namespace Reflection.Model
 {
-    [DataContract(Name = "NamespaceReader")]
-    public class NamespaceReader
+    public class NamespaceReader : NamespaceBase
     {
-        [DataMember]
-        public string Name { get; set; }
 
-        [DataMember]
-        public List<TypeReader> Types { get; set; }
-
-        private NamespaceReader()
+        public NamespaceReader(NamespaceLogicReader namespaceBase)
         {
-
+            this.Name = namespaceBase.Name;
+            this.Types = new List<TypeBase>();
+            foreach (TypeLogicReader baseElem in namespaceBase.Types)
+            {
+                Types.Add(TypeReader.GetOrAdd(baseElem));
+            }
         }
-
-        public NamespaceReader(string name, List<Type> types)
+        public NamespaceReader(NamespaceBase namespaceBase)
         {
-            Name = name;
-            Types = types.OrderBy(t => t.Name).Select(t => new TypeReader(t)).ToList();
+            this.Name = namespaceBase.Name;
+            this.Types = new List<TypeBase>();
+            foreach (TypeBase baseElem in namespaceBase.Types)
+            {
+                Types.Add(TypeReader.GetOrAdd(baseElem));
+            }
         }
 
     }

@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Reflection.Model;
+using Reflection.LogicModel;
 
 namespace ApplicationLogic.Model
 {
     public static class ModelHelperMethods
     {
-        public static void CheckOrAdd(TypeReader type)
+        public static void CheckOrAdd(TypeLogicReader type)
         {
-            if (!TypeReader.TypeDictionary.ContainsKey(type.Name))
+            if (!TypeLogicReader.TypeDictionary.ContainsKey(type.Name))
             {
-                TypeReader.TypeDictionary.Add(type.Name, type);
+                TypeLogicReader.TypeDictionary.Add(type.Name, type);
             }
         }
     }

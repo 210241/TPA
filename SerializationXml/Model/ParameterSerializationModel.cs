@@ -9,7 +9,7 @@ using Base.Model;
 
 namespace SerializationXml.Model
 {
-    [DataContract(Name = "ParameterReader")]
+    [DataContract(Name = "ParameterSerializationModel", IsReference = true)]
     public class ParameterSerializationModel : ParameterBase
     {
         private ParameterSerializationModel()

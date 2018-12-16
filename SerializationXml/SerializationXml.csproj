@@ -55,10 +55,6 @@
       <Project>{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}</Project>
       <Name>Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Reflection\Reflection.csproj">
-      <Project>{A4A7D244-8377-4C61-A944-8FB23B09B221}</Project>
-      <Name>Reflection</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

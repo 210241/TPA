@@ -10,14 +10,18 @@ using Base.Model;
 
 namespace SerializationXml.Model
 {
-    [DataContract(Name = "TypeModel")]
+    [DataContract(Name = "TypeSerializationModel", IsReference = true)]
     public class TypeSerializationModel : TypeBase
     {
+        private TypeSerializationModel()
+        {
+
+        }
+
         private TypeSerializationModel(TypeBase baseType)
         {
-            TypeDictionary.Add(Name, this);
-
             this.Name = baseType.Name;
+            TypeDictionary.Add(Name, this);
             this.NamespaceName = baseType.NamespaceName;
             this.Type = baseType.Type;
 
@@ -29,52 +33,71 @@ namespace SerializationXml.Model
             this.SealedEnum = baseType.SealedEnum;
             this.StaticEnum = baseType.StaticEnum;
 
-            foreach (var baseConstructor in baseType.Constructors)
-            {
-                this.Constructors.Add(new MethodSerializationModel(baseConstructor));
-            }
+            //foreach (var baseConstructor in baseType.Constructors)
+            //{
+            //    this.Constructors.Add(new MethodSerializationModel(baseConstructor));
+            //}
 
-            foreach (var baseField in baseType.Fields)
-            {
-                this.Fields.Add(new ParameterSerializationModel(baseField));
-            }
+            //foreach (var baseField in baseType.Fields)
+            //{
+            //    this.Fields.Add(new ParameterSerializationModel(baseField));
+            //}
 
-            foreach (var baseGenericArgument in baseType.GenericArguments)
-            {
-                this.GenericArguments.Add(GetOrAdd(baseGenericArgument));
-            }
+            //foreach (var baseGenericArgument in baseType.GenericArguments)
+            //{
+            //    this.GenericArguments.Add(GetOrAdd(baseGenericArgument));
+            //}
 
-            foreach (var baseImplementedInterface in baseType.ImplementedInterfaces)
-            {
-                this.ImplementedInterfaces.Add(GetOrAdd(baseImplementedInterface));
-            }
+            //foreach (var baseImplementedInterface in baseType.ImplementedInterfaces)
+            //{
+            //    this.ImplementedInterfaces.Add(GetOrAdd(baseImplementedInterface));
+            //}
 
-            foreach (var baseMethod in baseType.Methods)
-            {
-                this.Methods.Add(new MethodSerializationModel(baseMethod));
-            }
+            //foreach (var baseMethod in baseType.Methods)
+            //{
+            //    this.Methods.Add(new MethodSerializationModel(baseMethod));
+            //}
 
-            foreach (var baseNestedType in baseType.NestedTypes)
-            {
-                this.NestedTypes.Add(GetOrAdd(baseNestedType));
-            }
+            //foreach (var baseNestedType in baseType.NestedTypes)
+            //{
+            //    this.NestedTypes.Add(GetOrAdd(baseNestedType));
+            //}
 
-            foreach (var baseProperty in baseType.Properties)
-            {
-                this.Properties.Add(new PropertySerializationModel(baseProperty));
-            }
+            //foreach (var baseProperty in baseType.Properties)
+            //{
+            //    this.Properties.Add(new PropertySerializationModel(baseProperty));
+            //}
+            Constructors = baseType.Constructors.Select(t => new MethodSerializationModel(t)).ToList();
+
+            Fields = baseType.Fields.Select(t => new ParameterSerializationModel(t)).ToList();
+
+            GenericArguments = baseType.GenericArguments.Select(GetOrAdd).ToList();
+
+            ImplementedInterfaces = baseType.ImplementedInterfaces.Select(GetOrAdd).ToList();
+
+            Methods = baseType.Methods.Select(t => new MethodSerializationModel(t)).ToList();
+
+            NestedTypes = baseType.NestedTypes.Select(GetOrAdd).ToList();
+
+            Properties = baseType.Properties.Select(t => new PropertySerializationModel(t)).ToList();
+
         }
 
         public static TypeSerializationModel GetOrAdd(TypeBase baseType)
         {
-            if (TypeDictionary.ContainsKey(baseType.Name))
+            if (baseType != null)
             {
-                return TypeDictionary[baseType.Name];
+                if (TypeDictionary.ContainsKey(baseType.Name))
+                {
+                    return TypeDictionary[baseType.Name];
+                }
+                else
+                {
+                    return new TypeSerializationModel(baseType);
+                }
             }
             else
-            {
-                return new TypeSerializationModel(baseType);
-            }
+                return null;
         }
 
         [DataMember]
