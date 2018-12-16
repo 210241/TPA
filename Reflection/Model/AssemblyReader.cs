@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using Base.Model;
 
 
 namespace Reflection.Model
 {
     [DataContract(Name = "AssemblyReader")]
-    public class AssemblyReader
+    public class AssemblyReader : AssemblyBase
     {
         [DataMember]
         public List<NamespaceReader> NamespaceReader { get; set; }

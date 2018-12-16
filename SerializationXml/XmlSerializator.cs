@@ -14,7 +14,6 @@ namespace SerializationXml
 {
     public class XmlSerializator
     {
-        
         DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(AssemblyReader));
 
         public void Serialize(AssemblyReader assembly, string path)

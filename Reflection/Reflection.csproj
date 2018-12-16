@@ -58,5 +58,11 @@
     <Compile Include="Model\PropertyReader.cs" />
     <Compile Include="Model\TypeReader.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Base\Base.csproj">
+      <Project>{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

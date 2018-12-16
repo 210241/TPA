@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0F37A01A-B829-4C0C-AA38-F9A63FA4A2C9}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Console_UI</RootNamespace>
-    <AssemblyName>Console_UI</AssemblyName>
+    <ProjectGuid>{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Base</RootNamespace>
+    <AssemblyName>Base</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,27 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLineFramework\ConsoleTreeView.cs" />
-    <Compile Include="CommandLineFramework\Menu.cs" />
-    <Compile Include="CommandLineFramework\MenuItem.cs" />
-    <Compile Include="ConsoleFilePathProvider.cs" />
-    <Compile Include="MainView.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Enums\AbstractEnum.cs" />
+    <Compile Include="Enums\AccessLevel.cs" />
+    <Compile Include="Enums\SealedEnum.cs" />
+    <Compile Include="Enums\StaticEnum.cs" />
+    <Compile Include="Enums\TypeKind.cs" />
+    <Compile Include="Enums\VirtualEnum.cs" />
+    <Compile Include="Model\AssemblyBase.cs" />
+    <Compile Include="Model\MethodBase.cs" />
+    <Compile Include="Model\NamespaceBase.cs" />
+    <Compile Include="Model\ParameterBase.cs" />
+    <Compile Include="Model\PropertyBase.cs" />
+    <Compile Include="Model\TypeBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeConverter\TypeToStringConverter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AplicationLogic\ApplicationLogic.csproj">
-      <Project>{bb0c453e-fdae-4158-be4f-4919de69f4f0}</Project>
-      <Name>ApplicationLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{c675079b-c0cb-49b8-b431-453b3cf2047a}</Project>
-      <Name>Logging</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

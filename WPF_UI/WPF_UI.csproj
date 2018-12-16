@@ -86,6 +86,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -110,10 +111,6 @@
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{C675079B-C0CB-49B8-B431-453B3CF2047A}</Project>
       <Name>Logging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Reflection\Reflection.csproj">
-      <Project>{A4A7D244-8377-4C61-A944-8FB23B09B221}</Project>
-      <Name>Reflection</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

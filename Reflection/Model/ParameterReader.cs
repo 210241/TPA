@@ -2,7 +2,7 @@
 
 namespace Reflection.Model
 {
-   
+    [DataContract(Name = "ParameterReader")]
     public class ParameterReader
     {
         [DataMember]
