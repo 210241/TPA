@@ -8,7 +8,6 @@ using System.Windows.Threading;
 using ApplicationLogic.Base;
 using ApplicationLogic.Interfaces;
 using ApplicationLogic.Model;
-using ApplicationLogic.Interfaces;
 using Base.Interfaces;
 using Reflection;
 using Reflection.LogicModel;

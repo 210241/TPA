@@ -11,7 +11,7 @@ using Base.Model;
 namespace SerializationXml.Model
 {
     [DataContract(Name = "TypeSerializationModel", IsReference = true)]
-    public class TypeSerializationModel : TypeBase
+    public class TypeSerializationModel
     {
         private TypeSerializationModel()
         {
@@ -33,53 +33,19 @@ namespace SerializationXml.Model
             this.SealedEnum = baseType.SealedEnum;
             this.StaticEnum = baseType.StaticEnum;
 
-            //foreach (var baseConstructor in baseType.Constructors)
-            //{
-            //    this.Constructors.Add(new MethodSerializationModel(baseConstructor));
-            //}
+            Constructors = baseType.Constructors?.Select(t => new MethodSerializationModel(t)).ToList();
 
-            //foreach (var baseField in baseType.Fields)
-            //{
-            //    this.Fields.Add(new ParameterSerializationModel(baseField));
-            //}
+            Fields = baseType.Fields?.Select(t => new ParameterSerializationModel(t)).ToList();
 
-            //foreach (var baseGenericArgument in baseType.GenericArguments)
-            //{
-            //    this.GenericArguments.Add(GetOrAdd(baseGenericArgument));
-            //}
+            GenericArguments = baseType.GenericArguments?.Select(GetOrAdd).ToList();
 
-            //foreach (var baseImplementedInterface in baseType.ImplementedInterfaces)
-            //{
-            //    this.ImplementedInterfaces.Add(GetOrAdd(baseImplementedInterface));
-            //}
+            ImplementedInterfaces = baseType.ImplementedInterfaces?.Select(GetOrAdd).ToList();
 
-            //foreach (var baseMethod in baseType.Methods)
-            //{
-            //    this.Methods.Add(new MethodSerializationModel(baseMethod));
-            //}
+            Methods = baseType.Methods?.Select(t => new MethodSerializationModel(t)).ToList();
 
-            //foreach (var baseNestedType in baseType.NestedTypes)
-            //{
-            //    this.NestedTypes.Add(GetOrAdd(baseNestedType));
-            //}
+            NestedTypes = baseType.NestedTypes?.Select(GetOrAdd).ToList();
 
-            //foreach (var baseProperty in baseType.Properties)
-            //{
-            //    this.Properties.Add(new PropertySerializationModel(baseProperty));
-            //}
-            Constructors = baseType.Constructors.Select(t => new MethodSerializationModel(t)).ToList();
-
-            Fields = baseType.Fields.Select(t => new ParameterSerializationModel(t)).ToList();
-
-            GenericArguments = baseType.GenericArguments.Select(GetOrAdd).ToList();
-
-            ImplementedInterfaces = baseType.ImplementedInterfaces.Select(GetOrAdd).ToList();
-
-            Methods = baseType.Methods.Select(t => new MethodSerializationModel(t)).ToList();
-
-            NestedTypes = baseType.NestedTypes.Select(GetOrAdd).ToList();
-
-            Properties = baseType.Properties.Select(t => new PropertySerializationModel(t)).ToList();
+            Properties = baseType.Properties?.Select(t => new PropertySerializationModel(t)).ToList();
 
         }
 
@@ -101,52 +67,52 @@ namespace SerializationXml.Model
         }
 
         [DataMember]
-        public new string Name { get; set; }
+        public string Name { get; set; }
 
         [DataMember]
-        public new string NamespaceName { get; set; }
+        public string NamespaceName { get; set; }
 
         [DataMember]
-        public new TypeSerializationModel BaseType { get; set; }
+        public TypeSerializationModel BaseType { get; set; }
 
         [DataMember]
-        public new List<TypeSerializationModel> GenericArguments { get; set; }
+        public List<TypeSerializationModel> GenericArguments { get; set; }
 
         [DataMember]
-        public new AccessLevel AccessLevel { get; set; }
+        public AccessLevel AccessLevel { get; set; }
 
         [DataMember]
-        public new AbstractEnum AbstractEnum { get; set; }
+        public AbstractEnum AbstractEnum { get; set; }
 
         [DataMember]
-        public new StaticEnum StaticEnum { get; set; }
+        public StaticEnum StaticEnum { get; set; }
 
         [DataMember]
-        public new SealedEnum SealedEnum { get; set; }
+        public SealedEnum SealedEnum { get; set; }
 
         [DataMember]
-        public new TypeKind Type { get; set; }
+        public TypeKind Type { get; set; }
 
         [DataMember]
-        public new List<TypeSerializationModel> ImplementedInterfaces { get; set; }
+        public List<TypeSerializationModel> ImplementedInterfaces { get; set; }
 
         [DataMember]
-        public new List<TypeSerializationModel> NestedTypes { get; set; }
+        public List<TypeSerializationModel> NestedTypes { get; set; }
 
         [DataMember]
-        public new List<PropertySerializationModel> Properties { get; set; }
+        public List<PropertySerializationModel> Properties { get; set; }
 
         [DataMember]
-        public new TypeSerializationModel DeclaringType { get; set; }
+        public TypeSerializationModel DeclaringType { get; set; }
 
         [DataMember]
-        public new List<MethodSerializationModel> Methods { get; set; }
+        public List<MethodSerializationModel> Methods { get; set; }
 
         [DataMember]
-        public new List<MethodSerializationModel> Constructors { get; set; }
+        public List<MethodSerializationModel> Constructors { get; set; }
 
         [DataMember]
-        public new List<ParameterSerializationModel> Fields { get; set; }
+        public List<ParameterSerializationModel> Fields { get; set; }
 
         public static Dictionary<string, TypeSerializationModel> TypeDictionary = new Dictionary<string, TypeSerializationModel>();
 

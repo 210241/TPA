@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Base.Model
 {
-    public abstract class PropertyBase
+    public class PropertyBase
     {
         public string Name { get; set; }
 

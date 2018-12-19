@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System.IO;
 using System.Runtime.Serialization;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Base.Interfaces;
 using Base.Model;
 using SerializationXml.Model;
@@ -17,7 +9,6 @@ namespace SerializationXml
     public class XmlSerializator : ISerializator
     {
         DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(AssemblySerializationModel));
-        //XmlSerializer xmlSerializer = new XmlSerializer(typeof(AssemblySerializationModel));
 
         public void Serialize(AssemblyBase assembly, string path)
         {
@@ -25,7 +16,6 @@ namespace SerializationXml
 
             FileStream writer = new FileStream(path, FileMode.Create);
             xmlSerializer.WriteObject(writer, assemblySerializationModel);
-            //xmlSerializer.Serialize(writer, assemblySerializationModel);
 
             writer.Close();
         }
@@ -34,8 +24,7 @@ namespace SerializationXml
         {
             FileStream fs = new FileStream(path, FileMode.Open);
 
-            AssemblyBase assembly = (AssemblyBase)xmlSerializer.ReadObject(fs);
-            //AssemblyBase assembly = (AssemblyBase)xmlSerializer.Deserialize(fs);
+            AssemblyBase assembly = DataTransferGraphMapper.AssemblyBase((AssemblySerializationModel)xmlSerializer.ReadObject(fs));
 
             fs.Close();
 

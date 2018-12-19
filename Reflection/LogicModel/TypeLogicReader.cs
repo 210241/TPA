@@ -60,10 +60,6 @@ namespace Reflection.LogicModel
             Type = GetTypeEnum(type);
             BaseType = EmitExtends(type.BaseType);
             EmitModifiers(type);
-            if (Name == "ActivationException")
-            {
-                Console.WriteLine("kp");
-            }
             DeclaringType = EmitDeclaringType(type.DeclaringType);
             Constructors = MethodLogicReader.EmitConstructors(type);
             Methods = MethodLogicReader.EmitMethods(type);
@@ -72,17 +68,12 @@ namespace Reflection.LogicModel
             GenericArguments = !type.IsGenericTypeDefinition ? new List<TypeLogicReader>() : EmitGenericArguments(type);
             Properties = PropertyLogicReader.EmitProperties(type);
             Fields = EmitFields(type);
-            if (Name == "Exception")
-            {
-                Console.WriteLine("exc");
-            }
         }
 
         private TypeLogicReader(TypeBase baseType)
         {
-            TypeDictionary.Add(Name, this);
-
             this.Name = baseType.Name;
+            TypeDictionary.Add(Name, this);
             this.NamespaceName = baseType.NamespaceName;
             this.Type = baseType.Type;
 
@@ -94,54 +85,36 @@ namespace Reflection.LogicModel
             this.SealedEnum = baseType.SealedEnum;
             this.StaticEnum = baseType.StaticEnum;
 
-            //TODO: LINQ
+            Constructors = baseType.Constructors?.Select(c => new MethodLogicReader(c)).ToList();
 
-            foreach (var baseConstructor in baseType.Constructors)
-            {
-                this.Constructors.Add(new MethodLogicReader(baseConstructor));
-            }
+            Fields = baseType.Fields?.Select(t => new ParameterLogicReader(t)).ToList();
 
-            foreach (var baseField in baseType.Fields)
-            {
-                this.Fields.Add(new ParameterLogicReader(baseField));
-            }
+            GenericArguments = baseType.GenericArguments?.Select(GetOrAdd).ToList();
 
-            foreach (var baseGenericArgument in baseType.GenericArguments)
-            {
-                this.GenericArguments.Add(GetOrAdd(baseGenericArgument));
-            }
+            ImplementedInterfaces = baseType.ImplementedInterfaces?.Select(GetOrAdd).ToList();
 
-            foreach (var baseImplementedInterface in baseType.ImplementedInterfaces)
-            {
-                this.ImplementedInterfaces.Add(GetOrAdd(baseImplementedInterface));
-            }
+            Methods = baseType.Methods?.Select(t => new MethodLogicReader(t)).ToList();
 
-            foreach (var baseMethod in baseType.Methods)
-            {
-                this.Methods.Add(new MethodLogicReader(baseMethod));
-            }
+            NestedTypes = baseType.NestedTypes?.Select(GetOrAdd).ToList();
 
-            foreach (var baseNestedType in baseType.NestedTypes)
-            {
-                this.NestedTypes.Add(GetOrAdd(baseNestedType));
-            }
-
-            foreach (var baseProperty in baseType.Properties)
-            {
-                this.Properties.Add(new PropertyLogicReader(baseProperty));
-            }
+            Properties = baseType.Properties?.Select(t => new PropertyLogicReader(t)).ToList();
         }
 
         public static TypeLogicReader GetOrAdd(TypeBase baseType)
         {
-            if (TypeDictionary.ContainsKey(baseType.Name))
+            if (baseType != null)
             {
-                return TypeDictionary[baseType.Name];
+                if (TypeDictionary.ContainsKey(baseType.Name))
+                {
+                    return TypeDictionary[baseType.Name];
+                }
+                else
+                {
+                    return new TypeLogicReader(baseType);
+                }
             }
             else
-            {
-                return new TypeLogicReader(baseType);
-            }
+                return null;
         }
 
         public static TypeLogicReader GetOrAdd(Type type)

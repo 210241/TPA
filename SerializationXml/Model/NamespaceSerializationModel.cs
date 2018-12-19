@@ -9,7 +9,7 @@ using Base.Model;
 namespace SerializationXml.Model
 {
     [DataContract(Name = "NamespaceSerializationModel", IsReference = true)]
-    public class NamespaceSerializationModel : NamespaceBase
+    public class NamespaceSerializationModel
     {
         private NamespaceSerializationModel()
         {
@@ -19,17 +19,13 @@ namespace SerializationXml.Model
         public NamespaceSerializationModel(NamespaceBase namespaceBase)
         {
             this.Name = namespaceBase.Name;
-            Types = new List<TypeSerializationModel>();
-            foreach (TypeBase baseElem in namespaceBase.Types)
-            {
-                Types.Add(TypeSerializationModel.GetOrAdd(baseElem));
-            }
+            Types = namespaceBase.Types?.Select(t => TypeSerializationModel.GetOrAdd(t)).ToList();
         }
 
         [DataMember]
-        public new string Name { get; set; }
+        public string Name { get; set; }
 
         [DataMember]
-        public new List<TypeSerializationModel> Types { get; set; }
+        public List<TypeSerializationModel> Types { get; set; }
     }
 }

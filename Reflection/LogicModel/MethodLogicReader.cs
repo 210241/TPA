@@ -52,15 +52,11 @@ namespace Reflection.LogicModel
             this.ReturnType = TypeLogicReader.GetOrAdd(baseMethod.ReturnType);
             this.StaticEnum = baseMethod.StaticEnum;
             this.VirtualEnum = baseMethod.VirtualEnum;
-            foreach (var baseGenericArgument in baseMethod.GenericArguments)
-            {
-                this.GenericArguments.Add(TypeLogicReader.GetOrAdd(baseGenericArgument));
-            }
 
-            foreach (var baseParameter in baseMethod.Parameters)
-            {
-                this.Parameters.Add(new ParameterLogicReader(baseParameter));
-            }
+            GenericArguments = baseMethod.GenericArguments?.Select(TypeLogicReader.GetOrAdd).ToList();
+
+            Parameters = baseMethod.Parameters?.Select(t => new ParameterLogicReader(t)).ToList();
+
         }
 
         private List<TypeLogicReader> EmitGenericArguments(MethodBase method)

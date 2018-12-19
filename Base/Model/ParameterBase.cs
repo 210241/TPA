@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Base.Model
 {
-   public abstract class ParameterBase
+   public class ParameterBase
     {
         public string Name { get; set; }
 

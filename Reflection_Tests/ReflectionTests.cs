@@ -24,7 +24,7 @@ namespace Reflection_Tests
         public void Reflector_NumberOfLoadedNamespaces_ShouldBeOk()
         {
             int expected = 3;
-            int actual = _reflection.AssemblyReader.NamespaceReader.Count;
+            int actual = _reflection.AssemblyLogicReader.NamespaceLogicReader.Count;
             actual.Should().Be(expected);
         }
 
@@ -32,9 +32,9 @@ namespace Reflection_Tests
         public void Reflector_NumberOfLoadedTypes_ShouldBeOk()
         {
             int firstExpected = 3;
-            int firstActual = _reflection.AssemblyReader.NamespaceReader.Find(n => n.Name == FirstNamespace).Types.Count;
+            int firstActual = _reflection.AssemblyLogicReader.NamespaceLogicReader.Find(n => n.Name == FirstNamespace).Types.Count;
             int secondExpected = 4;
-            int secondActual = _reflection.AssemblyReader.NamespaceReader.Find(n => n.Name == SecondNamespace).Types.Count;
+            int secondActual = _reflection.AssemblyLogicReader.NamespaceLogicReader.Find(n => n.Name == SecondNamespace).Types.Count;
 
             firstActual.Should().Be(firstExpected);
             secondActual.Should().Be(secondExpected);
@@ -44,7 +44,7 @@ namespace Reflection_Tests
         public void Reflector_NumberOfLoadedParametersInClass_ShouldBeOk()
         {
             int expected = 5;
-            int actual = _reflection.AssemblyReader.NamespaceReader
+            int actual = _reflection.AssemblyLogicReader.NamespaceLogicReader
                 .Find(n => n.Name == FirstNamespace).Types
                 .Where(n => n.Name == "AClass").ToList().First().Fields.Count;
 
@@ -55,7 +55,7 @@ namespace Reflection_Tests
         public void Reflector_NumberOfLoadedPropertiesInClass_ShouldBeOk()
         {
             int expected = 1;
-            int actual = _reflection.AssemblyReader.NamespaceReader
+            int actual = _reflection.AssemblyLogicReader.NamespaceLogicReader
                 .Find(n => n.Name == FirstNamespace).Types
                 .Where(n => n.Name == "CClass").ToList().First().Properties.Count;
 
@@ -66,7 +66,7 @@ namespace Reflection_Tests
         public void Reflector_NumberOfLoadedMethodsInClass_ShouldBeOk()
         {
             int expected = 1;
-            int actual = _reflection.AssemblyReader.NamespaceReader
+            int actual = _reflection.AssemblyLogicReader.NamespaceLogicReader
                 .Find(n => n.Name == SecondNamespace).Types
                 .Where(n => n.Name == "Car").ToList().First().Methods.Count;
 
@@ -77,7 +77,7 @@ namespace Reflection_Tests
         public void Reflector_NumberOfLoadedExtensionMethodsInClass_ShouldBeOk()
         {
             int expected = 1;
-            int actual = _reflection.AssemblyReader.NamespaceReader
+            int actual = _reflection.AssemblyLogicReader.NamespaceLogicReader
                 .Find(n => n.Name == BaseNamespace).Types
                 .Where(n => n.Name == "BaseClass").ToList().First().Methods
                 .FindAll(n => n.Extension == true).Count;
@@ -89,9 +89,9 @@ namespace Reflection_Tests
         public void Reflector_NumberOfLoadedGenericArguments_ShouldBeOk()
         {
             int expected = 1;
-            int actual = _reflection.AssemblyReader.NamespaceReader
+            int actual = _reflection.AssemblyLogicReader.NamespaceLogicReader
                 .Find(n => n.Name == SecondNamespace).Types
-                .Where(n => n.GenericArguments != null).ToList().Count;
+                .Where(n => n.GenericArguments.Count != 0).ToList().Count;
 
             actual.Should().Be(expected);
         }
@@ -100,7 +100,7 @@ namespace Reflection_Tests
         public void Reflector_NumberOfLoadedConstructorsInClass_ShouldBeOk()
         {
             int expected = 1;
-            int actual = _reflection.AssemblyReader.NamespaceReader
+            int actual = _reflection.AssemblyLogicReader.NamespaceLogicReader
                 .Find(n => n.Name == FirstNamespace).Types
                 .Where(n => n.Name == "BClass").ToList().First().Constructors.Count;
 
@@ -111,7 +111,7 @@ namespace Reflection_Tests
         public void Reflector_NumberOfLoadedImplementedInterfacesInClass_ShouldBeOk()
         {
             int expected = 1;
-            int actual = _reflection.AssemblyReader.NamespaceReader
+            int actual = _reflection.AssemblyLogicReader.NamespaceLogicReader
                 .Find(n => n.Name == SecondNamespace).Types
                 .Where(n => n.Name == "Car").ToList().First().ImplementedInterfaces.Count;
 

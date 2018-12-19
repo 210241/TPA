@@ -11,7 +11,7 @@ using Base.Enums;
 namespace SerializationXml.Model
 {
     [DataContract(Name = "MethodSerializationModel", IsReference = true)]
-    public class MethodSerializationModel : MethodBase
+    public class MethodSerializationModel
     {
         private MethodSerializationModel()
         {
@@ -26,47 +26,38 @@ namespace SerializationXml.Model
             this.ReturnType = TypeSerializationModel.GetOrAdd(baseMethod.ReturnType);
             this.StaticEnum = baseMethod.StaticEnum;
             this.VirtualEnum = baseMethod.VirtualEnum;
-            //foreach (var baseGenericArgument in baseMethod.GenericArguments)
-            //{
-            //    this.GenericArguments.Add(TypeSerializationModel.GetOrAdd(baseGenericArgument));
-            //}
 
-            //foreach (var baseParameter in baseMethod.Parameters)
-            //{
-            //    this.Parameters.Add(new ParameterSerializationModel(baseParameter));
-            //}
+            GenericArguments = baseMethod.GenericArguments?.Select(TypeSerializationModel.GetOrAdd).ToList();
 
-            GenericArguments = baseMethod.GenericArguments.Select(TypeSerializationModel.GetOrAdd).ToList();
-
-            Parameters = baseMethod.Parameters.Select(t => new ParameterSerializationModel(t)).ToList();
+            Parameters = baseMethod.Parameters?.Select(t => new ParameterSerializationModel(t)).ToList();
         }
 
         [DataMember]
-        public new string Name { get; set; }
+        public string Name { get; set; }
 
         [DataMember]
-        public new List<TypeSerializationModel> GenericArguments { get; set; }
+        public List<TypeSerializationModel> GenericArguments { get; set; }
 
         [DataMember]
-        public new AccessLevel AccessLevel { get; set; }
+        public AccessLevel AccessLevel { get; set; }
 
         [DataMember]
-        public new AbstractEnum AbstractEnum { get; set; }
+        public AbstractEnum AbstractEnum { get; set; }
 
         [DataMember]
-        public new StaticEnum StaticEnum { get; set; }
+        public StaticEnum StaticEnum { get; set; }
 
         [DataMember]
-        public new VirtualEnum VirtualEnum { get; set; }
+        public VirtualEnum VirtualEnum { get; set; }
 
         [DataMember]
-        public new TypeSerializationModel ReturnType { get; set; }
+        public TypeSerializationModel ReturnType { get; set; }
 
         [DataMember]
-        public new bool Extension { get; set; }
+        public bool Extension { get; set; }
 
         [DataMember]
-        public new List<ParameterSerializationModel> Parameters { get; set; }
+        public List<ParameterSerializationModel> Parameters { get; set; }
 
     }
 }

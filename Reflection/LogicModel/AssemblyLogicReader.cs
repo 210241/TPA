@@ -27,14 +27,10 @@ namespace Reflection.LogicModel
                 .Select(t => new NamespaceLogicReader(t.Key, t.ToList())).ToList();
         }
 
-        public AssemblyLogicReader(AssemblyReader assemblyReader)
+        public AssemblyLogicReader(AssemblyBase assemblybase)
         {
-            this.Name = assemblyReader.Name;
-            this.NamespaceLogicReader = new List<NamespaceLogicReader>();
-            foreach (var baseElem in assemblyReader.Namespaces)
-            {
-                NamespaceLogicReader.Add(new NamespaceLogicReader(baseElem));
-            }
+            this.Name = assemblybase.Name;
+            this.NamespaceLogicReader = assemblybase.Namespaces?.Select(ns => new NamespaceLogicReader(ns)).ToList();
         }
 
         

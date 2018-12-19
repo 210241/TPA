@@ -27,11 +27,7 @@ namespace Reflection.LogicModel
         public NamespaceLogicReader(NamespaceBase namespaceBase)
         {
             this.Name = namespaceBase.Name;
-            this.Types = new List<TypeLogicReader>();
-            foreach (TypeBase baseElem in namespaceBase.Types)
-            {
-                Types.Add(TypeLogicReader.GetOrAdd(baseElem));
-            }
+            this.Types = namespaceBase.Types?.Select(t => TypeLogicReader.GetOrAdd(t)).ToList();
         }
     }
 }

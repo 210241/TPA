@@ -18,9 +18,9 @@ namespace Reflection
         public ISerializator Serializator = new XmlSerializator();
         public void SerializeToXml(AssemblyLogicReader assemblyLogicReader, string connectionString)
         {
-            AssemblyReader assemblyReader = new AssemblyReader(assemblyLogicReader);
+            AssemblyBase assemblyBase = DataTransferGraphMapper.AssemblyBase(assemblyLogicReader);
 
-            Serializator.Serialize(assemblyReader, connectionString);
+            Serializator.Serialize(assemblyBase, connectionString);
 
 
         }
@@ -29,9 +29,8 @@ namespace Reflection
         {
             AssemblyBase deserializedAssemblyReader = Serializator.Deserialize(connectionString);
 
-            AssemblyReader assemblyReader = new AssemblyReader(deserializedAssemblyReader);
 
-            AssemblyLogicReader assemblyLogicReader = new AssemblyLogicReader(assemblyReader);
+            AssemblyLogicReader assemblyLogicReader = new AssemblyLogicReader(deserializedAssemblyReader);
 
             return assemblyLogicReader;
         }

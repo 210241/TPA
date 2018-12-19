@@ -7,7 +7,7 @@ using Base.Enums;
 
 namespace Base.Model
 {
-   public abstract class MethodBase
+   public class MethodBase
     {
         public string Name { get; set; }
 
