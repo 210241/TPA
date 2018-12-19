@@ -14,7 +14,7 @@ namespace Reflection
         {
             var catalog = new AggregateCatalog();
             //Adds all the parts found in the same assembly as the Program class
-            catalog.Catalogs.Add(new DirectoryCatalog("C:\\Users\\Jakub\\source\\repos\\TPA\\AplicationLogic\\bin\\Debug\\plugins"));
+            catalog.Catalogs.Add(new DirectoryCatalog(@"..\..\..\AplicationLogic\bin\Debug\plugins"));
 
             //Create the CompositionContainer with the parts in the catalog
             CompositionContainer _container;
