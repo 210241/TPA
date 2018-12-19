@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel.Composition;
+using System.IO;
 using System.Runtime.Serialization;
 using Base.Interfaces;
 using Base.Model;
@@ -6,6 +7,7 @@ using SerializationXml.Model;
 
 namespace SerializationXml
 {
+    [Export(typeof(ISerializator))]
     public class XmlSerializator : ISerializator
     {
         DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(AssemblySerializationModel));

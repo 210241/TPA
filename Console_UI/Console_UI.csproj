@@ -46,6 +46,7 @@
     <Compile Include="CommandLineFramework\Menu.cs" />
     <Compile Include="CommandLineFramework\MenuItem.cs" />
     <Compile Include="ConsoleFilePathProvider.cs" />
+    <Compile Include="ErrorInfo.cs" />
     <Compile Include="MainView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,10 +59,6 @@
     <ProjectReference Include="..\AplicationLogic\ApplicationLogic.csproj">
       <Project>{bb0c453e-fdae-4158-be4f-4919de69f4f0}</Project>
       <Name>ApplicationLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{c675079b-c0cb-49b8-b431-453b3cf2047a}</Project>
-      <Name>Logging</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

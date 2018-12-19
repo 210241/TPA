@@ -66,6 +66,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorDialog.cs" />
     <Compile Include="FileDialog.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -105,12 +106,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AplicationLogic\ApplicationLogic.csproj">
-      <Project>{BB0C453E-FDAE-4158-BE4F-4919DE69F4F0}</Project>
+      <Project>{bb0c453e-fdae-4158-be4f-4919de69f4f0}</Project>
       <Name>ApplicationLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{C675079B-C0CB-49B8-B431-453B3CF2047A}</Project>
-      <Name>Logging</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

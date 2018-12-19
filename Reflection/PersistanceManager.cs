@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,15 +8,16 @@ using Base.Interfaces;
 using Base.Model;
 using Reflection.LogicModel;
 using Reflection.Model;
-using SerializationXml;
+
 
 
 namespace Reflection
 {
     public class PersistanceManager
     {
+        [Import(typeof(ISerializator), AllowDefault = false)]
+        public ISerializator Serializator { get; set; }
 
-        public ISerializator Serializator = new XmlSerializator();
         public void SerializeToXml(AssemblyLogicReader assemblyLogicReader, string connectionString)
         {
             AssemblyBase assemblyBase = DataTransferGraphMapper.AssemblyBase(assemblyLogicReader);

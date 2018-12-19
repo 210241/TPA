@@ -1,5 +1,6 @@
-﻿using ApplicationLogic.ViewModel;
-using Logging;
+﻿using ApplicationLogic.Base;
+using ApplicationLogic.Interfaces;
+using ApplicationLogic.ViewModel;
 
 namespace Console_UI
 {
@@ -7,13 +8,10 @@ namespace Console_UI
     {
         internal static void Main()
         {
-            Logger logger = new Logger();
 
-            MainViewModel vm = new MainViewModel(
-                logger,
-                new ConsoleFilePathProvider()
-
-            );
+            IFilePathProvider pathloader = new ConsoleFilePathProvider();
+            
+            MainViewModel vm = Compose.ComposeViewModel(pathloader, new ErrorInfo());
 
             MainView main = new MainView(vm);
             main.Display();

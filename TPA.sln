@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27703.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_UI", "WPF_UI\WPF_UI.csproj", "{99E4FED2-A33D-4238-B052-143742485431}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C675079B-C0CB-49B8-B431-453B3CF2047A} = {C675079B-C0CB-49B8-B431-453B3CF2047A}
+		{DA988CD3-EAAD-4316-8DE6-DE07F944B24E} = {DA988CD3-EAAD-4316-8DE6-DE07F944B24E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reflection", "Reflection\Reflection.csproj", "{A4A7D244-8377-4C61-A944-8FB23B09B221}"
 EndProject

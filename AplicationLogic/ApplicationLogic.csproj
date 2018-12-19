@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,10 +46,12 @@
   <ItemGroup>
     <Compile Include="Base\BaseAsynchronousCommand.cs" />
     <Compile Include="Base\BindableBase.cs" />
+    <Compile Include="Base\Compose.cs" />
     <Compile Include="Base\IAsynchronousCommand.cs" />
     <Compile Include="Base\IErrorHandler.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="Base\TaskUtils.cs" />
+    <Compile Include="Interfaces\IFatalErrorHandler.cs" />
     <Compile Include="Interfaces\IFilePathProvider.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IMyCommand.cs" />

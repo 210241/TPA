@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AplicationLogic\ApplicationLogic.csproj">
-      <Project>{BB0C453E-FDAE-4158-BE4F-4919DE69F4F0}</Project>
+      <Project>{bb0c453e-fdae-4158-be4f-4919de69f4f0}</Project>
       <Name>ApplicationLogic</Name>
     </ProjectReference>
   </ItemGroup>

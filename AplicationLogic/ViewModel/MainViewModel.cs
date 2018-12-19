@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -26,9 +27,10 @@ namespace ApplicationLogic.ViewModel
 
         private IFilePathProvider FilePathGetter { get; }
 
-        private ILogger logger { get; }
+        [Import(typeof(ILogger), AllowDefault = false)]
+        private ILogger logger { get; set; }
 
-        public PersistanceManager PersistanceManager;
+        public PersistanceManager PersistanceManager { get; set; }
 
         private Reflector _reflector;
 
@@ -49,16 +51,15 @@ namespace ApplicationLogic.ViewModel
             }
         }
 
-        public MainViewModel(ILogger logger, IFilePathProvider pathLoader)
+        public MainViewModel(IFilePathProvider pathLoader)
         {
-            this.logger = logger;
+            //this.logger = logger;
             this.FilePathGetter = pathLoader;
             HierarchicalAreas = new ObservableCollection<NodeItem>();
             LoadDataCommand = new BaseAsynchronousCommand(LoadData, CanLoadData);
             GetAssemblyFilePathCommand = new RelayCommand(GetAssemblyFilePath);
             SerializeToXmlCommand = new RelayCommand(SerializeToXml, CanSerialize);
             DeserializeFromXmlCommand = new RelayCommand(DeserializeFromXml);
-            PersistanceManager = new PersistanceManager();
         }
 
         public void GetAssemblyFilePath()

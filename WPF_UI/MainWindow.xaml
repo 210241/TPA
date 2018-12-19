@@ -20,42 +20,42 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="YellowGreen" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
                            Text="Assembly"/>
-                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0"/>
+                <TextBlock FontWeight="Medium" Foreground="AliceBlue" Text="{Binding Path=Name}" Margin="0 0 4 0"/>
             </StackPanel>
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="{x:Type c:NamespaceNodeItem}" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="BurlyWood" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
                            Text="Namespace"/>
-                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+                <TextBlock FontWeight="Medium" Foreground="AliceBlue" Text="{Binding Path=Name}" Margin="0 0 4 0" />
             </StackPanel>
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="{x:Type c:MethodNodeItem}" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="Coral" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
                            Text="Method"/>
-                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+                <TextBlock FontWeight="Medium" Foreground="AliceBlue" Text="{Binding Path=Name}" Margin="0 0 4 0" />
             </StackPanel>
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="{x:Type c:ParameterNodeItem}" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="LightYellow" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
                            Text="Parameter"/>
-                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+                <TextBlock FontWeight="Medium" Foreground="AliceBlue" Text="{Binding Path=Name}" Margin="0 0 4 0" />
             </StackPanel>
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="{x:Type c:PropertyNodeItem}" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="LightSkyBlue" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
                            Text="Property"/>
-                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+                <TextBlock FontWeight="Medium" Foreground="AliceBlue" Text="{Binding Path=Name}" Margin="0 0 4 0" />
             </StackPanel>
         </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="{x:Type c:TypeNodeItem}" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="Violet" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
                            Text="Type"/>
-                <TextBlock FontWeight="Medium" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+                <TextBlock FontWeight="Medium" Foreground="AliceBlue" Text="{Binding Path=Name}" Margin="0 0 4 0" />
             </StackPanel>
         </HierarchicalDataTemplate>
     </Window.Resources>

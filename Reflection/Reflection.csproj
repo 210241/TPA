@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PersistanceManagerComposer.cs" />
     <Compile Include="DataTransferGraphMapper.cs" />
     <Compile Include="Enums\AbstractEnum.cs" />
     <Compile Include="Enums\AccessLevel.cs" />
@@ -71,10 +73,6 @@
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}</Project>
       <Name>Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SerializationXml\SerializationXml.csproj">
-      <Project>{DA988CD3-EAAD-4316-8DE6-DE07F944B24E}</Project>
-      <Name>SerializationXml</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
