@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using ApplicationLogic.Interfaces;
-using Base.Enums;
+using Reflection.Enums;
 using Reflection.LogicModel;
 
 namespace ApplicationLogic.Model

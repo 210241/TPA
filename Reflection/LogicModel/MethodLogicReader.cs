@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using Base.Enums;
+using Reflection.Enums;
 
 namespace Reflection.LogicModel
 {
@@ -46,12 +46,12 @@ namespace Reflection.LogicModel
         public MethodLogicReader(Base.Model.MethodBase baseMethod)
         {
             this.Name = baseMethod.Name;
-            this.AbstractEnum = baseMethod.AbstractEnum;
-            this.AccessLevel = baseMethod.AccessLevel;
+            this.AbstractEnum = baseMethod.AbstractEnum.toReflectionEnum();
+            this.AccessLevel = baseMethod.AccessLevel.toReflectionEnum();
             this.Extension = baseMethod.Extension;
             this.ReturnType = TypeLogicReader.GetOrAdd(baseMethod.ReturnType);
-            this.StaticEnum = baseMethod.StaticEnum;
-            this.VirtualEnum = baseMethod.VirtualEnum;
+            this.StaticEnum = baseMethod.StaticEnum.toReflectionEnum();
+            this.VirtualEnum = baseMethod.VirtualEnum.toReflectionEnum();
 
             GenericArguments = baseMethod.GenericArguments?.Select(TypeLogicReader.GetOrAdd).ToList();
 

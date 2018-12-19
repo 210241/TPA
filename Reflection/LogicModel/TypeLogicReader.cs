@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Base.Enums;
+using Reflection.Enums;
 using Base.Model;
 using Reflection.Model;
 
@@ -75,15 +75,15 @@ namespace Reflection.LogicModel
             this.Name = baseType.Name;
             TypeDictionary.Add(Name, this);
             this.NamespaceName = baseType.NamespaceName;
-            this.Type = baseType.Type;
+            this.Type = baseType.Type.toReflectionEnum();
 
             this.BaseType = GetOrAdd(baseType.BaseType);
             this.DeclaringType = GetOrAdd(baseType.DeclaringType);
 
-            this.AbstractEnum = baseType.AbstractEnum;
-            this.AccessLevel = baseType.AccessLevel;
-            this.SealedEnum = baseType.SealedEnum;
-            this.StaticEnum = baseType.StaticEnum;
+            this.AbstractEnum = baseType.AbstractEnum.toReflectionEnum();
+            this.AccessLevel = baseType.AccessLevel.toReflectionEnum();
+            this.SealedEnum = baseType.SealedEnum.toReflectionEnum();
+            this.StaticEnum = baseType.StaticEnum.toReflectionEnum();
 
             Constructors = baseType.Constructors?.Select(c => new MethodLogicReader(c)).ToList();
 

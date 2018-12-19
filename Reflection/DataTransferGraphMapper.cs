@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Base;
 using Base.Model;
 using Reflection.LogicModel;
 
@@ -39,13 +40,13 @@ namespace Reflection
             _typeDictionary.Add(typeBase.Name, typeBase);
 
             typeBase.NamespaceName = typeLogicReader.NamespaceName;
-            typeBase.Type = typeLogicReader.Type;
+            typeBase.Type = typeLogicReader.Type.toBaseEnum();
             typeBase.BaseType = GetOrAdd(typeLogicReader.BaseType);
             typeBase.DeclaringType = GetOrAdd(typeLogicReader.DeclaringType);
-            typeBase.AbstractEnum = typeLogicReader.AbstractEnum;
-            typeBase.AccessLevel = typeLogicReader.AccessLevel;
-            typeBase.SealedEnum = typeLogicReader.SealedEnum;
-            typeBase.StaticEnum = typeLogicReader.StaticEnum;
+            typeBase.AbstractEnum = typeLogicReader.AbstractEnum.toBaseEnum();
+            typeBase.AccessLevel = typeLogicReader.AccessLevel.toBaseEnum();
+            typeBase.SealedEnum = typeLogicReader.SealedEnum.toBaseEnum();
+            typeBase.StaticEnum = typeLogicReader.StaticEnum.toBaseEnum();
 
             typeBase.Constructors = typeLogicReader.Constructors?.Select(MethodBase).ToList();
             typeBase.Fields = typeLogicReader.Fields?.Select(ParameterBase).ToList();
@@ -63,12 +64,12 @@ namespace Reflection
             return new MethodBase()
             {
                 Name = methodLogicReader.Name,
-                AbstractEnum = methodLogicReader.AbstractEnum,
-                AccessLevel = methodLogicReader.AccessLevel,
+                AbstractEnum = methodLogicReader.AbstractEnum.toBaseEnum(),
+                AccessLevel = methodLogicReader.AccessLevel.toBaseEnum(),
                 Extension = methodLogicReader.Extension,
                 ReturnType = GetOrAdd(methodLogicReader.ReturnType),
-                StaticEnum = methodLogicReader.StaticEnum,
-                VirtualEnum = methodLogicReader.VirtualEnum,
+                StaticEnum = methodLogicReader.StaticEnum.toBaseEnum(),
+                VirtualEnum = methodLogicReader.VirtualEnum.toBaseEnum(),
                 GenericArguments = methodLogicReader.GenericArguments?.Select(GetOrAdd).ToList(),
                 Parameters = methodLogicReader.Parameters?.Select(ParameterBase).ToList()
             };

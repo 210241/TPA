@@ -55,6 +55,7 @@
     <Compile Include="LogicModel\PropertyLogicReader.cs" />
     <Compile Include="LogicModel\TypeLogicReader.cs" />
     <Compile Include="LogicModel\Modifiers.cs" />
+    <Compile Include="MapperExtensionMethods.cs" />
     <Compile Include="PersistanceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection.cs" />

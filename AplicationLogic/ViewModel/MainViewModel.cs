@@ -8,11 +8,10 @@ using System.Windows.Threading;
 using ApplicationLogic.Base;
 using ApplicationLogic.Interfaces;
 using ApplicationLogic.Model;
-using Base.Interfaces;
+//using Base.Interfaces;
 using Reflection;
 using Reflection.LogicModel;
 using Reflection.Model;
-using SerializationXml;
 
 namespace ApplicationLogic.ViewModel
 {
@@ -32,8 +31,6 @@ namespace ApplicationLogic.ViewModel
         public PersistanceManager PersistanceManager;
 
         private Reflector _reflector;
-
-        private XmlSerializator xmlSerializer;
 
         private string _assemblyFilePath;
 

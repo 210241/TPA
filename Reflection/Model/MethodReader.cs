@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using Base;
 using Base.Model;
 using Base.Enums;
 using Reflection.LogicModel;
@@ -31,12 +32,12 @@ namespace Reflection.Model
         public MethodReader(MethodLogicReader baseMethod)
         {
             this.Name = baseMethod.Name;
-            this.AbstractEnum = baseMethod.AbstractEnum;
-            this.AccessLevel = baseMethod.AccessLevel;
+            this.AbstractEnum = baseMethod.AbstractEnum.toBaseEnum();
+            this.AccessLevel = baseMethod.AccessLevel.toBaseEnum();
             this.Extension = baseMethod.Extension;
             this.ReturnType = TypeReader.GetOrAdd(baseMethod.ReturnType);
-            this.StaticEnum = baseMethod.StaticEnum;
-            this.VirtualEnum = baseMethod.VirtualEnum;
+            this.StaticEnum = baseMethod.StaticEnum.toBaseEnum();
+            this.VirtualEnum = baseMethod.VirtualEnum.toBaseEnum();
 
             GenericArguments = baseMethod.GenericArguments.Select(t => TypeReader.GetOrAdd(t) as TypeBase).ToList();
 
