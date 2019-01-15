@@ -49,6 +49,7 @@
     <Compile Include="Enums\VirtualEnum.cs" />
     <Compile Include="Interfaces\ISerializator.cs" />
     <Compile Include="Model\AssemblyBase.cs" />
+    <Compile Include="Model\FieldBase.cs" />
     <Compile Include="Model\MethodBase.cs" />
     <Compile Include="Model\NamespaceBase.cs" />
     <Compile Include="Model\ParameterBase.cs" />

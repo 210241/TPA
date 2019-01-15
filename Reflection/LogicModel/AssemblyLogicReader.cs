@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using Base.Model;
-using Reflection.Model;
 
 namespace Reflection.LogicModel
 {

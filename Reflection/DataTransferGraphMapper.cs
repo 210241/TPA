@@ -49,7 +49,7 @@ namespace Reflection
             typeBase.StaticEnum = typeLogicReader.StaticEnum.toBaseEnum();
 
             typeBase.Constructors = typeLogicReader.Constructors?.Select(MethodBase).ToList();
-            typeBase.Fields = typeLogicReader.Fields?.Select(ParameterBase).ToList();
+            typeBase.Fields = typeLogicReader.Fields?.Select(FieldBase).ToList();
             typeBase.GenericArguments = typeLogicReader.GenericArguments?.Select(GetOrAdd).ToList();
             typeBase.ImplementedInterfaces = typeLogicReader.ImplementedInterfaces?.Select(GetOrAdd).ToList();
             typeBase.Methods = typeLogicReader.Methods?.Select(MethodBase).ToList();
@@ -81,6 +81,15 @@ namespace Reflection
             {
                 Name = parameterLogicReader.Name,
                 Type = GetOrAdd(parameterLogicReader.Type)
+            };
+        }
+        
+        public static FieldBase FieldBase(FieldLogicReader fieldLogicReader)
+        {
+            return new FieldBase()
+            {
+                Name = fieldLogicReader.Name,
+                Type = GetOrAdd(fieldLogicReader.Type)
             };
         }
 

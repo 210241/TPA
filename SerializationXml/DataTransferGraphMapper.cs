@@ -48,7 +48,7 @@ namespace SerializationXml
             typeBase.StaticEnum = typeSerializationModel.StaticEnum;
 
             typeBase.Constructors = typeSerializationModel.Constructors?.Select(MethodBase).ToList();
-            typeBase.Fields = typeSerializationModel.Fields?.Select(ParameterBase).ToList();
+            typeBase.Fields = typeSerializationModel.Fields?.Select(FieldBase).ToList();
             typeBase.GenericArguments = typeSerializationModel.GenericArguments?.Select(GetOrAdd).ToList();
             typeBase.ImplementedInterfaces = typeSerializationModel.ImplementedInterfaces?.Select(GetOrAdd).ToList();
             typeBase.Methods = typeSerializationModel.Methods?.Select(MethodBase).ToList();
@@ -77,6 +77,15 @@ namespace SerializationXml
         public static ParameterBase ParameterBase(ParameterSerializationModel parameterSerializationModel)
         {
             return new ParameterBase()
+            {
+                Name = parameterSerializationModel.Name,
+                Type = GetOrAdd(parameterSerializationModel.Type)
+            };
+        }
+        
+        public static FieldBase FieldBase(FieldSerializationModel parameterSerializationModel)
+        {
+            return new FieldBase()
             {
                 Name = parameterSerializationModel.Name,
                 Type = GetOrAdd(parameterSerializationModel.Type)

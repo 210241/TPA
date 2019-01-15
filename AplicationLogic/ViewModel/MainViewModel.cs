@@ -12,7 +12,7 @@ using ApplicationLogic.Model;
 //using Base.Interfaces;
 using Reflection;
 using Reflection.LogicModel;
-using Reflection.Model;
+
 
 namespace ApplicationLogic.ViewModel
 {

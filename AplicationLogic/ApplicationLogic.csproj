@@ -56,6 +56,7 @@
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IMyCommand.cs" />
     <Compile Include="Model\AssemblyNodeItem.cs" />
+    <Compile Include="Model\FieldNodeItem.cs" />
     <Compile Include="Model\ItemTypeEnum.cs" />
     <Compile Include="Model\MethodNodeItem.cs" />
     <Compile Include="Model\ModelHelperMethods.cs" />

@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{995FA084-4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base", "Base\Base.csproj", "{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseSerialization", "DatabaseSerialization\DatabaseSerialization.csproj", "{FD162A85-F4C9-49E3-B2C4-9E6E62E78599}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,7 @@ Global
 		{99E4FED2-A33D-4238-B052-143742485431}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99E4FED2-A33D-4238-B052-143742485431}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99E4FED2-A33D-4238-B052-143742485431}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99E4FED2-A33D-4238-B052-143742485431}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{A4A7D244-8377-4C61-A944-8FB23B09B221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4A7D244-8377-4C61-A944-8FB23B09B221}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4A7D244-8377-4C61-A944-8FB23B09B221}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,6 +78,10 @@ Global
 		{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD162A85-F4C9-49E3-B2C4-9E6E62E78599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD162A85-F4C9-49E3-B2C4-9E6E62E78599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD162A85-F4C9-49E3-B2C4-9E6E62E78599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD162A85-F4C9-49E3-B2C4-9E6E62E78599}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

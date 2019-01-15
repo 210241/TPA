@@ -54,10 +54,10 @@ namespace ApplicationLogic.Model
 
             if (_typeLogicReader.Fields != null)
             {
-                foreach (ParameterLogicReader parameterLogicReader in _typeLogicReader.Fields)
+                foreach (FieldLogicReader fieldLogicReader in _typeLogicReader.Fields)
                 {
-                    _logger.Trace($"Adding Parameter: [{ItemTypeEnum.Field.ToString()}] {parameterLogicReader.Name} implemented in Type: {_typeLogicReader.Name}");
-                    children.Add(new ParameterNodeItem(parameterLogicReader, ItemTypeEnum.Field, _logger));
+                    _logger.Trace($"Adding Parameter: [{ItemTypeEnum.Field.ToString()}] {fieldLogicReader.Name} implemented in Type: {_typeLogicReader.Name}");
+                    children.Add(new FieldNodeItem(fieldLogicReader, ItemTypeEnum.Field, _logger));
                 }
             }
 

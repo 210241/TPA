@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DA988CD3-EAAD-4316-8DE6-DE07F944B24E}</ProjectGuid>
+    <ProjectGuid>{FD162A85-F4C9-49E3-B2C4-9E6E62E78599}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SerializationXml</RootNamespace>
-    <AssemblyName>SerializationXml</AssemblyName>
+    <RootNamespace>DatabaseSerialization</RootNamespace>
+    <AssemblyName>DatabaseSerialization</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,10 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,21 +49,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTransferGraphMapper.cs" />
-    <Compile Include="Model\AssemblySerializationModel.cs" />
-    <Compile Include="Model\FieldSerializationModel.cs" />
-    <Compile Include="Model\MethodSerializationModel.cs" />
-    <Compile Include="Model\NamespaceSerializationModel.cs" />
-    <Compile Include="Model\ParameterSerializationModel.cs" />
-    <Compile Include="Model\PropertySerializationModel.cs" />
-    <Compile Include="Model\TypeSerializationModel.cs" />
+    <Compile Include="DbSaverContext.cs" />
+    <Compile Include="Model\AssemblyDbSaver.cs" />
+    <Compile Include="Model\FieldDbSaver.cs" />
+    <Compile Include="Model\MethodDbSaver.cs" />
+    <Compile Include="Model\NamespaceDbSaver.cs" />
+    <Compile Include="Model\ParameterDbSaver.cs" />
+    <Compile Include="Model\PropertyDbSaver.cs" />
+    <Compile Include="Model\TypeDbSaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XmlSerializator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj">
-      <Project>{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}</Project>
+      <Project>{a09a1602-efd2-43d2-bd20-fd2a6ea58777}</Project>
       <Name>Base</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

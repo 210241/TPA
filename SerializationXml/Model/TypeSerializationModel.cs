@@ -35,7 +35,7 @@ namespace SerializationXml.Model
 
             Constructors = baseType.Constructors?.Select(t => new MethodSerializationModel(t)).ToList();
 
-            Fields = baseType.Fields?.Select(t => new ParameterSerializationModel(t)).ToList();
+            Fields = baseType.Fields?.Select(t => new FieldSerializationModel(t)).ToList();
 
             GenericArguments = baseType.GenericArguments?.Select(GetOrAdd).ToList();
 
@@ -112,7 +112,7 @@ namespace SerializationXml.Model
         public List<MethodSerializationModel> Constructors { get; set; }
 
         [DataMember]
-        public List<ParameterSerializationModel> Fields { get; set; }
+        public List<FieldSerializationModel> Fields { get; set; }
 
         public static Dictionary<string, TypeSerializationModel> TypeDictionary = new Dictionary<string, TypeSerializationModel>();
 

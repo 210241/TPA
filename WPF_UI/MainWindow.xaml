@@ -44,6 +44,13 @@
                 <TextBlock FontWeight="Medium" Foreground="AliceBlue" Text="{Binding Path=Name}" Margin="0 0 4 0" />
             </StackPanel>
         </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate DataType="{x:Type c:FieldNodeItem}" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="LightYellow" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"
+                           Text="Field"/>
+                <TextBlock FontWeight="Medium" Foreground="AliceBlue" Text="{Binding Path=Name}" Margin="0 0 4 0" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
         <HierarchicalDataTemplate DataType="{x:Type c:PropertyNodeItem}" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="LightSkyBlue" Padding="0 0 10 0" FontWeight="ExtraBlack" FontStyle="Italic"

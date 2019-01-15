@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using Reflection.Enums;
 using Base.Model;
-using Reflection.Model;
 
 namespace Reflection.LogicModel
 {
@@ -42,7 +41,7 @@ namespace Reflection.LogicModel
 
         public List<MethodLogicReader> Constructors { get; set; }
 
-        public List<ParameterLogicReader> Fields { get; set; }
+        public List<FieldLogicReader> Fields { get; set; }
 
         private TypeLogicReader()
         {
@@ -87,7 +86,7 @@ namespace Reflection.LogicModel
 
             Constructors = baseType.Constructors?.Select(c => new MethodLogicReader(c)).ToList();
 
-            Fields = baseType.Fields?.Select(t => new ParameterLogicReader(t)).ToList();
+            Fields = baseType.Fields?.Select(t => new FieldLogicReader(t.Name, GetOrAdd(t.Type))).ToList();
 
             GenericArguments = baseType.GenericArguments?.Select(GetOrAdd).ToList();
 
@@ -172,16 +171,16 @@ namespace Reflection.LogicModel
             }
         }
 
-        private static List<ParameterLogicReader> EmitFields(Type type)
+        private static List<FieldLogicReader> EmitFields(Type type)
         {
             List<FieldInfo> fieldInfo = type.GetFields(BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Public |
                                            BindingFlags.Static | BindingFlags.Instance).ToList();
 
-            List<ParameterLogicReader> parameters = new List<ParameterLogicReader>();
+            List<FieldLogicReader> parameters = new List<FieldLogicReader>();
             foreach (FieldInfo field in fieldInfo)
             {
                 StoreType(field.FieldType);
-                parameters.Add(new ParameterLogicReader(field.Name, GetOrAdd(field.FieldType)));
+                parameters.Add(new FieldLogicReader(field.Name, GetOrAdd(field.FieldType)));
             }
             return parameters;
         }
