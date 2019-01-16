@@ -20,12 +20,9 @@ namespace DatabaseSerialization.Model
             this.Type = TypeDbSaver.GetOrAdd(baseParameter.Type);
         }
 
-        
         public string Name { get; set; }
 
-        
         public TypeDbSaver Type { get; set; }
-        
         
         public ICollection<MethodDbSaver> MethodParameters { get; set; }
 

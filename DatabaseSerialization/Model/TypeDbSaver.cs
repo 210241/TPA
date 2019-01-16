@@ -131,14 +131,5 @@ namespace DatabaseSerialization.Model
 
         [InverseProperty("NestedTypes")]
         public ICollection<TypeDbSaver> TypeNestedTypes { get; set; }
-        
-//        public ICollection<NamespaceDbSaver> NamespaceTypes { get; set; }
-//        
-//        public ICollection<PropertyDbSaver> PropertyTypes { get; set; }
-//        
-//        public ICollection<ParameterDbSaver> ParameterTypes { get; set; }
-
-
-
     }
 }

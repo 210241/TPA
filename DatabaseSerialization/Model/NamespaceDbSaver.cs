@@ -23,8 +23,5 @@ namespace DatabaseSerialization.Model
 
         
         public List<TypeDbSaver> Types { get; set; }
-        
-//        public ICollection<AssemblyDbSaver> AssemblyNamespaces { get; set; }
-
     }
 }
