@@ -143,5 +143,16 @@ namespace Reflection_Tests
             actual.Should().Be(expected);
 
         }
+
+        [TestMethod]
+        public void Reflector_CorrectNameOfLoadedDerivedClassesInClass_ShouldBeOk()
+        {
+            string expected = "AbstractClass";
+            string actual = _reflection.AssemblyLogicReader.NamespaceLogicReader
+                .Find(n => n.Name == FirstNamespace).Types
+                .First(t => t.Name == "DerivedClass").BaseType.Name;
+
+            actual.Should().Be(expected);
+        }
     }
 }
