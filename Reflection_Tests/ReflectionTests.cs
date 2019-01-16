@@ -10,7 +10,7 @@ namespace Reflection_Tests
     [TestClass]
     public class ReflectionTests
     {
-        private const string FilePath = @"..\..\..\LibraryForTests\bin\Debug\TPA.ApplicationArchitecture.dll";
+        private const string FilePath = @"..\..\..\LibraryForTests\TPA.ApplicationArchitecture.dll";
         private const string FirstNamespace = "TPA.ApplicationArchitecture.Data";
         private const string SecondNamespace = "TPA.ApplicationArchitecture.Data.CircularReference";
         private Reflector _reflection;
