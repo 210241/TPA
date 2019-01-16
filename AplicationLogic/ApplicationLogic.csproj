@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,14 +46,20 @@
   <ItemGroup>
     <Compile Include="Base\BaseAsynchronousCommand.cs" />
     <Compile Include="Base\BindableBase.cs" />
+    <Compile Include="Base\Compose.cs" />
     <Compile Include="Base\IAsynchronousCommand.cs" />
     <Compile Include="Base\IErrorHandler.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="Base\TaskUtils.cs" />
+    <Compile Include="Interfaces\IFatalErrorHandler.cs" />
     <Compile Include="Interfaces\IFilePathProvider.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IMyCommand.cs" />
     <Compile Include="Model\AssemblyNodeItem.cs" />
+    <Compile Include="Model\AttributeNodeItem.cs" />
+    <Compile Include="Model\DerivedTypeNodeItem.cs" />
+    <Compile Include="Model\FieldNodeItem.cs" />
+    <Compile Include="Model\ImplementedInterfaceNodeItem.cs" />
     <Compile Include="Model\ItemTypeEnum.cs" />
     <Compile Include="Model\MethodNodeItem.cs" />
     <Compile Include="Model\ModelHelperMethods.cs" />
@@ -68,10 +75,6 @@
     <ProjectReference Include="..\Reflection\Reflection.csproj">
       <Project>{A4A7D244-8377-4C61-A944-8FB23B09B221}</Project>
       <Name>Reflection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SerializationXml\SerializationXml.csproj">
-      <Project>{DA988CD3-EAAD-4316-8DE6-DE07F944B24E}</Project>
-      <Name>SerializationXml</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

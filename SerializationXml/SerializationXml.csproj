@@ -31,6 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -41,13 +43,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTransferGraphMapper.cs" />
+    <Compile Include="Exception\FilePathException.cs" />
+    <Compile Include="Model\AssemblySerializationModel.cs" />
+    <Compile Include="Model\FieldSerializationModel.cs" />
+    <Compile Include="Model\MethodSerializationModel.cs" />
+    <Compile Include="Model\NamespaceSerializationModel.cs" />
+    <Compile Include="Model\ParameterSerializationModel.cs" />
+    <Compile Include="Model\PropertySerializationModel.cs" />
+    <Compile Include="Model\TypeSerializationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlSerializator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Reflection\Reflection.csproj">
-      <Project>{A4A7D244-8377-4C61-A944-8FB23B09B221}</Project>
-      <Name>Reflection</Name>
+    <ProjectReference Include="..\Base\Base.csproj">
+      <Project>{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}</Project>
+      <Name>Base</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

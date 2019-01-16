@@ -1,29 +1,29 @@
 ﻿using System.Collections.ObjectModel;
 using ApplicationLogic.Interfaces;
-using Reflection.Model;
+using Reflection.LogicModel;
 
 namespace ApplicationLogic.Model
 {
     public class AssemblyNodeItem : NodeItem
     {
-        private readonly AssemblyReader _assemblyReader;
+        private readonly AssemblyLogicReader _assemblyLogicReader;
         private readonly ILogger _logger;
 
-        public AssemblyNodeItem(AssemblyReader assembly, ILogger logger)
-            : base(assembly.Name, ItemTypeEnum.Assembly)
+        public AssemblyNodeItem(AssemblyLogicReader logicAssembly, ILogger logger)
+            : base(logicAssembly.Name, ItemTypeEnum.Assembly)
         {
-            _assemblyReader = assembly;
+            _assemblyLogicReader = logicAssembly;
             _logger = logger;
         }
 
         protected override void BuildTreeView(ObservableCollection<NodeItem> children)
         {
-            if (_assemblyReader?.NamespaceReader != null)
+            if (_assemblyLogicReader?.NamespaceLogicReader != null)
             {
-                foreach (NamespaceReader namespaceReader in _assemblyReader.NamespaceReader)
+                foreach (NamespaceLogicReader namespaceLogicReader in _assemblyLogicReader.NamespaceLogicReader)
                 {
-                    _logger.Trace($"Adding namespace: {namespaceReader.Name}");
-                    children.Add(new NamespaceNodeItem(namespaceReader, _logger));
+                    _logger.Trace($"Adding namespace: {namespaceLogicReader.Name}");
+                    children.Add(new NamespaceNodeItem(namespaceLogicReader, _logger));
                 }
             }
         }

@@ -8,6 +8,7 @@ namespace ApplicationLogic.Model
         private bool _isExpanded;
 
         public string Name { get; set; }
+        public string Accessibility { get; set; }
 
         public ItemTypeEnum ItemType { get; set; }
 

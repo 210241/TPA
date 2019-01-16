@@ -1,27 +1,27 @@
 ﻿using System.Collections.ObjectModel;
 using ApplicationLogic.Interfaces;
-using Reflection.Model;
+using Reflection.LogicModel;
 
 namespace ApplicationLogic.Model
 {
     public class ParameterNodeItem : NodeItem
     {
-        public ParameterReader ParameterReader { get; set; }
+        public ParameterLogicReader ParameterLogicReader { get; set; }
         private readonly ILogger _logger;
 
-        public ParameterNodeItem(ParameterReader parameterReader, ItemTypeEnum type, ILogger logger)
-            : base(parameterReader.Name, type)
+        public ParameterNodeItem(ParameterLogicReader parameterLogicReader, ItemTypeEnum type, ILogger logger)
+            : base(parameterLogicReader.Name, type)
         {
             _logger = logger;
-            ParameterReader = parameterReader;
+            ParameterLogicReader = parameterLogicReader;
         }
 
         protected override void BuildTreeView(ObservableCollection<NodeItem> children)
         {
-            if (ParameterReader.Type != null)
+            if (ParameterLogicReader.Type != null)
             {
-                ModelHelperMethods.CheckOrAdd(ParameterReader.Type);
-                children.Add(new TypeNodeItem(TypeReader.TypeDictionary[ParameterReader.Type.Name], ItemTypeEnum.Type, _logger));
+                ModelHelperMethods.CheckOrAdd(ParameterLogicReader.Type);
+                children.Add(new TypeNodeItem(TypeLogicReader.TypeDictionary[ParameterLogicReader.Type.Name], ItemTypeEnum.Type, _logger));
             }
         }
     }

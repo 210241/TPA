@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -41,22 +42,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyException\IoException.cs" />
+    <Compile Include="LogicModel\FieldLogicReader.cs" />
+    <Compile Include="PersistanceManagerComposer.cs" />
+    <Compile Include="DataTransferGraphMapper.cs" />
     <Compile Include="Enums\AbstractEnum.cs" />
     <Compile Include="Enums\AccessLevel.cs" />
     <Compile Include="Enums\SealedEnum.cs" />
     <Compile Include="Enums\StaticEnum.cs" />
     <Compile Include="Enums\TypeKind.cs" />
     <Compile Include="Enums\VirtualEnum.cs" />
-    <Compile Include="Model\Modifiers.cs" />
+    <Compile Include="LogicModel\AssemblyLogicReader.cs" />
+    <Compile Include="LogicModel\MethodLogicReader.cs" />
+    <Compile Include="LogicModel\NamespaceLogicReader.cs" />
+    <Compile Include="LogicModel\ParameterLogicReader.cs" />
+    <Compile Include="LogicModel\PropertyLogicReader.cs" />
+    <Compile Include="LogicModel\TypeLogicReader.cs" />
+    <Compile Include="LogicModel\Modifiers.cs" />
+    <Compile Include="MapperExtensionMethods.cs" />
+    <Compile Include="PersistanceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection.cs" />
-    <Compile Include="Model\AssemblyReader.cs" />
-    <Compile Include="Model\ExtensionMethods.cs" />
-    <Compile Include="Model\MethodReader.cs" />
-    <Compile Include="Model\NamespaceReader.cs" />
-    <Compile Include="Model\ParameterReader.cs" />
-    <Compile Include="Model\PropertyReader.cs" />
-    <Compile Include="Model\TypeReader.cs" />
+    <Compile Include="LogicModel\ExtensionMethods.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Base\Base.csproj">
+      <Project>{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -8,15 +9,17 @@ using System.Windows.Threading;
 using ApplicationLogic.Base;
 using ApplicationLogic.Interfaces;
 using ApplicationLogic.Model;
-using ApplicationLogic.Interfaces;
+//using Base.Interfaces;
 using Reflection;
-using Reflection.Model;
-using SerializationXml;
+using Reflection.LogicModel;
+using Reflection.MyException;
+
 
 namespace ApplicationLogic.ViewModel
 {
     public class MainViewModel : BindableBase
     {
+        public IFatalErrorHandler ErrorHandler { get; set; }
         public IMyCommand LoadDataCommand { get; }
 
         public IMyCommand GetAssemblyFilePathCommand { get; }
@@ -26,11 +29,12 @@ namespace ApplicationLogic.ViewModel
 
         private IFilePathProvider FilePathGetter { get; }
 
-        private ILogger logger { get; }
+        [Import(typeof(ILogger), AllowDefault = false)]
+        private ILogger logger { get; set; }
+
+        public PersistanceManager PersistanceManager { get; set; }
 
         private Reflector _reflector;
-
-        private XmlSerializator xmlSerializer;
 
         private string _assemblyFilePath;
 
@@ -49,16 +53,16 @@ namespace ApplicationLogic.ViewModel
             }
         }
 
-        public MainViewModel(ILogger logger, IFilePathProvider pathLoader)
+        public MainViewModel(IFilePathProvider pathLoader, IFatalErrorHandler errorHandler)
         {
-            this.logger = logger;
+            //this.logger = logger;
             this.FilePathGetter = pathLoader;
             HierarchicalAreas = new ObservableCollection<NodeItem>();
             LoadDataCommand = new BaseAsynchronousCommand(LoadData, CanLoadData);
             GetAssemblyFilePathCommand = new RelayCommand(GetAssemblyFilePath);
-            SerializeToXmlCommand = new RelayCommand(SerializeToXml, CanSerialize);
-            DeserializeFromXmlCommand = new RelayCommand(DeserializeFromXml);
-            xmlSerializer = new XmlSerializator();
+            SerializeToXmlCommand = new RelayCommand(Serialize, CanSerialize);
+            DeserializeFromXmlCommand = new RelayCommand(Deserialize);
+            ErrorHandler = errorHandler;
         }
 
         public void GetAssemblyFilePath()
@@ -66,25 +70,32 @@ namespace ApplicationLogic.ViewModel
             AssemblyFilePath = FilePathGetter.GetFilePath(".dll");
         }
 
-        public void SerializeToXml()
+        public void Serialize()
         {
-            string pathToSaveSerializedFile = FilePathGetter.GetFilePath(".xml");
-
-            xmlSerializer.Serialize(_reflector.AssemblyReader, pathToSaveSerializedFile);
+            try
+            {
+                PersistanceManager.Serialize(_reflector.AssemblyLogicReader);
+            }
+            catch(IoException e)
+            {
+                ErrorHandler.showMessage(e.Message);
+            }
         }
 
-        public void DeserializeFromXml()
+        public void Deserialize()
         {
-
-            string pathToSerializedFile = FilePathGetter.GetFilePath(".xml");
-
-            if(pathToSerializedFile != null)
+            try
             {
-                AssemblyReader deserializedAssemblyReader = xmlSerializer.Deserialize(pathToSerializedFile);
-                _reflector = new Reflector(deserializedAssemblyReader);
+                AssemblyLogicReader assembly = PersistanceManager.Deserialize();
+            
+                _reflector = new Reflector(assembly);
 
                 HierarchicalAreas.Clear();
-                HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyReader, logger));
+                HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyLogicReader, logger));
+            }
+            catch (IoException e)
+            {
+                ErrorHandler.showMessage(e.Message);
             }
         }
 
@@ -95,7 +106,8 @@ namespace ApplicationLogic.ViewModel
                 _reflector = new Reflector(AssemblyFilePath);
             });
 
-            HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyReader, logger));
+            HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyLogicReader, logger));
+            Console.WriteLine(TypeLogicReader.TypeDictionary);
             SerializeToXmlCommand.RaiseCanExecuteChanged();
         }
 

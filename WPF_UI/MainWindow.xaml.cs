@@ -1,6 +1,6 @@
 ﻿using System.Windows;
+using ApplicationLogic.Base;
 using ApplicationLogic.ViewModel;
-using Logging;
 
 namespace WPF_UI
 {
@@ -13,11 +13,7 @@ namespace WPF_UI
         {
             InitializeComponent();
 
-            Logger logger = new Logger();
-
-            DataContext = new MainViewModel(logger, new FileDialog(logger));
-
-
+            DataContext = Compose.ComposeViewModel( new FileDialog(), new ErrorDialog());
         }
     }
 }
