@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Base.Model;
 
-
-namespace SerializationXml.Model
+namespace DatabaseSerialization.Model
 {
     
     public class AssemblyDbSaver
@@ -16,6 +11,8 @@ namespace SerializationXml.Model
         {
 
         }
+        
+        public int AssemblyDbSaverId{ get; set; }
 
         public AssemblyDbSaver(AssemblyBase assemblyBase)
         {

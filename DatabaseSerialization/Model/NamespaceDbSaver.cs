@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Base.Model;
 
-namespace SerializationXml.Model
+namespace DatabaseSerialization.Model
 {
     public class NamespaceDbSaver
     {
@@ -14,6 +10,7 @@ namespace SerializationXml.Model
         {
 
         }
+        public int NamespaceDbSaverId{ get; set; }
 
         public NamespaceDbSaver(NamespaceBase namespaceBase)
         {
@@ -26,5 +23,8 @@ namespace SerializationXml.Model
 
         
         public List<TypeDbSaver> Types { get; set; }
+        
+//        public ICollection<AssemblyDbSaver> AssemblyNamespaces { get; set; }
+
     }
 }

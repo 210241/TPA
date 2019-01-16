@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Base.Model;
-using SerializationXml.Model;
+using DatabaseSerialization.Model;
 
-namespace SerializationXml
+namespace DatabaseSerialization
 {
     public static class DataTransferGraphMapper
     {

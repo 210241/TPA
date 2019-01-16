@@ -69,6 +69,10 @@
       <Project>{A09A1602-EFD2-43D2-BD20-FD2A6EA58777}</Project>
       <Name>Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DatabaseSerialization\DatabaseSerialization.csproj">
+      <Project>{fd162a85-f4c9-49e3-b2c4-9e6e62e78599}</Project>
+      <Name>DatabaseSerialization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

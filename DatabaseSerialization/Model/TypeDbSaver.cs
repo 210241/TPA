@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Base.Enums;
 using Base.Model;
 
-namespace SerializationXml.Model
+namespace DatabaseSerialization.Model
 {
     public class TypeDbSaver
     {
         private TypeDbSaver()
         {
-
+            MethodGenericArguments = new HashSet<MethodDbSaver>();
+            TypeGenericArguments = new HashSet<TypeDbSaver>();
+            TypeImplementedInterfaces = new HashSet<TypeDbSaver>();
+            TypeNestedTypes = new HashSet<TypeDbSaver>();
         }
-
+        
         private TypeDbSaver(TypeBase baseType)
         {
             this.Name = baseType.Name;
@@ -66,6 +66,7 @@ namespace SerializationXml.Model
         }
 
 
+        [Key, StringLength(150)]
         public string Name { get; set; }
 
 
@@ -92,7 +93,6 @@ namespace SerializationXml.Model
 
         public TypeKind Type { get; set; }
 
-
         public List<TypeDbSaver> ImplementedInterfaces { get; set; }
 
 
@@ -114,6 +114,31 @@ namespace SerializationXml.Model
         public List<FieldDbSaver> Fields { get; set; }
 
         public static Dictionary<string, TypeDbSaver> TypeDictionary = new Dictionary<string, TypeDbSaver>();
+        
+        
+        public ICollection<TypeDbSaver> TypeBaseTypes { get; set; }
+
+        public ICollection<TypeDbSaver> TypeDeclaringTypes { get; set; }
+
+        [InverseProperty("GenericArguments")]
+        public ICollection<MethodDbSaver> MethodGenericArguments { get; set; }
+
+        [InverseProperty("GenericArguments")]
+        public ICollection<TypeDbSaver> TypeGenericArguments { get; set; }
+        
+        [InverseProperty("ImplementedInterfaces")]
+        public ICollection<TypeDbSaver> TypeImplementedInterfaces { get; set; }
+
+        [InverseProperty("NestedTypes")]
+        public ICollection<TypeDbSaver> TypeNestedTypes { get; set; }
+        
+//        public ICollection<NamespaceDbSaver> NamespaceTypes { get; set; }
+//        
+//        public ICollection<PropertyDbSaver> PropertyTypes { get; set; }
+//        
+//        public ICollection<ParameterDbSaver> ParameterTypes { get; set; }
+
+
 
     }
 }

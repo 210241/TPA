@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Base.Interfaces;
 using Base.Model;
+using DatabaseSerialization;
 using Reflection.LogicModel;
 
 
@@ -14,8 +15,8 @@ namespace Reflection
 {
     public class PersistanceManager
     {
-        [Import(typeof(ISerializator), AllowDefault = false)]
-        public ISerializator Serializator { get; set; }
+        //[Import(typeof(ISerializator), AllowDefault = false)]
+        public ISerializator Serializator { get; set; } = new DbManager();
 
         public void SerializeToXml(AssemblyLogicReader assemblyLogicReader, string connectionString)
         {

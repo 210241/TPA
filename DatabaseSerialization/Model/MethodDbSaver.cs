@@ -1,23 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Base.Model;
 using Base.Enums;
+using Base.Model;
 
-
-namespace SerializationXml.Model
+namespace DatabaseSerialization.Model
 {
     public class MethodDbSaver
     {
         private MethodDbSaver()
         {
+            TypeConstructors = new HashSet<TypeDbSaver>();
+            TypeMethods = new HashSet<TypeDbSaver>();
         }
+        
+        public int MethodDbSaverId{ get; set; }
+
 
         public MethodDbSaver(MethodBase baseMethod)
         {
+            
             this.Name = baseMethod.Name;
             this.AbstractEnum = baseMethod.AbstractEnum;
             this.AccessLevel = baseMethod.AccessLevel;
@@ -35,7 +37,6 @@ namespace SerializationXml.Model
 
         public List<TypeDbSaver> GenericArguments { get; set; }
 
-        
         public AccessLevel AccessLevel { get; set; }
 
         
@@ -55,6 +56,9 @@ namespace SerializationXml.Model
 
         
         public List<ParameterDbSaver> Parameters { get; set; }
+        
+        public ICollection<TypeDbSaver> TypeConstructors { get; set; }
 
+        public ICollection<TypeDbSaver> TypeMethods { get; set; } 
     }
 }
