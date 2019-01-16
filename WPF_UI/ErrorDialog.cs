@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,11 @@ namespace WPF_UI
         {
             MessageBox.Show(message);
             System.Windows.Application.Current.Shutdown();
+        }
+        
+        public void showMessage(string message)
+        {
+            MessageBox.Show(message);
         }
     }
 }

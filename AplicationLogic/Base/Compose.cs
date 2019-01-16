@@ -24,7 +24,7 @@ namespace ApplicationLogic.Base
             _container = new CompositionContainer(catalog);
 
 
-            MainViewModel mv = new MainViewModel(filePathProvider);
+            MainViewModel mv = new MainViewModel(filePathProvider, errorHandler);
 
             //Fill the imports of this object
             try

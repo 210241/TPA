@@ -9,7 +9,7 @@ namespace Base.Interfaces
 {
     public interface ISerializator
     {
-        void Serialize(AssemblyBase assemblyBase, string connectionString);
-        AssemblyBase Deserialize(string connectionString); 
+        void Serialize(AssemblyBase assemblyBase);
+        AssemblyBase Deserialize(); 
     }
 }

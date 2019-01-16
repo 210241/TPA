@@ -1,6 +1,9 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Configuration;
 using System.IO;
 using System.Runtime.Serialization;
+using Base.Exception;
 using Base.Interfaces;
 using Base.Model;
 using SerializationXml.Model;
@@ -12,27 +15,66 @@ namespace SerializationXml
     {
         DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(AssemblySerializationModel));
 
-        public void Serialize(AssemblyBase assembly, string path)
+        public void Serialize(AssemblyBase assembly)
         {
-            AssemblySerializationModel assemblySerializationModel = new AssemblySerializationModel(assembly);
 
-            FileStream writer = new FileStream(path, FileMode.Create);
-            xmlSerializer.WriteObject(writer, assemblySerializationModel);
+            try
+            {
+                string path = GetFilePath();
+                AssemblySerializationModel assemblySerializationModel = new AssemblySerializationModel(assembly);
 
-            writer.Close();
+                FileStream writer = new FileStream(path, FileMode.Create);
+                xmlSerializer.WriteObject(writer, assemblySerializationModel);
+
+                writer.Close();
+            }
+            catch (FilePathException e)
+            {
+                throw new SaveReadException(e.Message);
+            }
+            
+            
+        }
+        
+        public AssemblyBase Deserialize()
+        {
+            try
+            {
+                string path = GetFilePath();
+                
+                FileStream fs = new FileStream(path, FileMode.Open);
+
+                AssemblyBase assembly = DataTransferGraphMapper.AssemblyBase((AssemblySerializationModel)xmlSerializer.ReadObject(fs));
+
+                fs.Close();
+
+                return assembly;
+            }
+            catch (FilePathException e)
+            {
+               
+                throw new SaveReadException(e.Message);
+            }
+            
+           
         }
 
-        public AssemblyBase Deserialize(string path)
+        private string GetFilePath()
         {
-            FileStream fs = new FileStream(path, FileMode.Open);
+            string filePath = ConfigurationManager.AppSettings["filePathToDataSource"];
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new FilePathException("Provided file path is empty or null");
+            }
+            if (!filePath.EndsWith(".xml", StringComparison.InvariantCulture))
+            {
+                throw new FilePathException(
+                    $"Provided file path {filePath} is invalid (unknown extension). Provide valid .xml file path");
+            }
 
-            AssemblyBase assembly = DataTransferGraphMapper.AssemblyBase((AssemblySerializationModel)xmlSerializer.ReadObject(fs));
-
-            fs.Close();
-
-            return assembly;
+            return filePath;
         }
-
 
     }
+
 }

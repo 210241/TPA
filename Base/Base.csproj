@@ -47,6 +47,7 @@
     <Compile Include="Enums\StaticEnum.cs" />
     <Compile Include="Enums\TypeKind.cs" />
     <Compile Include="Enums\VirtualEnum.cs" />
+    <Compile Include="Exception\SaveReadException.cs" />
     <Compile Include="Interfaces\ISerializator.cs" />
     <Compile Include="Model\AssemblyBase.cs" />
     <Compile Include="Model\FieldBase.cs" />

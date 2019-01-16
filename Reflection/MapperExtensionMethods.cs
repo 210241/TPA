@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Base
 {
     public static class MapperExtensionMethods
@@ -18,7 +19,7 @@ namespace Base
                 case Reflection.Enums.AbstractEnum.NotAbstract:
                     return Base.Enums.AbstractEnum.NotAbstract;
                 default:
-                    throw new Exception();
+                    throw new System.Exception();
             }
         }
 
@@ -45,7 +46,7 @@ namespace Base
                     return Base.Enums.AccessLevel.IsPublic;
 
                 default:
-                    throw new Exception();
+                    throw new System.Exception();
             }
         }
 
@@ -59,7 +60,7 @@ namespace Base
                 case Reflection.Enums.SealedEnum.Sealed:
                     return Base.Enums.SealedEnum.Sealed;
                 default:
-                    throw new Exception();
+                    throw new System.Exception();
             }
         }
 
@@ -73,7 +74,7 @@ namespace Base
                 case Reflection.Enums.StaticEnum.NotStatic:
                     return Base.Enums.StaticEnum.NotStatic;
                 default:
-                    throw new Exception();
+                    throw new System.Exception();
             }
         }
 
@@ -91,7 +92,7 @@ namespace Base
                     return Base.Enums.TypeKind.StructType;
 
                 default:
-                    throw new Exception();
+                    throw new System.Exception();
             }
         }
         internal static Base.Enums.VirtualEnum toBaseEnum(this Reflection.Enums.VirtualEnum baseEnum)
@@ -104,7 +105,7 @@ namespace Base
                 case Reflection.Enums.VirtualEnum.Virtual:
                     return Base.Enums.VirtualEnum.Virtual;
                 default:
-                    throw new Exception();
+                    throw new System.Exception();
             }
         }
     }

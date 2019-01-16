@@ -12,12 +12,14 @@ using ApplicationLogic.Model;
 //using Base.Interfaces;
 using Reflection;
 using Reflection.LogicModel;
+using Reflection.MyException;
 
 
 namespace ApplicationLogic.ViewModel
 {
     public class MainViewModel : BindableBase
     {
+        public IFatalErrorHandler ErrorHandler { get; set; }
         public IMyCommand LoadDataCommand { get; }
 
         public IMyCommand GetAssemblyFilePathCommand { get; }
@@ -51,15 +53,16 @@ namespace ApplicationLogic.ViewModel
             }
         }
 
-        public MainViewModel(IFilePathProvider pathLoader)
+        public MainViewModel(IFilePathProvider pathLoader, IFatalErrorHandler errorHandler)
         {
             //this.logger = logger;
             this.FilePathGetter = pathLoader;
             HierarchicalAreas = new ObservableCollection<NodeItem>();
             LoadDataCommand = new BaseAsynchronousCommand(LoadData, CanLoadData);
             GetAssemblyFilePathCommand = new RelayCommand(GetAssemblyFilePath);
-            SerializeToXmlCommand = new RelayCommand(SerializeToXml, CanSerialize);
-            DeserializeFromXmlCommand = new RelayCommand(DeserializeFromXml);
+            SerializeToXmlCommand = new RelayCommand(Serialize, CanSerialize);
+            DeserializeFromXmlCommand = new RelayCommand(Deserialize);
+            ErrorHandler = errorHandler;
         }
 
         public void GetAssemblyFilePath()
@@ -67,25 +70,32 @@ namespace ApplicationLogic.ViewModel
             AssemblyFilePath = FilePathGetter.GetFilePath(".dll");
         }
 
-        public void SerializeToXml()
+        public void Serialize()
         {
-            string pathToSaveSerializedFile = FilePathGetter.GetFilePath(".xml");
-
-            PersistanceManager.SerializeToXml(_reflector.AssemblyLogicReader, pathToSaveSerializedFile);
-
+            try
+            {
+                PersistanceManager.Serialize(_reflector.AssemblyLogicReader);
+            }
+            catch(IoException e)
+            {
+                ErrorHandler.showMessage(e.Message);
+            }
         }
 
-        public void DeserializeFromXml()
+        public void Deserialize()
         {
-
-            string pathToSerializedFile = FilePathGetter.GetFilePath(".xml");
-
-            if(pathToSerializedFile != null)
-            { 
-                _reflector = new Reflector(PersistanceManager.DeserializeFromXml(pathToSerializedFile));
+            try
+            {
+                AssemblyLogicReader assembly = PersistanceManager.Deserialize();
+            
+                _reflector = new Reflector(assembly);
 
                 HierarchicalAreas.Clear();
                 HierarchicalAreas.Add(new AssemblyNodeItem(_reflector.AssemblyLogicReader, logger));
+            }
+            catch (IoException e)
+            {
+                ErrorHandler.showMessage(e.Message);
             }
         }
 

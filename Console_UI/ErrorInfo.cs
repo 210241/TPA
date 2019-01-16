@@ -17,5 +17,10 @@ namespace Console_UI
             Console.ReadKey();
             Environment.Exit(1);
         }
+        
+        public void showMessage(string message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

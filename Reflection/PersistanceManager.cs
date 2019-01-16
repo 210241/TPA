@@ -17,18 +17,18 @@ namespace Reflection
     {
         [Import(typeof(ISerializator), AllowDefault = false)]
         public ISerializator Serializator { get; set; }
-        public void SerializeToXml(AssemblyLogicReader assemblyLogicReader, string connectionString)
+        public void Serialize(AssemblyLogicReader assemblyLogicReader)
         {
             AssemblyBase assemblyBase = DataTransferGraphMapper.AssemblyBase(assemblyLogicReader);
-
-            Serializator.Serialize(assemblyBase, connectionString);
+            
+            Serializator.Serialize(assemblyBase);
 
 
         }
 
-        public AssemblyLogicReader DeserializeFromXml(string connectionString)
+        public AssemblyLogicReader Deserialize()
         {
-            AssemblyBase deserializedAssemblyReader = Serializator.Deserialize(connectionString);
+            AssemblyBase deserializedAssemblyReader = Serializator.Deserialize();
 
 
             AssemblyLogicReader assemblyLogicReader = new AssemblyLogicReader(deserializedAssemblyReader);
