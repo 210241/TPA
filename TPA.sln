@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationLogic", "Aplicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reflection_Tests", "Reflection_Tests\Reflection_Tests.csproj", "{4957C0FC-24F2-4187-9CA7-826040F39AEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryForTests", "LibraryForTests\LibraryForTests.csproj", "{6E05ED59-3A93-4E36-8A57-E6C15F98B71C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationXml", "SerializationXml\SerializationXml.csproj", "{DA988CD3-EAAD-4316-8DE6-DE07F944B24E}"
 EndProject
 Global
@@ -55,10 +53,6 @@ Global
 		{4957C0FC-24F2-4187-9CA7-826040F39AEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4957C0FC-24F2-4187-9CA7-826040F39AEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4957C0FC-24F2-4187-9CA7-826040F39AEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E05ED59-3A93-4E36-8A57-E6C15F98B71C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E05ED59-3A93-4E36-8A57-E6C15F98B71C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E05ED59-3A93-4E36-8A57-E6C15F98B71C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E05ED59-3A93-4E36-8A57-E6C15F98B71C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA988CD3-EAAD-4316-8DE6-DE07F944B24E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DA988CD3-EAAD-4316-8DE6-DE07F944B24E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA988CD3-EAAD-4316-8DE6-DE07F944B24E}.Release|Any CPU.ActiveCfg = Release|Any CPU
