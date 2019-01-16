@@ -120,6 +120,7 @@ namespace ApplicationLogic.Model
             {
                 foreach (var typeLogicReader in _typeLogicReader.Attributes)
                 {
+                    _logger.Trace($"Adding Attributes: [{ItemTypeEnum.Attribute.ToString()}] {typeLogicReader.Name} implemented in Type: {_typeLogicReader.Name}");
                     children.Add(new AttributeNodeItem(typeLogicReader, ItemTypeEnum.Attribute, _logger));
                 }
             }
