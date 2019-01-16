@@ -8,7 +8,7 @@ using DatabaseSerialization.Model;
 
 namespace DatabaseSerialization
 {
-    //[Export(typeof(ISerializator))]
+    [Export(typeof(ISerializator))]
     public class DbManager : ISerializator
     {
         public void Serialize(AssemblyBase assemblyBase, string connectionString)

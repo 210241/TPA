@@ -15,9 +15,8 @@ namespace Reflection
 {
     public class PersistanceManager
     {
-        //[Import(typeof(ISerializator), AllowDefault = false)]
-        public ISerializator Serializator { get; set; } = new DbManager();
-
+        [Import(typeof(ISerializator), AllowDefault = false)]
+        public ISerializator Serializator { get; set; }
         public void SerializeToXml(AssemblyLogicReader assemblyLogicReader, string connectionString)
         {
             AssemblyBase assemblyBase = DataTransferGraphMapper.AssemblyBase(assemblyLogicReader);
