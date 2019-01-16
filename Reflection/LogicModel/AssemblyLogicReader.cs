@@ -22,7 +22,7 @@ namespace Reflection.LogicModel
         {
             Name = assembly.ManifestModule.Name;
             Type[] types = assembly.GetTypes();
-            NamespaceLogicReader = types.Where(t => t.IsVisible).GroupBy(t => t.Namespace).OrderBy(t => t.Key)
+            NamespaceLogicReader = types.GroupBy(t => t.Namespace).OrderBy(t => t.Key)
                 .Select(t => new NamespaceLogicReader(t.Key, t.ToList())).ToList();
         }
 

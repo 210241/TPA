@@ -1,32 +1,35 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using ApplicationLogic.Interfaces;
 using Reflection.Enums;
 using Reflection.LogicModel;
 
 namespace ApplicationLogic.Model
 {
-    public class TypeNodeItem : NodeItem
+    public class ImplementedInterfaceNodeItem : NodeItem
     {
         private readonly TypeLogicReader _typeLogicReader;
         private readonly ILogger _logger;
 
-        public TypeNodeItem(TypeLogicReader typeLogicReader, ItemTypeEnum type, ILogger logger)
+        public ImplementedInterfaceNodeItem(TypeLogicReader typeLogicReader, ItemTypeEnum type, ILogger logger)
             : base(GetModifiers(typeLogicReader) + typeLogicReader.Name, type)
         {
             _typeLogicReader = typeLogicReader;
             _logger = logger;
-            
-            Accessibility = typeLogicReader.Type.ToString();
         }
 
         public static string GetModifiers(TypeLogicReader model)
         {
-                string type = null;
-                type += model.AccessLevel == AccessLevel.Default ? string.Empty : model.AccessLevel.ToString().ToLower() + " ";
-                type += model.SealedEnum == SealedEnum.Sealed ? SealedEnum.Sealed.ToString().ToLower() + " " : string.Empty;
-                type += model.AbstractEnum == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : string.Empty;
-                type += model.StaticEnum == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : string.Empty;
-                return type;
+            string type = null;
+            type += model.AccessLevel == AccessLevel.Default ? string.Empty : model.AccessLevel.ToString().ToLower() + " ";
+            type += model.SealedEnum == SealedEnum.Sealed ? SealedEnum.Sealed.ToString().ToLower() + " " : string.Empty;
+            type += model.AbstractEnum == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : string.Empty;
+            type += model.StaticEnum == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : string.Empty;
+            return type;
         }
 
         protected override void BuildTreeView(ObservableCollection<NodeItem> children)
@@ -120,7 +123,7 @@ namespace ApplicationLogic.Model
             {
                 foreach (var typeLogicReader in _typeLogicReader.Attributes)
                 {
-                    children.Add(new AttributeNodeItem(typeLogicReader, ItemTypeEnum.Attribute, _logger));
+                    children.Add(new TypeNodeItem(typeLogicReader, ItemTypeEnum.Attribute, _logger));
                 }
             }
         }

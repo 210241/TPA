@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Reflection.Enums;
 using Base.Model;
 
@@ -43,20 +44,27 @@ namespace Reflection.LogicModel
 
         public List<FieldLogicReader> Fields { get; set; }
 
+        public List<TypeLogicReader> Attributes { get; set; }
+
         private TypeLogicReader()
         {
 
         }
 
-        public TypeLogicReader(Type type)
+        private TypeLogicReader(Type type)
         {
-            Name = type.Name;
-            if (!TypeDictionary.ContainsKey(Name))
+            string name = type.Name;
+
+            if (type.ContainsGenericParameters)
             {
-                TypeDictionary.Add(Name, this);
+                name = $"{name.Split('`')[0]} <{string.Join(",", type.GetGenericArguments().Select(t => t.Name))}>";
             }
 
+            Name = name;
+            TypeDictionary.Add(type.Name, this);
+
             Type = GetTypeEnum(type);
+
             BaseType = EmitExtends(type.BaseType);
             EmitModifiers(type);
             DeclaringType = EmitDeclaringType(type.DeclaringType);
@@ -67,6 +75,7 @@ namespace Reflection.LogicModel
             GenericArguments = !type.IsGenericTypeDefinition ? new List<TypeLogicReader>() : EmitGenericArguments(type);
             Properties = PropertyLogicReader.EmitProperties(type);
             Fields = EmitFields(type);
+            Attributes = GetAttributes(type);
         }
 
         private TypeLogicReader(TypeBase baseType)
@@ -200,7 +209,7 @@ namespace Reflection.LogicModel
                 StoreType(typ);
             }
 
-            return nestedTypes.Select(t => new TypeLogicReader(t)).ToList();
+            return nestedTypes.Select(t => GetOrAdd(t)).ToList();
         }
         private IEnumerable<TypeLogicReader> EmitImplements(IEnumerable<Type> interfaces)
         {
@@ -241,11 +250,12 @@ namespace Reflection.LogicModel
             if (baseType == null || baseType == typeof(object) || baseType == typeof(ValueType) || baseType == typeof(Enum))
                 return null;
             StoreType(baseType);
-            if (baseType.Name == "Exception")
-            {
-                Console.WriteLine("EEEE");
-            }
             return GetOrAdd(baseType);
+        }
+
+        private static List<TypeLogicReader> GetAttributes(Type type)
+        {
+           return type.GetCustomAttributes().Select(a => GetOrAdd(a.GetType())).ToList();
         }
     }
 }

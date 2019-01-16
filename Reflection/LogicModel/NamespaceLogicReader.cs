@@ -21,7 +21,7 @@ namespace Reflection.LogicModel
         public NamespaceLogicReader(string name, List<Type> types)
         {
             Name = name;
-            Types = types.OrderBy(t => t.Name).Select(t => new TypeLogicReader(t)).ToList();
+            Types = types.OrderBy(t => t.Name).Select(t => TypeLogicReader.GetOrAdd(t)).ToList();
         }
 
         public NamespaceLogicReader(NamespaceBase namespaceBase)

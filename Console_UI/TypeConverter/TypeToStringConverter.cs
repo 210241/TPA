@@ -9,6 +9,9 @@ namespace Console_UI.TypeConverter
         public static readonly Dictionary<Type, string> Map = new Dictionary<Type, string>()
         {
             { typeof(TypeNodeItem), "Type" },
+            { typeof(AttributeNodeItem), "Attribute" },
+            { typeof(DerivedTypeNodeItem), "BaseType" },
+            { typeof(ImplementedInterfaceNodeItem), "ImplementedInterface" },
             { typeof(PropertyNodeItem), "Property" },
             { typeof(ParameterNodeItem), "Parameter" },
             { typeof(NamespaceNodeItem), "Namespace" },

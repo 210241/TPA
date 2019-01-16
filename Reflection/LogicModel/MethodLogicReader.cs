@@ -61,7 +61,7 @@ namespace Reflection.LogicModel
 
         private List<TypeLogicReader> EmitGenericArguments(MethodBase method)
         {
-            return method.GetGenericArguments().Select(t => new TypeLogicReader(t)).ToList();
+            return method.GetGenericArguments().Select(t => TypeLogicReader.GetOrAdd(t)).ToList();
         }
 
         public static List<MethodLogicReader> EmitMethods(Type type)
