@@ -6,7 +6,7 @@ namespace LoggingDb
     {
         public LogDbContext() :base("name=LoggerDatabase")
         {
-            
+            Database.CommandTimeout = 900;
         }
 
         public virtual DbSet<LogInfo> Log { get; set; }

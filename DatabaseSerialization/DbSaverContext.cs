@@ -12,7 +12,7 @@ namespace DatabaseSerialization
     {
         public DbSaverContext() : base("name=AssemblyDatabase")
         {
-            
+            Database.CommandTimeout = 900;
         }
 
         public virtual DbSet<AssemblyDbSaver> AssemblyDbSavers { get; set; }
